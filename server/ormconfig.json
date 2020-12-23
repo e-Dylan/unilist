@@ -1,0 +1,16 @@
+{
+	"type": "postgres",
+	"host": "localhost",
+	"port": 5433,
+	"username": "role",
+	"password": "root",
+	"database": "universities_db",
+	"synchronize": false,
+	"logging": false,
+	"entities": ["dist/entity/*.js"],
+	"migrations": ["dist/migration/*.js"],
+	"cli": {
+	  "entitiesDir": "src/entity",
+	  "migrationsDir": "src/migration"
+	}
+  }

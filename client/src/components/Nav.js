@@ -22,7 +22,7 @@ function Nav(props) {
 			</div>
 			<div className="nav-right">
 				<ul>
-					<button className="nav-button">Join Unilist</button>
+					<button className="unilist-button">Join Unilist</button>
 				</ul>
 			</div>	
 		</div>

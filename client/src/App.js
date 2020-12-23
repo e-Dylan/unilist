@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 
 // Components
 import Nav from './components/Nav';
@@ -14,7 +14,7 @@ function App() {
 		<section className="nav-container">
 			<Nav />
 		</section>
-		<section className="search-area-container">
+		<section className="searcharea-section">
 			<SearchArea />
 		</section>
     </div>

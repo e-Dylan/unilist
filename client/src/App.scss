@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
+
+#root {
+	--main_gray: rgb(60, 60, 60);
+	--main_magenta: rgb(161, 34, 98);
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body, html, #root, .app, .container {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+html {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+.flex-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.flex-col {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.container-center {
+	padding: 0 100px;
+}
+
+.unilist-button {
+	border: 1px solid rgb(161, 34, 98);
+	background: linear-gradient(-5deg, #BA3E3F, rgba(235, 69, 110, 1));
+	border-radius: 4px;
+	width: 120px;
+	padding: 6px 0;
+	transition: 100ms all ease-in-out;
+	color: white;
+	max-height: 40px;
+	margin: 0 5px;
+
+	&:hover {
+		cursor: pointer;
+		color: black;
+	}
+
+	&:focus {
+		outline: none;
+	}
+}

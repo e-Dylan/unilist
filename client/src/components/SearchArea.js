@@ -1,57 +1,24 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
 import './styles/SearchArea.scss';
 
-// Images/Icons
+// Components
+import SearchFilters from "./SearchArea/SearchFilters";
+import AddUniversityModal from './SearchArea/AddUniversityModal';
+import { showAddUniModal } from './SearchArea/AddUniversityModal';
 
-const where_filters = {
-	north_america: "North America",
-	europe: "Europe",
-	asia: "Asia",
-	oceania: "Oceana",
-	canada: "Canada",
-	united_states: "United States",
-}
-const what_filters = {
-	north_america: "North America",
-	europe: "Europe",
-	asia: "Asia",
-	oceania: "Oceana",
-	canada: "Canada",
-	united_states: "United States",
-}
+// Images/Icons
 
 function SearchArea(props) {
   return (
     <div className="search-area-container">
-		<div className="search-filters flex-col">
-			<div className="filters-title flex-col">
-				<span className="title-text">Add filters [+]</span>
-				<span className="desc-text">Narrow down your results to see what fits for you.</span>
-			</div>
-			<div className="filter-section flex-col">
-				<span className="filter-title">WHERE</span>
-				<div className="filter-options flex-row">
-					{ Object.keys(where_filters).map((item, index) => {
-						return (
-							<div className="filter-div flex-col">{where_filters[item]}</div>
-						)
-					})}
-				</div>
-			</div>
-			<div className="filter-section flex-col">
-				<span className="filter-title">WHAT</span>
-				<div className="filter-options flex-row">
-					{ Object.keys(where_filters).map((item, index) => {
-						return (
-							<div className="filter-div flex-col">{where_filters[item]}</div>
-						)
-					})}
-				</div>
-			</div>
-		</div>
+		<SearchFilters />
 		<div className="search-results flex-col">
+			<div className="search-results-nav flex-row">
+				<button className="unilist-button" onClick={() => showAddUniModal(true)}>Add University</button>
+				<button className="unilist-button">Send Feedback</button>
+			</div>
 			<span>results</span>
+			<AddUniversityModal />
 		</div>
 		<div className="search-sidebar flex-col">
 			<span>sidebar</span>
