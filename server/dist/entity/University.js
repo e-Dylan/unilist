@@ -27,6 +27,10 @@ var University = /** @class */ (function () {
         __metadata("design:type", String)
     ], University.prototype, "tags", void 0);
     __decorate([
+        typeorm_1.Column('json'),
+        __metadata("design:type", String)
+    ], University.prototype, "university_data", void 0);
+    __decorate([
         typeorm_1.Column("tsvector", { select: false }),
         __metadata("design:type", Object)
     ], University.prototype, "document_with_weights", void 0);

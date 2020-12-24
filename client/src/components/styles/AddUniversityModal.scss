@@ -54,6 +54,18 @@
 					outline: none;
 				}
 			}
+			.add-image-div {
+				.add-image-row {
+					display: flex;
+					flex-direction: row;
+					justify-content: space-between;
+					margin: 10px 0px;
+					align-items: center;
+				}
+				color: white;
+				margin: 10px 10px;
+			}
+			
 			.add-button {
 				margin: 0;
 				width: 30%;

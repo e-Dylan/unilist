@@ -3,13 +3,16 @@ import {Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable} from "typ
 @Entity()
 export class University {
 	@PrimaryGeneratedColumn()
-	id: number;
+	id?: number;
 
 	@Column()
-	name: string;
+	name?: string;
 
 	@Column()
-	tags: string;
+	tags?: string;
+
+	@Column('json')
+	university_data?: string;
 
 	@Column("tsvector", {select: false})
 	document_with_weights: any;

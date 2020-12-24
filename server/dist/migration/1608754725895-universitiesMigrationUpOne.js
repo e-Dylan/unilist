@@ -36,15 +36,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.universityMigrations1608739504278 = void 0;
-var universityMigrations1608739504278 = /** @class */ (function () {
-    function universityMigrations1608739504278() {
+exports.universitiesMigrationUpOne1608754725895 = void 0;
+var universitiesMigrationUpOne1608754725895 = /** @class */ (function () {
+    function universitiesMigrationUpOne1608754725895() {
     }
-    universityMigrations1608739504278.prototype.up = function (queryRunner) {
+    universitiesMigrationUpOne1608754725895.prototype.up = function (queryRunner) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, queryRunner.query("\n\t\tupdate universities set document_with_weights = setweight(to_tsvector(name), 'A') ||\n\t  setweight(to_tsvector(tags), 'B') ||\n\t  setweight(to_tsvector(university_data), 'C');\n\tCREATE INDEX document_weights_idx\n\t  ON universities\n\t  USING GIN (document_with_weights);\n\t\t\tCREATE FUNCTION universities_tsvector_trigger() RETURNS trigger AS $$\n\tbegin\n\t  new.document_with_weights :=\n\t  setweight(to_tsvector('english', coalesce(new.name, '')), 'A')\n\t  || setweight(to_tsvector('english', coalesce(new.tags, '')), 'B')\n\t  || setweight(to_tsvector('english', coalesce(new.university_data, '')), 'C');\n\t  return new;\n\tend\n\t$$ LANGUAGE plpgsql;\n\tCREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE\n\t\tON universities FOR EACH ROW EXECUTE PROCEDURE universities_tsvector_trigger();\n\t\t\t")];
+                    case 0: return [4 /*yield*/, queryRunner.query("\n\t\tupdate university set document_with_weights = setweight(to_tsvector(name), 'A') ||\n\t  setweight(to_tsvector(tags), 'B');\n\n\t\t\tCREATE OR REPLACE FUNCTION university_tsvector_trigger() RETURNS trigger AS $$\n\tbegin\n\t  new.document_with_weights :=\n\t  setweight(to_tsvector('english', coalesce(new.name, '')), 'A')\n\t  || setweight(to_tsvector('english', coalesce(new.tags, '')), 'B');\n\t  return new;\n\tend\n\t$$ LANGUAGE plpgsql;\n\t\t\t")];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -52,14 +52,14 @@ var universityMigrations1608739504278 = /** @class */ (function () {
             });
         });
     };
-    universityMigrations1608739504278.prototype.down = function () {
+    universitiesMigrationUpOne1608754725895.prototype.down = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/];
             });
         });
     };
-    return universityMigrations1608739504278;
+    return universitiesMigrationUpOne1608754725895;
 }());
-exports.universityMigrations1608739504278 = universityMigrations1608739504278;
-//# sourceMappingURL=1608739504278-universityMigrations.js.map
+exports.universitiesMigrationUpOne1608754725895 = universitiesMigrationUpOne1608754725895;
+//# sourceMappingURL=1608754725895-universitiesMigrationUpOne.js.map

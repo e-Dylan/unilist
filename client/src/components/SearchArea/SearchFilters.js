@@ -39,7 +39,7 @@ const area_filters = {
 	lots_of_restaurants: "Lots of restaurants",
 	student_city: "Student city",
 	low_covid_cases: "Low COVID cases",
-	metropolitan_city: "Big city",
+	metropolitan_city: "Metropolitan city",
 	lots_of_nature: "Lots of nature",
 	good_transit: "Good transit",
 }
@@ -55,6 +55,7 @@ const qualities_filters = {
 	big_dorms: "Big dorms",
 	privacy: "Privacy",
 	has_gym: "Has gym",
+	beautiful_buildings: "Beautiful buildings",
 };
 
 // import { universities } from '../../universities.js';
@@ -80,14 +81,14 @@ function SearchFilters() {
 	
 	const addTag = async(tag) => {
 		await tags.push(tag.toLowerCase());
-		fetchUniversities(JSON.stringify(tags));
+		fetchUniversities(tags);
 	}
 
 	const removeTag = (tag) => {
 		const i = tags.indexOf(tag.toLowerCase());
 		if (i > -1) 
 			tags.splice(i, 1);
-		fetchUniversities(JSON.stringify(tags));
+		fetchUniversities(tags);
 	}
 
 	// Move to api
@@ -99,7 +100,7 @@ function SearchFilters() {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json',
 			},
-			body: tags
+			body: JSON.stringify(tags)
 		})
 		.then(res => res.json())
 		.then(result => {

@@ -36,28 +36,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("reflect-metadata");
-var typeorm_1 = require("typeorm");
-var University_1 = require("./entity/University");
-typeorm_1.createConnection()
-    .then(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
-    var data;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, connection
-                    .createQueryBuilder(University_1.University, "c")
-                    .select()
-                    .where("document_with_weights @@ plainto_tsquery(:query)", {
-                    query: "University"
-                })
-                    .orderBy("ts_rank(document_with_weights, plainto_tsquery(:query))", "DESC")
-                    .getMany()];
-            case 1:
-                data = _a.sent();
-                console.log(data);
+exports.universitiesMigrationFinal1608755055683 = void 0;
+var universitiesMigrationFinal1608755055683 = /** @class */ (function () {
+    function universitiesMigrationFinal1608755055683() {
+    }
+    universitiesMigrationFinal1608755055683.prototype.up = function (queryRunner) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, queryRunner.query("\n\t\tupdate university set document_with_weights = setweight(to_tsvector(name), 'A') ||\n\t  setweight(to_tsvector(tags), 'B');\n\tCREATE INDEX document_weights_idx\n\t  ON university\n\t  USING GIN (document_with_weights);\n\t\t\tCREATE OR REPLACE FUNCTION university_tsvector_trigger() RETURNS trigger AS $$\n\tbegin\n\t  new.document_with_weights :=\n\t  setweight(to_tsvector('english', coalesce(new.name, '')), 'A')\n\t  || setweight(to_tsvector('english', coalesce(new.tags, '')), 'B');\n\t  return new;\n\tend\n\t$$ LANGUAGE plpgsql;\n\tCREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE\n\t\tON university FOR EACH ROW EXECUTE PROCEDURE university_tsvector_trigger();\n\t\t\t")];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    universitiesMigrationFinal1608755055683.prototype.down = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
                 return [2 /*return*/];
-        }
-    });
-}); })
-    .catch(function (error) { return console.log("Error: ", error); });
-//# sourceMappingURL=index.js.map
+            });
+        });
+    };
+    return universitiesMigrationFinal1608755055683;
+}());
+exports.universitiesMigrationFinal1608755055683 = universitiesMigrationFinal1608755055683;
+//# sourceMappingURL=1608755055683-universitiesMigrationFinal.js.map
