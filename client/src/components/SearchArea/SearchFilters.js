@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import $ from 'jquery';
 
+// Redux
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+// Actions (setters)
+import { setUniversityListState } from '../../redux/actions/setUniversityListState';
+
 import '../../App.scss';
 import '../styles/SearchArea.scss';
 
@@ -60,7 +66,7 @@ const qualities_filters = {
 
 // import { universities } from '../../universities.js';
 
-function SearchFilters() {
+function SearchFilters(props) {
 	const [tags, setTags] = useState([]);
 	const [unilist, setUnilist] = useState([
 		{
@@ -92,19 +98,27 @@ function SearchFilters() {
 	}
 
 	// Move to api
+
+	const API_URL = process.env.NODE_ENV === "development" ?
+	process.env.REACT_APP_DEVELOPMENT_API_URL : process.env.REACT_APP_PRODUCTION_API_URL
+
 	const fetchUniversities = async (tags) => {
-		var universities = fetch('http://localhost:1337/api/searchUniversities', {
+		var universities = fetch(`${API_URL}/searchUniversities`, {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(tags)
+			body: JSON.stringify({
+				tags: tags,
+			}),
 		})
 		.then(res => res.json())
 		.then(result => {
 			console.log(result);
+			props.setUniversityListState(result);
+			setTimeout(() => console.log(props.globalState.universityListState), 0);
 		})
 	}
 
@@ -197,4 +211,17 @@ function SearchFilters() {
 	);
 }
 
-export default SearchFilters;
+function mapStateToProps(globalState) {
+	// Retrieve any data contained in redux global store.
+	return {
+		globalState
+	};
+}
+
+function matchDispatchToProps(dispatch) {
+	return bindActionCreators({ 
+		setUniversityListState: setUniversityListState
+	}, dispatch);
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(SearchFilters);

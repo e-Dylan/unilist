@@ -9,6 +9,7 @@ const express = require('express');
 const cors = require('cors');
 const volleyball = require('volleyball');
 const helmet = require('helmet');
+const fileUpload = require('express-fileupload');
 
 require('dotenv').config();
 
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use(helmet());
 app.use(volleyball);
+app.use(fileUpload());
 
 const api_router = require('./routes/api');
 app.use('/api', api_router);

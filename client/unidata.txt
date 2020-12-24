@@ -1,0 +1,32 @@
+implement clickable tabs for dropdowns of options -> LOCATION, make an appendable list of locations with multiple possible,
+	-> uses OR search rather than AND, meaning Toronto, Waterloo, Kingston can all be checked for universities.
+	-> separate from other searching that is AND
+
+search bar next to top-nav buttons to search a specific school
+
+ADD MORE USER INTERACTION:
+
+	-> Know a University not listed? Fill out this form to give me some data about it and i'll add it! I'll find the rest.
+	-> Signup form on front-page for email (and first name?)
+	-> BUY BUTTONS on stuff. Future lists of programs? on social networking posts, on join unilist button (subscribe, or join free)
+
+
+
+UNIVERSITY DATA DISPLAY: json schema
+
+top left box: COSTS
+	-> average tuition last year (or last 5 years, 10, 20)
+	-> average books+supplies costs
+	-> average residence cost
+	-> average mealplan or food costs.
+
+
+under box: CLASS TYPES
+	-> Class sizes: large/med/low depends on program
+	-> classrooms?: lecture halls?
+
+
+THE SCHOOL:
+	-> Specialization: STEM/Tech, football, etc
+	-> Campus Size: Large (city/campus)
+	-> 

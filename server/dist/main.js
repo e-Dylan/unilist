@@ -6,6 +6,7 @@ var express = require('express');
 var cors = require('cors');
 var volleyball = require('volleyball');
 var helmet = require('helmet');
+var fileUpload = require('express-fileupload');
 require('dotenv').config();
 var app = express();
 var corsOptions = {
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use(helmet());
 app.use(volleyball);
+app.use(fileUpload());
 var api_router = require('./routes/api');
 app.use('/api', api_router);
 // Database connection must be made for the routes to work on app.

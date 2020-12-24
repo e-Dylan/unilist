@@ -39,6 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.addUniversity = exports.searchUniversities = exports.getAllUniversitiesCallback = void 0;
 var typeorm_1 = require("typeorm");
 var University_1 = require("../entity/University");
+var fs = require('fs');
 var express = require('express');
 var router = express.Router();
 function getAllUniversitiesCallback(req, res, next) {
@@ -69,7 +70,7 @@ function searchUniversities(req, res, next) {
                         .createQueryBuilder(University_1.University, "c")
                         .select()
                         .where("document_with_weights @@ plainto_tsquery(:query)", {
-                        query: "good internet"
+                        query: req.body.tags
                     })
                         .orderBy("ts_rank(document_with_weights, plainto_tsquery(:query))", "DESC")
                         .getMany()];
@@ -86,29 +87,10 @@ exports.searchUniversities = searchUniversities;
 function addUniversity(req, res, next) {
     var _this = this;
     typeorm_1.getConnection().transaction(function (connection) { return __awaiter(_this, void 0, void 0, function () {
-        var data_insert, data;
+        var imgData;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    data_insert = {
-                        name: req.body.name,
-                        tags: req.body.tags,
-                        university_data: req.body.data
-                    };
-                    console.log(data_insert);
-                    return [4 /*yield*/, connection
-                            .createQueryBuilder()
-                            .insert()
-                            .into(University_1.University)
-                            .values([
-                            data_insert,
-                        ])
-                            .execute()];
-                case 1:
-                    data = _a.sent();
-                    console.log("[/api/addUniversity]: Inserted new university object into 'universities' table:\n\n", data_insert);
-                    return [2 /*return*/];
-            }
+            // read image file
+            return [2 /*return*/];
         });
     }); });
 }
