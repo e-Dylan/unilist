@@ -7,9 +7,7 @@
  * @param { action } Action that alerts this reducer to update the store, called when user logs in. 
  */
 
-var stateInit = {
-
-};
+var stateInit = [{"name": "one"}, {"name": "two"}];
 
 const universityListReducer = (state = stateInit, action) => {
 	switch (action.type) {

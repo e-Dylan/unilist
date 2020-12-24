@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import '../styles/SearchArea.scss';
 
+// Redux
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+// Actions (setters)
+import { setUniversityListState } from '../../redux/actions/setUniversityListState';
+
 // Components
 import AddUniversityModal from './AddUniversityModal';
 import { showAddUniModal } from './AddUniversityModal';
@@ -14,11 +20,21 @@ function SearchResults(props) {
 				<button className="unilist-button" onClick={() => showAddUniModal(true)}>Add University</button>
 				<button className="unilist-button">Send Feedback</button>
 			</div>
-			<div className="search-results-items">
 
-				
+			{ props.globalState.universityListState != null && props.globalState.universityListState.length > 0 &&
+				<div className="search-results-items flex-row">
+					{ props.globalState.universityListState.map((item, index) => {
+						return (
+							<div className="search-results-item" key={item.name}>
+								<div className="university-title">{item.name}</div>
+								<div className="overall-rating">{item.overall}</div>
+							</div>
+						);
+					}) }
+				</div>
+			}
 
-			</div>
+			
 
 			{/* Absolute positioned */}
 			<AddUniversityModal />
@@ -26,4 +42,17 @@ function SearchResults(props) {
   );
 }
 
-export default SearchResults;
+function mapStateToProps(globalState) {
+	// Retrieve any data contained in redux global store.
+	return {
+		globalState
+	};
+}
+
+function matchDispatchToProps(dispatch) {
+	return bindActionCreators({ 
+		setUniversityListState: setUniversityListState
+	}, dispatch);
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(SearchResults);

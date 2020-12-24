@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import $ from 'jquery';
 
+import * as api from '../../api';
+
 // Redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -68,58 +70,42 @@ const qualities_filters = {
 
 function SearchFilters(props) {
 	const [tags, setTags] = useState([]);
-	const [unilist, setUnilist] = useState([
-		{
-			name: "University of Waterloo",
-			country: "Canada",
-			province: "Ontario",
-			city: "Waterloo",
-			cost: "High",
-		},
-		{
-			name: "University of Toronto",
-			country: "Canada",
-			province: "Ontario",
-			city: "Toronto",
-			cost: "High",
-		},
-	]);
-	
+
+	const setAllUniversities = () => {
+		api.fetchAllUniversities()
+			.then(universities => {
+				console.log(universities)
+				props.setUniversityListState(universities);
+			})
+	}
+
+	// Initialize state with all universities.
+	useEffect(() => {
+		setAllUniversities();
+	}, [])
+
 	const addTag = async(tag) => {
 		await tags.push(tag.toLowerCase());
-		fetchUniversities(tags);
+		api.fetchUniversities(tags)
+			.then(universities => {
+				props.setUniversityListState(universities);
+			})
 	}
 
 	const removeTag = (tag) => {
-		const i = tags.indexOf(tag.toLowerCase());
-		if (i > -1) 
-			tags.splice(i, 1);
-		fetchUniversities(tags);
-	}
-
-	// Move to api
-
-	const API_URL = process.env.NODE_ENV === "development" ?
-	process.env.REACT_APP_DEVELOPMENT_API_URL : process.env.REACT_APP_PRODUCTION_API_URL
-
-	const fetchUniversities = async (tags) => {
-		var universities = fetch(`${API_URL}/searchUniversities`, {
-			method: 'POST',
-			credentials: 'include',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				tags: tags,
-			}),
-		})
-		.then(res => res.json())
-		.then(result => {
-			console.log(result);
-			props.setUniversityListState(result);
-			setTimeout(() => console.log(props.globalState.universityListState), 0);
-		})
+		if (tags.length > 1) {
+			const i = tags.indexOf(tag.toLowerCase());
+			if (i > -1) 
+				tags.splice(i, 1);
+			api.fetchUniversities(tags)
+				.then(universities => {
+					props.setUniversityListState(universities);
+				})
+		} else {
+			// last tag being removed, go back to all universities.
+			setAllUniversities();
+		}
+		
 	}
 
 	const toggleButton = (buttonId, filterTag) => {

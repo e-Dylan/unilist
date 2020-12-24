@@ -36,13 +36,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addUniversity = exports.searchUniversities = exports.getAllUniversitiesCallback = void 0;
+exports.addUniversity = exports.searchUniversities = exports.getAllUniversities = void 0;
 var typeorm_1 = require("typeorm");
 var University_1 = require("../entity/University");
 var fs = require('fs');
 var express = require('express');
 var router = express.Router();
-function getAllUniversitiesCallback(req, res, next) {
+function getAllUniversities(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
         var universities;
         return __generator(this, function (_a) {
@@ -57,7 +57,7 @@ function getAllUniversitiesCallback(req, res, next) {
         });
     });
 }
-exports.getAllUniversitiesCallback = getAllUniversitiesCallback;
+exports.getAllUniversities = getAllUniversities;
 function searchUniversities(req, res, next) {
     var _this = this;
     console.log(req.body);
@@ -77,7 +77,7 @@ function searchUniversities(req, res, next) {
                 case 1:
                     data = _a.sent();
                     console.log(data);
-                    res.json(data);
+                    res.send(data);
                     return [2 /*return*/];
             }
         });
@@ -95,8 +95,8 @@ function addUniversity(req, res, next) {
     }); });
 }
 exports.addUniversity = addUniversity;
-router.get('/getAllUniversities', function (req, res, next) {
-    getAllUniversitiesCallback(req, res, next);
+router.post('/getAllUniversities', function (req, res, next) {
+    getAllUniversities(req, res, next);
 });
 router.get('/searchUniversities', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {

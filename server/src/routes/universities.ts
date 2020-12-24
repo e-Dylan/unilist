@@ -6,7 +6,7 @@ const fs = require('fs');
 const express = require('express');
 const router = express.Router();
 
-export async function getAllUniversitiesCallback(req: Request, res: Response, next: Next) {
+export async function getAllUniversities(req: Request, res: Response, next: Next) {
 	const universities = await getRepository(University).find();
 	res.json(universities);
 	console.log(universities);
@@ -29,7 +29,7 @@ export function searchUniversities(req: Request, res: Response, next: Next) {
 		.getMany();
 		
 		console.log(data);
-		res.json(data);
+		res.send(data);
 	})
 }
 
@@ -66,8 +66,8 @@ export function addUniversity(req: Request, res: Response, next: Next) {
 	})
 }
 
-router.get('/getAllUniversities', (req: Request, res: Response, next: Next) => {
-	getAllUniversitiesCallback(req, res, next);
+router.post('/getAllUniversities', (req: Request, res: Response, next: Next) => {
+	getAllUniversities(req, res, next);
 });
 
 router.get('/searchUniversities', async(req: Request, res: Response, next: Next) => {
