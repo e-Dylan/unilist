@@ -26,6 +26,7 @@ function SearchResults(props) {
 					{ props.globalState.universityListState.map((item, index) => {
 						return (
 							<div className="search-results-item" key={item.name}>
+								<img className="thumbnail-image" src="../../resources/university-images/uot.jpg"></img>
 								<div className="university-title">{item.name}</div>
 								<div className="overall-rating">{item.overall}</div>
 							</div>
