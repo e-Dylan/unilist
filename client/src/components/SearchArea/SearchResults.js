@@ -26,13 +26,17 @@ function SearchResults(props) {
 				<div className="search-results-items flex-row">
 					{ props.globalState.universityListState.map((item, index) => {
 						return (
-							<div className="search-results-item flex-col" style={{
-								backgroundImage: `url(/assets/university-images/${item.image_path})`
-							}}>
-								<span className="university-text">{item.name}</span>
+							<div className="search-results-item flex-col" key={item.name}
+								style={{
+									backgroundImage: `url(/assets/university-images/${item.image_path})`,
+								}}
+								onClick={() => console.log(item.name)}
+							>
+								{/* <img className="thumbnail-image" src="/assets/university-images/mac.jpg"></img> */}
+								<div className="university-title">{item.name}</div>
 								<div className="overall-rating flex-row">
 									<img src={starIcon} />
-									<span>{item.overall}7.2</span>
+									<a>{item.overall}7.2</a>
 								</div>
 							</div>
 						);
