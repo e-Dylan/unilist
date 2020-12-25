@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 
 // Reducers
 import universityListReducer from './universityListReducer';
+import activeUniversityReducer from './activeUniversityReducer';
 
 // import UserReducer from './userReducer';
 
@@ -13,7 +14,8 @@ import universityListReducer from './universityListReducer';
 const allReducers = combineReducers({
 	// userState: UserReducer,
 
-	universityListState: universityListReducer
+	universityListState: universityListReducer,
+	activeUniversityState: activeUniversityReducer,
 });
 
 export default allReducers;

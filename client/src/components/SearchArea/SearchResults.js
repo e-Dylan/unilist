@@ -6,8 +6,11 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 // Actions (setters)
 import { setUniversityListState } from '../../redux/actions/setUniversityListState';
+import { setActiveUniversityState } from '../../redux/actions/setActiveUniversityState';
 
 // Components
+import UniversityDataModal from "./UniversityDataModal";
+import { showUniversityDataModal } from './UniversityDataModal';
 import AddUniversityModal from './AddUniversityModal';
 import { showAddUniModal } from './AddUniversityModal';
 
@@ -15,6 +18,7 @@ import { showAddUniModal } from './AddUniversityModal';
 import starIcon from '../../resources/search-area/search-results/star.png';
 
 function SearchResults(props) {
+
   return (
     <div className="search-results-container flex-col">
 			<div className="search-results-nav flex-row">
@@ -30,7 +34,10 @@ function SearchResults(props) {
 								style={{
 									backgroundImage: `url(/assets/university-images/${item.image_path})`,
 								}}
-								onClick={() => console.log(item.name)}
+								onClick={() => {
+									// console.log(item)
+									showUniversityDataModal({bool: true, data: item, props: props})
+								}}
 							>
 								{/* <img className="thumbnail-image" src="/assets/university-images/mac.jpg"></img> */}
 								<div className="university-title">{item.name}</div>
@@ -47,6 +54,7 @@ function SearchResults(props) {
 			
 
 			{/* Absolute positioned */}
+			<UniversityDataModal />
 			<AddUniversityModal />
 	</div>
   );
@@ -61,7 +69,8 @@ function mapStateToProps(globalState) {
 
 function matchDispatchToProps(dispatch) {
 	return bindActionCreators({ 
-		setUniversityListState: setUniversityListState
+		setUniversityListState: setUniversityListState,
+		setActiveUniversityState: setActiveUniversityState,
 	}, dispatch);
 }
 
