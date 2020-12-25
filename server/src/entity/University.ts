@@ -14,6 +14,9 @@ export class University {
 	@Column('json')
 	university_data?: string;
 
+	@Column()
+	image_path?: string;
+
 	@Column("tsvector", {select: false})
 	document_with_weights: any;
 }

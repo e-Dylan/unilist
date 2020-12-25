@@ -35,37 +35,29 @@ export function searchUniversities(req: Request, res: Response, next: Next) {
 
 export function addUniversity(req: Request, res: Response, next: Next) {
 	getConnection().transaction(async connection => {
-		// read image file
-		return;
-		var imgData;
-		fs.readFile('C:/Users/Dylan/Desktop/build/web_projects/web_apps/unilist/server/dist/images/waterloo.jpg', 'hex', (err, imgData) => {
-			imgData = '\\x' + imgData
-			console.log(imgData);
-			return;
-			// Data for columns of universities table
-			const data_insert = { 
-				name: req.body.name, 
-				tags: req.body.tags, 
-				university_data: req.body.data,
-				image: imgData,
-			}
-			console.log(data_insert);
-			getConnection()
-			.createQueryBuilder()
-			.insert()
-			.into(University)
-			.values([
-				data_insert,
-			])
-			.execute();
-			console.log("[/api/addUniversity]: Inserted new university object into 'universities' table:\n\n", data_insert);
-		})
-
-		// return;
-
-	})
+		// Data for columns of universities table
+		const data_insert = { 
+			name: req.body.name, 
+			tags: req.body.tags, 
+			university_data: req.body.data,
+			image_path: req.body.image_path,
+		};
+		console.log(data_insert);
+		getConnection()
+		.createQueryBuilder()
+		.insert()
+		.into(University)
+		.values([
+			data_insert,
+		])
+		.execute();
+		console.log("[/api/addUniversity]: Inserted new university object into 'universities' table:\n\n", data_insert);
+	});
 }
 
+router.get('/getAllUniversities', (req: Request, res: Response, next: Next) => {
+	getAllUniversities(req, res, next);
+});
 router.post('/getAllUniversities', (req: Request, res: Response, next: Next) => {
 	getAllUniversities(req, res, next);
 });

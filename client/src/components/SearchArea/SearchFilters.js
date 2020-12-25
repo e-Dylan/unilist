@@ -93,19 +93,17 @@ function SearchFilters(props) {
 	}
 
 	const removeTag = (tag) => {
-		if (tags.length > 1) {
-			const i = tags.indexOf(tag.toLowerCase());
-			if (i > -1) 
-				tags.splice(i, 1);
-			api.fetchUniversities(tags)
-				.then(universities => {
-					props.setUniversityListState(universities);
-				})
-		} else {
+		if (tags.length === 1)
 			// last tag being removed, go back to all universities.
 			setAllUniversities();
-		}
-		
+
+		const i = tags.indexOf(tag.toLowerCase());
+		if (i > -1) 
+			tags.splice(i, 1);
+		api.fetchUniversities(tags)
+			.then(universities => {
+				props.setUniversityListState(universities);
+			})
 	}
 
 	const toggleButton = (buttonId, filterTag) => {
@@ -120,6 +118,7 @@ function SearchFilters(props) {
 			filterButton.classList.add('active');
 			addTag(filterTag);
 		}
+		console.log(tags);
 		
 	}
 
@@ -134,11 +133,7 @@ function SearchFilters(props) {
 				<div className="filter-options flex-row">
 					{ Object.keys(location_filters).map((item, index) => {
 						return (
-							<div className="filter-button location-button flex-col" key={item} id={"locationButton"+index} onClick={ async() => {
-								// var tempTags = tags;
-								toggleButton("locationButton"+index, location_filters[item]);
-								// addTag(location_filters[item]);
-							}}>{location_filters[item]}</div>
+							<div className="filter-button location-button flex-col" key={item} id={"locationButton"+index}>{location_filters[item]}</div>
 						)
 					})}
 				</div>

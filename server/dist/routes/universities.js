@@ -87,14 +87,32 @@ exports.searchUniversities = searchUniversities;
 function addUniversity(req, res, next) {
     var _this = this;
     typeorm_1.getConnection().transaction(function (connection) { return __awaiter(_this, void 0, void 0, function () {
-        var imgData;
+        var data_insert;
         return __generator(this, function (_a) {
-            // read image file
+            data_insert = {
+                name: req.body.name,
+                tags: req.body.tags,
+                university_data: req.body.data,
+                image_path: req.body.image_path,
+            };
+            console.log(data_insert);
+            typeorm_1.getConnection()
+                .createQueryBuilder()
+                .insert()
+                .into(University_1.University)
+                .values([
+                data_insert,
+            ])
+                .execute();
+            console.log("[/api/addUniversity]: Inserted new university object into 'universities' table:\n\n", data_insert);
             return [2 /*return*/];
         });
     }); });
 }
 exports.addUniversity = addUniversity;
+router.get('/getAllUniversities', function (req, res, next) {
+    getAllUniversities(req, res, next);
+});
 router.post('/getAllUniversities', function (req, res, next) {
     getAllUniversities(req, res, next);
 });

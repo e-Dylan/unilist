@@ -25,7 +25,6 @@ function HomePage(props) {
 					<img src={networkIcon} />
 				</div>
 			</div>
-			
 		</div>
     </div>
   );

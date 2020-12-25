@@ -12,7 +12,6 @@ import AddUniversityModal from './AddUniversityModal';
 import { showAddUniModal } from './AddUniversityModal';
 
 // Images/Icons
-import uniImage from '../../resources/university-images/uoft.jpg';
 import starIcon from '../../resources/search-area/search-results/star.png';
 
 function SearchResults(props) {
@@ -27,9 +26,10 @@ function SearchResults(props) {
 				<div className="search-results-items flex-row">
 					{ props.globalState.universityListState.map((item, index) => {
 						return (
-							<div className="search-results-item" key={item.name}>
-								<img className="thumbnail-image" src={uniImage}></img>
-								<div className="university-title">{item.name}</div>
+							<div className="search-results-item flex-col" style={{
+								backgroundImage: `url(/assets/university-images/${item.image_path})`
+							}}>
+								<span className="university-text">{item.name}</span>
 								<div className="overall-rating flex-row">
 									<img src={starIcon} />
 									<span>{item.overall}7.2</span>

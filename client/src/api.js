@@ -19,6 +19,7 @@ export const fetchUniversities = async (tags) => {
 	})
 	.then(res => res.json())
 	.then(result => {
+		console.log(result);
 		return result;
 		// console.log(result);
 		// console.log(props.globalState.universityListState.universityList);
