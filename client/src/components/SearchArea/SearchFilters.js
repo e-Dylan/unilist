@@ -17,7 +17,7 @@ import '../styles/SearchArea.scss';
 const location_filters = {
 	continent: "Continent",
 	country: "Country",
-	province_state: "Province/State",
+	province_state: "Prov./State",
 };
 const where_filters = {
 	north_america: "North America",
@@ -96,26 +96,27 @@ function SearchFilters(props) {
 		if (tags.length === 1)
 			// last tag being removed, go back to all universities.
 			setAllUniversities();
+		else
+			api.fetchUniversities(tags)
+				.then(universities => {
+					props.setUniversityListState(universities);
+				})
 
 		const i = tags.indexOf(tag.toLowerCase());
 		if (i > -1) 
 			tags.splice(i, 1);
-		api.fetchUniversities(tags)
-			.then(universities => {
-				props.setUniversityListState(universities);
-			})
 	}
 
 	const toggleButton = (buttonId, filterTag) => {
 		const filterButton = document.getElementById(buttonId);
-		if (filterButton.classList.contains('active')) {
+		if (filterButton.classList.contains('button-active')) {
 			// disable button
-			filterButton.classList.remove('active');
+			filterButton.classList.remove('button-active');
 			// remove its tag value from the tags array
 			removeTag(filterTag);
 		} else {
 			// enable this button.
-			filterButton.classList.add('active');
+			filterButton.classList.add('button-active');
 			addTag(filterTag);
 		}
 		console.log(tags);

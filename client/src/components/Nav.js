@@ -1,5 +1,7 @@
 import React from "react";
 
+import { showJoinModal } from "./JoinModal";
+
 // Css
 import './styles/Nav.scss';
 
@@ -22,7 +24,9 @@ function Nav(props) {
 			</div>
 			<div className="nav-right">
 				<ul>
-					<button className="unilist-button">Join Unilist</button>
+					<button className="unilist-button" onClick={() => {
+						showJoinModal(true);
+					}}>Join Unilist</button>
 				</ul>
 			</div>	
 		</div>

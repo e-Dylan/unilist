@@ -2,7 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var typeorm_1 = require("typeorm");
+require("./makeSessionsTable");
 var express = require('express');
+var session = require('express-session');
+var pgSession = require('connect-pg-simple')(session);
 var cors = require('cors');
 var volleyball = require('volleyball');
 var helmet = require('helmet');
@@ -19,6 +22,30 @@ app.use(cors(corsOptions));
 app.use(helmet());
 app.use(volleyball);
 app.use(fileUpload());
+// init pg session
+var sessionPool = require('pg').Pool;
+var sessionDBaccess = new sessionPool({
+    user: 'role',
+    password: 'root',
+    host: 'localhost',
+    port: 5432,
+    database: 'universities_db',
+});
+app.use(session({
+    store: new pgSession({
+        pool: sessionDBaccess,
+        tableName: 'session',
+    }),
+    name: 'SID',
+    secret: "hushhush",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maAge: 1000 * 60 * 60 * 24 * 7,
+        sameSite: true,
+        secure: false
+    },
+}));
 var api_router = require('./routes/api');
 app.use('/api', api_router);
 // Database connection must be made for the routes to work on app.

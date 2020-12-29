@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 // Reducers
 import universityListReducer from './universityListReducer';
 import activeUniversityReducer from './activeUniversityReducer';
+import userReducer from './userReducer';
 
 // import UserReducer from './userReducer';
 
@@ -12,8 +13,7 @@ import activeUniversityReducer from './activeUniversityReducer';
 /* OVERALL GLOBAL STATE OBJECT CONTAINING ALL STATE REDUCERS. */
 
 const allReducers = combineReducers({
-	// userState: UserReducer,
-
+	userState: userReducer,
 	universityListState: universityListReducer,
 	activeUniversityState: activeUniversityReducer,
 });

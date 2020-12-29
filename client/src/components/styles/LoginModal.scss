@@ -1,0 +1,95 @@
+.login-modal {
+	width: 30%;
+	height: 70%;
+	padding: 15px;
+	min-width: 300px;
+	max-width: 360px;
+	max-height: 600px;
+
+	.signup-form-col {
+		width: 100%;
+		height: 100%;
+		background-color: rgb(30, 30, 30);
+		border-radius: 5px;
+	
+		.title-text-container {
+			align-items: center;
+			color: rgb(220, 220, 220);
+			margin: 15px;
+	
+			.title-text {
+				margin-bottom: 10px;
+				font-size: 15pt;
+			}
+			.underline {
+				background: white;
+				// background: linear-gradient(-5deg, #BA3E3F, rgba(235, 69, 110, 1));
+				height: 1px;
+				width: 100%;
+			}
+			.desc-text {
+				margin-top: 10px;
+				font-size: 9pt;
+				color: white;
+				padding: 0px 2px;
+				// background: linear-gradient(-5deg, #BA3E3F, rgba(235, 69, 110, 1));
+				border-radius: 6px;
+			}
+		}
+	
+		.signup-form-container {
+			align-items: center;
+			margin: 15px;
+			.input-field {
+				width: 70%;
+				margin-top: 16px;
+				.signup-header {
+					color:  rgb(201, 201, 201);
+					justify-content: flex-start;
+					font-size: 11pt;
+					font-family: "Ubuntu", sans-serif;
+					letter-spacing: 1px;
+				}
+				.login-input {
+					color: white;
+					padding: 10px 6px;
+					width: 100%;
+					background-color: transparent;
+					border: 1px solid rgb(201, 201, 201);
+					border-radius: 3px;
+					margin-top: 8px;
+	
+					&:focus {
+						outline: none;
+					}
+				}
+			}
+
+			.join-button {
+				background: linear-gradient(90deg, #BA3E3F, rgba(235, 69, 110, 1));
+				color: white;
+				padding: 10px;
+				border: none;
+				border-bottom: 1px solid rgba(235, 69, 110, 1);
+				margin: 20px;
+				margin-left: 33px;
+				width: 73%;
+				transition: 110ms all ease-in-out;
+				border-radius: 4px;
+	
+				&:focus {
+					outline: none;
+				}
+	
+				&:hover {
+					color: gray;
+					background: linear-gradient(90deg, #b85656, rgb(218, 93, 124));
+				}
+			}
+		}
+	}
+}
+
+.header-bar, .footer-bar {
+	height: 4px;
+}

@@ -1,13 +1,25 @@
-
-
 .homepage-container {
 	width: 100%;
 	height: 100vh;
 
-	.homepage-image {
-		background-color: gray;
+	.homepage-image-container {
+		background: linear-gradient(0deg, rgb(218, 168, 181), #7598d8);
 		width: 100%;
 		height: 100%;
+		position: relative;
+		// background-color: rgb(0, 105, 255);
+		// background-image: url("https://www.digitalocean.com/static/bg-home-hero-3-bb4b33b77274db09b969f629ad81c4d5.svg");
+		background-size: cover;
+
+		&:after {
+			position: absolute;
+			content: "";
+			bottom: 0px;
+			z-index: 1;
+			height: 225px;
+			width: 100%;
+			background-image: url("../../resources/homepage/wave-bottom.svg");
+		}
 
 		.homepage-logo {
 			position: absolute;
@@ -17,6 +29,20 @@
 			img {
 				width: 40px;
 				height: 40px;
+			}
+		}
+
+		.login-button {
+			position: absolute;
+			right: 20px;
+			top: 20px;
+			padding: 7px 15px;
+			width: auto;
+			font-size: 11pt;
+			background: transparent;
+
+			&:hover {
+				background: linear-gradient(-5deg, #BA3E3F, rgba(235, 69, 110, 1));
 			}
 		}
 
@@ -45,15 +71,85 @@
 				}
 			}
 
-			.main-image {
+			.main-signup {
 				width: 50%;
+				max-width: 650px;
+				min-width: 460px;
 
-				img {
-					width: 30vw;
+				.signup-form {
+					width: 55%;
+					color: white;
+					background-color: var(--main_light_gray);
+					justify-content: center;
+					align-items: center;
+					border-radius: 15px;
+					animation: hover 2s infinite alternate ease-in-out;	
+
+					.signup-container {
+						width: 80%;
+						justify-content: center;
+						align-items: center;
+
+						.main-image {
+							margin: 10px;
+							width: auto;
+							img {
+								height: 80%;
+							}
+						}
+						
+						.signup-text {
+							color: #ba3e59;
+							font-size: 14pt;
+						}
+
+						.signup-input {
+							padding: 8px;
+							width: 93%;
+							margin: 15px;
+							border-radius: 5px;
+							border: none;
+
+							&:focus {
+								outline: none;
+								border: none;
+							}
+						}
+						.signup-button {
+							margin-bottom: 15px;
+							padding: 8px;
+							width: 100%;
+							transition: 100ms all ease-in-out;
+							border-radius: 5px;
+							background-color: var(--main_gray);
+							color: white;
+							border: none;
+							background-color: rgb(235, 69, 110);
+
+							&:hover {
+								height: 100%;
+								color: white;
+								background: linear-gradient(-5deg, #BA3E3F, rgba(235, 69, 110, 1));
+								border: none;
+								cursor: pointer;
+							}
+
+							&:focus {
+								outline: none;
+							}
+						}
+					}
 				}
 			}
-			
-			
 		}
+	}
+}
+
+@keyframes hover {
+	from {
+		transform: translateY(15px);
+	}
+	to {
+		transform: translateY(-15px);
 	}
 }

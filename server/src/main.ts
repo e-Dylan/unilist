@@ -3,9 +3,12 @@ import { connect } from "http2";
 import "reflect-metadata";
 import { Request, Response, Next } from "express";
 import { createConnection, getConnection, getRepository } from "typeorm";
-import { University } from "./entity/University";
+import './makeSessionsTable';
+
 
 const express = require('express');
+const session = require('express-session');
+const pgSession = require('connect-pg-simple')(session);
 const cors = require('cors');
 const volleyball = require('volleyball');
 const helmet = require('helmet');
@@ -27,6 +30,32 @@ app.use(helmet());
 app.use(volleyball);
 app.use(fileUpload());
 
+// init pg session
+const sessionPool = require('pg').Pool;
+const sessionDBaccess = new sessionPool({
+	user: 'role',
+	password: 'root',
+	host: 'localhost',
+	port: 5432,
+	database: 'universities_db',
+});
+
+app.use(session({
+	store: new pgSession({
+		pool: sessionDBaccess,
+		tableName: 'session',
+	}),
+	name: 'SID',
+	secret: "hushhush",
+	resave: false,
+	saveUninitialized: true,
+	cookie: {
+		maAge: 1000 * 60 * 60 * 24 * 7,
+		sameSite: true,
+		secure: false
+	},
+}));
+
 const api_router = require('./routes/api');
 app.use('/api', api_router);
 
@@ -38,5 +67,4 @@ createConnection().then(connection => {
 		console.log(`[main.js]: Listening: http://localhost:${API_PORT}`);
 	})
 });
-
 

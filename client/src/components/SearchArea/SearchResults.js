@@ -36,7 +36,7 @@ function SearchResults(props) {
 								}}
 								onClick={() => {
 									// console.log(item)
-									showUniversityDataModal({bool: true, data: item, props: props})
+									showUniversityDataModal(true, item, props)
 								}}
 							>
 								{/* <img className="thumbnail-image" src="/assets/university-images/mac.jpg"></img> */}

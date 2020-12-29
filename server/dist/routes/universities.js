@@ -39,7 +39,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.addUniversity = exports.searchUniversities = exports.getAllUniversities = void 0;
 var typeorm_1 = require("typeorm");
 var University_1 = require("../entity/University");
-var fs = require('fs');
 var express = require('express');
 var router = express.Router();
 function getAllUniversities(req, res, next) {

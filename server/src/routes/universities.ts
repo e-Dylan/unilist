@@ -1,7 +1,6 @@
 import { getRepository, getConnection } from "typeorm";
 import { University } from "../entity/University";
 import { Request, Response, Next } from "express";
-const fs = require('fs');
 
 const express = require('express');
 const router = express.Router();

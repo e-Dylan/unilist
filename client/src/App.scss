@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
 
 #root {
-	--main_gray: rgb(60, 60, 60);
+	// --main_gray: rgb(60, 60, 60);
+	--main_gray: rgb(30, 30, 30);
+	--main_light_gray: rgb(40, 40, 40);
 	--main_magenta: rgb(161, 34, 98);
 }
 
@@ -60,4 +62,54 @@ html {
 	&:focus {
 		outline: none;
 	}
+}
+
+.modal-bg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	width: 100%;
+	pointer-events: none;
+	height: 100%;
+	z-index: 1;
+	background-color: rgba(0, 0, 0, 0.5);
+	transition: 100ms all ease-in-out;
+	z-index: 2;
+}
+
+.modal {
+	position: fixed;
+	z-index: 2;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	opacity: 0;
+	pointer-events: none;
+	transition: 150ms all ease-in-out;
+	background-color: var(--main_gray);
+	padding: 30px;
+	border-radius: 4px;
+	box-shadow: 0px 0px 12px 7px rgba(0, 0, 0, 0.25);
+}
+
+.button-active {
+	background: linear-gradient(-5deg, #BA3E3F, rgba(235, 69, 110, 1)) !important;
+	transform: scale(1.03);
+	span {
+		color: black !important;
+		font-weight: bolder;
+	}
+}
+
+.modal-active {
+	opacity: 1 !important;
+	pointer-events: auto !important;
+}
+
+.underline {
+	background: white;
+	// background: linear-gradient(-5deg, #BA3E3F, rgba(235, 69, 110, 1));
+	height: 1px;
+	width: 100%;
 }

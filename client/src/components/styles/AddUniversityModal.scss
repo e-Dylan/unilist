@@ -1,20 +1,9 @@
-.modal {
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	opacity: 0;
-	pointer-events: none;
-	transition: 150ms all ease-in-out;
-	background-color: var(--main_gray);
-	padding: 30px;
+.add-uni-modal {
 	width: 60%;
 	height: 60%;
 	min-width: 700px;
 	max-width: 900px;
 	max-height: 1100px;
-	border-radius: 4px;
-    box-shadow: 0px 0px 12px 7px rgba(0, 0, 0, 0.25);
 
 	.info-col {
 		justify-content: flex-start;
@@ -76,9 +65,4 @@
 
 		
 	}
-}
-
-.active {
-	opacity: 1;
-	pointer-events: auto;
 }
