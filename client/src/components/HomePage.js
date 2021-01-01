@@ -14,6 +14,7 @@ import BIRDS from 'vanta/dist/vanta.birds.min'
 // Components
 import JoinModal, { showJoinModal } from "./JoinModal";
 import LoginModal, { showLoginModal } from "./LoginModal";
+import FeedbackModal, { showFeedbackModal } from './SearchArea/FeedbackModal';
 
 // Images/Icons
 import unilistLogo from '../resources/logo/unilist-logo.png';
@@ -25,36 +26,37 @@ function HomePage(props) {
 	const [vantaEffect, setVantaEffect] = useState(0)
 	const vantaRef = useRef(null)
 
-	useEffect(() => {
-		// Init Vanta
-		if (!vantaEffect) {
-			setVantaEffect(BIRDS({
-				el: vantaRef.current,
-				THREE: THREE,
-				minHeight: 200.00,
-				minWidth: 200.00,
-				color1: 0xffc1df,
-				color2: 0xe1bea6,
-				colorMode: "lerpGradient",
-				birdSize: 0.80,
-				wingSpan: 35.00,
-				speedLimit: 3.00,
-				separation: 75.00,
-				alignment: 11.00,
-				cohesion: 7.00,
-				quantity: 3.00,
-				backgroundAlpha: 0.00
-			}))
-		}
-		return () => {
-			if (vantaEffect) vantaEffect.destroy()
-		}
-	}, [vantaEffect])
+	// useEffect(() => {
+	// 	// Init Vanta
+	// 	if (!vantaEffect) {
+	// 		setVantaEffect(BIRDS({
+	// 			el: vantaRef.current,
+	// 			THREE: THREE,
+	// 			minHeight: 200.00,
+	// 			minWidth: 200.00,
+	// 			color1: 0xffc1df,
+	// 			color2: 0xe1bea6,
+	// 			colorMode: "lerpGradient",
+	// 			birdSize: 0.80,
+	// 			wingSpan: 35.00,
+	// 			speedLimit: 3.00,
+	// 			separation: 75.00,
+	// 			alignment: 11.00,
+	// 			cohesion: 7.00,
+	// 			quantity: 2.00,
+	// 			backgroundAlpha: 0.00
+	// 		}))
+	// 	}
+	// 	return () => {
+	// 		if (vantaEffect) vantaEffect.destroy()
+	// 	}
+	// }, [vantaEffect])
 
   return (
     <div className="homepage-container">
 		<JoinModal />
 		<LoginModal />
+		<FeedbackModal />
 		<div className="homepage-image-container flex-col" ref={vantaRef}>
 			<a className="homepage-logo" href="/" >
 				<img src={unilistLogo} />
@@ -76,7 +78,7 @@ function HomePage(props) {
 								<img src={networkIcon} />
 							</div>
 							<div className="signup-text">Join your community.</div>
-							<input className="signup-input" placeholder="enter your email" />
+							<input className="signup-input" id="signup-form-joinbutton" placeholder="enter your email" />
 							<button className="signup-button" onClick={() => showJoinModal(true)}>Join</button>
 						</div>
 						

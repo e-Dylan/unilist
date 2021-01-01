@@ -13,9 +13,9 @@
 }
 
 body, html, #root, .app, .container {
-	width: 100%;
-	height: 100%;
-	margin: 0px;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
 	padding: 0px;
 }
 
@@ -105,6 +105,12 @@ html {
 .modal-active {
 	opacity: 1 !important;
 	pointer-events: auto !important;
+}
+
+.tab-active {
+	opacity: 1 !important;
+	// pointer-events: auto !important;
+	display: flex !important;
 }
 
 .underline {

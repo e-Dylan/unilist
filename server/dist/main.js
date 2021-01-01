@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var typeorm_1 = require("typeorm");
-require("./makeSessionsTable");
 var express = require('express');
 var session = require('express-session');
 var pgSession = require('connect-pg-simple')(session);
@@ -52,6 +51,7 @@ app.use('/api', api_router);
 // Routes defined using express in separate file
 typeorm_1.createConnection().then(function (connection) {
     var API_PORT = process.env.REACT_APP_API_PORT || 1337;
+    // insertUniData.insertUniversityData();
     app.listen(API_PORT, function () {
         console.log("[main.js]: Listening: http://localhost:" + API_PORT);
     });

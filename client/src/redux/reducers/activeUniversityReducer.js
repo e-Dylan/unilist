@@ -7,7 +7,9 @@
  * @param { action } Action that alerts this reducer to update the store, called when user logs in. 
  */
 
-var stateInit = [{"name": "University of Waterloo"}, {"rating": "9.4"}];
+import * as api from '../../api';
+
+var stateInit = api.nullUniData;
 
 const activeUniversityReducer = (state = stateInit, action) => {
 	switch (action.type) {

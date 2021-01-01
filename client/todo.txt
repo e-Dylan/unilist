@@ -1,0 +1,20 @@
+todo
+
+[frontend]
+
+	- connect "data" tab in unidata modal to backend:
+		-> make redux reducer store active uni data, initstate data so it doesn't error.
+		-> add unidata to rendered html form.
+
+	- feedback form (once data form is done) to add or suggest universities:
+		-> allow users to give data for every field
+		-> give a name of a missing university
+		-> make a form for it, store somewhere (emails?)
+
+	- user scopes when logged in, render specific things.
+		-> user account functionality, account button top right?
+
+	- campus map tab in unidata modal
+		-> design layout of the tab
+
+	

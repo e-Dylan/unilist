@@ -3,8 +3,8 @@ import { connect } from "http2";
 import "reflect-metadata";
 import { Request, Response, Next } from "express";
 import { createConnection, getConnection, getRepository } from "typeorm";
-import './makeSessionsTable';
-
+// import './makeSessionsTable';
+import * as insertUniData from './insertUniData';
 
 const express = require('express');
 const session = require('express-session');
@@ -58,11 +58,13 @@ app.use(session({
 
 const api_router = require('./routes/api');
 app.use('/api', api_router);
-
 // Database connection must be made for the routes to work on app.
 // Routes defined using express in separate file
 createConnection().then(connection => {
 	const API_PORT = process.env.REACT_APP_API_PORT || 1337;
+
+	// insertUniData.insertUniversityData();
+
 	app.listen(API_PORT, () => {
 		console.log(`[main.js]: Listening: http://localhost:${API_PORT}`);
 	})

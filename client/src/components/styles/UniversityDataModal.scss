@@ -1,15 +1,16 @@
 .data-modal {
 	justify-content: flex-start;
 	padding: 0;
-	width: 85%;
-	height: 80%;
+	width: 45%;
+	height: 95%;
 	max-width: 1300px;
-	max-height: 750px;
+	max-height: 1000px;
+	min-width: 652px;
 }
 
 .main-image {
-	height: 100%;
-	width: 30%;
+	height: 200px;
+	width: 100%;
 	img {
 		height: 100%;
 		width: 100%;
@@ -17,12 +18,12 @@
 		-webkit-background-size: cover; /* for Safari 3.0 - 4.0 , Chrome 1.0 - 3.0 */
 		-moz-background-size: cover; /* optional for Firefox 3.6 */ 
 		-o-background-size: cover; /* for Opera 9.5 */
-		overflow: hidden;
+		// overflow: hidden;
 	}
 }
 
 .data-col {
-	width: 70%;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 
@@ -49,7 +50,7 @@
 		color: white;
 		font-size: 12pt;
 		align-items: center;
-		margin: 12px 0;
+		margin: 6px 0;
 
 		img {
 			width: 40px;
@@ -70,15 +71,17 @@
 	.tab-container {
 		flex-wrap: wrap;
 		justify-content: flex-start;
+		justify-content: center;
 
+		// FIRST TAB: RATINGS
 		.rating-container {
 			justify-content: space-between;
 			// background-color: rgb(68, 68, 68);
-			width: 46%;
+			width: 44%;
 			align-items: center;
 			height: auto;
 			// margin: 10px;
-			padding: 1.2% 2%;
+			padding: 0.69% 2%;
 			border-top: 2px solid rgba(109, 109, 109, 0.2);
 
 			.rating-title {
@@ -106,24 +109,75 @@
 				position: relative;
 				z-index: 1;
 				height: 100%;
-				width: 80%;
+				width: 0%;
 				border-bottom-left-radius: 4px;
 				border-top-left-radius: 4px;
 			}
 
 			.rating-bar-container {
 				width: 160px;
-				height: 10px;
-				// margin-right: 30px;
-				position: relative;
+				height: 25px;
 				background-color: rgb(196, 196, 196);
 				border-radius: 4px;
 				margin: 5px 0;
 			}
+			.half-bar {
+				height: 15px !important;
+			}
 		}
+
+		// SECOND TAB: DATA
+		.rows-container {
+			width: 32%;
+			height: 100%;
+			color: white;
+			align-items: center;
+			justify-content: flex-start;
+			.data-col {
+				.col-title {
+					padding: 0 0 10px 7px;
+					color: rgba(235, 69, 110, 1);
+					background-color: rgb(48, 48, 48);
+				}
+				justify-content: flex-start;
+				width: 93%;
+				// height: 100%;
+				padding: 3px;
+				border: 1px solid white;
+				border-radius: 4px;
+				margin: 5px;
+
+				.data-row {
+					color: black;
+					justify-content: space-between;
+					width: 100%;
+					font-size: 11pt;
+					.data-key {
+						background-color: rgb(80, 80, 80);
+						color: rgb(220, 220, 220);
+						width: 50%;
+						padding: 5px 10px;
+						overflow-x: hidden;
+					}
+					.data-value {
+						background-color: gray;
+						width: 50%;
+						padding: 5px 10px;
+					}
+				}
+			}
+			
+		}
+		
+	}
+	.map-container {
+		height: 100%;
+		width: 85%;
+		margin: auto;
+		display: block;
+		position: relative;
 	}
 }
-
 
 .tab-button-active {
 	// background: linear-gradient(90deg, #BA3E3F, rgba(235, 69, 110, 1));

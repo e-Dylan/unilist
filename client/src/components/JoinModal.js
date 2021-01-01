@@ -22,7 +22,11 @@ import checkmarkIcon from '../resources/join-modal/premium-membership/checkmark-
 
 export function showJoinModal(bool) {
 	const modalBg = document.getElementById('join-modal-bg');
-	const modal = document.getElementById("join-modal");
+	const modal = document.getElementById('join-modal');
+	
+	const emailInput = document.getElementById('signup-form-joinbutton');
+	const emailInputModal = document.getElementById('email-input');
+
 	if (modalBg === undefined || modal === undefined) return;
 
 	if (bool) {
@@ -32,6 +36,10 @@ export function showJoinModal(bool) {
 		if (modal.classList.contains('modal-active')) modal.classList.remove('modal-active');
 		if (modalBg.classList.contains('modal-active')) modalBg.classList.remove('modal-active');
 	}
+	
+	if (emailInput.value.length > 0)
+		emailInputModal.value = emailInput.value;
+		emailInput.value = "";
 }
 
 $(document).mouseup(e => {
@@ -108,7 +116,7 @@ function JoinModal(props) {
 							</div>
 							<div className="email-sub flex-row">
 								<input className="input-checkbox" type="checkbox"></input>
-								<span className="desc-text">Send me emails with live updates.</span>
+								<span className="desc-text">Email me with live updates.</span>
 							</div>
 							<button className="join-button" onClick={() => {
 								const username = document.getElementById('username-input').value;

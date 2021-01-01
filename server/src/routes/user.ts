@@ -1,7 +1,6 @@
 import { getRepository, getConnection, getManager } from "typeorm";
 import { Request, Response, Next } from "express";
 import { User } from '../entity/User';
-import { ResponseType } from "axios";
 
 const bcrypt = require('bcryptjs');
 const Joi = require('joi');
