@@ -15,6 +15,7 @@ import { setActiveUniversityState } from "../../redux/actions/setActiveUniversit
 import { showFeedbackModal } from './FeedbackModal';
 
 // Components
+import RatingBar from './RatingBar';
 
 // Images/Icons
 import unilistLogo from '../../resources/logo/unilist-logo.png';
@@ -130,30 +131,10 @@ function UniversityDataModal(props) {
 
 					{ activeTabVar === "ratings-tab-button" && ratings &&
 						<div className="tab-container flex-row" id="ratings-container">
-							<div className="rating-container flex-row">
-								<span className="rating-title">Overall Rating</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.overall_rating*10 + "%"}}></div>
-								</div>
-							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">Cost-Value</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.cost_value.rating + "%"}}></div>
-								</div>
-							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">Education</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.education.rating + "%"}}></div>
-								</div>
-							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">Fun</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.fun.rating + "%"}}></div>
-								</div>
-							</div>
+							<RatingBar title="Overall Rating" rating={ratings.overall_rating*10} ratings={ratings} />
+							<RatingBar title="Cost/Value" rating={ratings.cost_value.rating} ratings={ratings} />
+							<RatingBar title="Education" rating={ratings.education.rating} ratings={ratings} />
+							<RatingBar title="Fun" rating={ratings.fun.rating} ratings={ratings} />
 							<div className="rating-container flex-row">
 								<span className="rating-title">COVID-19</span>
 								<div className="rating-bar">
@@ -171,84 +152,19 @@ function UniversityDataModal(props) {
 									</div>
 								</div>
 							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">Campus</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill"  style={{width: ratings.campus.rating + "%"}}></div>
-								</div>
-							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">The City</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.the_city.rating + "%"}}></div>
-								</div>
-							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">People/Community</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.people_community.rating + "%"}}></div>
-								</div>
-							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">Food</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.food.rating + "%"}}></div>
-								</div>
-							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">Internet</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.internet.rating + "%"}}></div>
-								</div>
-							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">Amenities</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.amenities.rating + "%"}}></div>
-								</div>
-							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">Clubs/Extracirriculars</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.clubs_extracurriculars.rating + "%"}}></div>
-								</div>
-							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">Sports</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.sports.rating + "%"}}></div>
-								</div>
-							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">Restaurants</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.restaurants.rating + "%"}}></div>
-								</div>
-							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">Transit/Transportation</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.transportation.rating + "%"}}></div>
-								</div>
-							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">Academic Services</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.academic_services.rating + "%"}}></div>
-								</div>
-							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">Academic Resources</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.academic_resources.rating + "%"}}></div>
-								</div>
-							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">Fitness/Gym</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.fitness_gym.rating + "%"}}></div>
-								</div>
-							</div>
+							<RatingBar title="Campus" rating={ratings.campus.rating} ratings={ratings} />
+							<RatingBar title="The City" rating={ratings.the_city.rating} ratings={ratings} />
+							<RatingBar title="People/Community" rating={ratings.people_community.rating} ratings={ratings} />
+							<RatingBar title="Food" rating={ratings.food.rating} ratings={ratings} />
+							<RatingBar title="Internet" rating={ratings.internet.rating} ratings={ratings} />
+							<RatingBar title="Amenities" rating={ratings.amenities.rating} ratings={ratings} />
+							<RatingBar title="Clubs/Extracurriculars" rating={ratings.clubs_extracurriculars.rating} ratings={ratings} />
+							<RatingBar title="Sports" rating={ratings.sports.rating} ratings={ratings} />
+							<RatingBar title="Restaurants" rating={ratings.restaurants.rating} ratings={ratings} />
+							<RatingBar title="Transportation" rating={ratings.transportation.rating} ratings={ratings} />
+							<RatingBar title="Academic Services" rating={ratings.academic_services.rating} ratings={ratings} />
+							<RatingBar title="Academic Resources" rating={ratings.academic_resources.rating} ratings={ratings} />
+							<RatingBar title="Fitness/Gym" rating={ratings.fitness_gym.rating} ratings={ratings} />
 							<div className="rating-container flex-row">
 								<span className="rating-title">Parties</span>
 								<div className="rating-bar">
@@ -273,6 +189,7 @@ function UniversityDataModal(props) {
 										<span className="bar-label">Now</span>
 										<div className="rating-bar-container half-bar">
 											<div className="rating-bar-fill" style={{width: ratings.weather.now.rating + "%"}} />
+											<label className="rating-bar-label small-label">{ratings.weather.now.temp.toFixed(1)} &#176;C</label>
 										</div>
 									</div>
 									<div className="rating-bar-row">
@@ -283,30 +200,10 @@ function UniversityDataModal(props) {
 									</div>
 								</div>
 							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">Online Resources</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill"  style={{width: ratings.online_resources.rating + "%"}}></div>
-								</div>
-							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">Facilities</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.facilities.rating + "%"}}></div>
-								</div>
-							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">Professors' Interaction</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.professor_interaction.rating + "%"}}></div>
-								</div>
-							</div>
-							<div className="rating-container flex-row">
-								<span className="rating-title">Research</span>
-								<div className="rating-bar-container">
-									<div className="rating-bar-fill" style={{width: ratings.research.rating + "%"}}></div>
-								</div>
-							</div>
+							<RatingBar title="Online Resources" rating={ratings.cost_value.rating} ratings={ratings} />
+							<RatingBar title="Facilities" rating={ratings.facilities.rating} ratings={ratings} />
+							<RatingBar title="Prof. Interaction" rating={ratings.professor_interaction.rating} ratings={ratings} />
+							<RatingBar title="Research" rating={ratings.research.rating} ratings={ratings} />
 						</div>
 					}
 

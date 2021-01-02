@@ -146,10 +146,14 @@ function insertUniversityData() {
                                 rating: 60,
                                 now: {
                                     rating: 40,
+                                    temp: 0,
+                                    feels_like: 0,
                                     desc: "Snowing",
                                 },
                                 average: {
                                     rating: 83,
+                                    temp: 0,
+                                    feels_like: 0,
                                     desc: "Warm summers, cold winters.",
                                 }
                             },

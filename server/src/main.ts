@@ -6,6 +6,8 @@ import { createConnection, getConnection, getRepository } from "typeorm";
 // import './makeSessionsTable';
 import * as insertUniData from './insertUniData';
 
+const cron = require('./cronjobs/updateWeatherJob');
+
 const express = require('express');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);

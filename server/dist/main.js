@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var typeorm_1 = require("typeorm");
+var cron = require('./cronjobs/updateWeatherJob');
 var express = require('express');
 var session = require('express-session');
 var pgSession = require('connect-pg-simple')(session);

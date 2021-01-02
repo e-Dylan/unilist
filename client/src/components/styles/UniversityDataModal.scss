@@ -90,6 +90,7 @@
 			}
 
 			.rating-bar {
+				position: relative;
 				.rating-bar-row {
 					display: flex;
 					flex-direction: row;
@@ -112,6 +113,17 @@
 				width: 0%;
 				border-bottom-left-radius: 4px;
 				border-top-left-radius: 4px;
+			}
+
+			.rating-bar-label {
+				position: absolute;
+				right: 10px;
+				top: -1px;
+				color: black;
+				font-size: 14pt;
+			}
+			.small-label {
+				font-size: 12pt;
 			}
 
 			.rating-bar-container {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, createRef } from "react";
 import '../styles/SearchArea.scss';
 
 // Redux
@@ -7,6 +7,9 @@ import { connect } from 'react-redux';
 // Actions (setters)
 import { setUniversityListState } from '../../redux/actions/setUniversityListState';
 import { setActiveUniversityState } from '../../redux/actions/setActiveUniversityState';
+
+// Weather icons
+import ReactAnimatedWeather from 'react-animated-weather';
 
 // Components
 import UniversityDataModal from "./UniversityDataModal";
@@ -142,17 +145,32 @@ function SearchResults(props) {
 		return (average/10).toFixed(1);
 	}
 
-	// useEffect(() => {
-	// 	const API_KEY = '50d9b938ed3fb013a16ec3ed594ea7dc';
-	// 	fetch(`api.openweathermap.org/data/2.5/weather?lat=43&lon=-70&appid=${API_KEY}`)
-	// 	.then(res => console.log(res));
-	// }, [])
+	const getWeatherIcon = (weatherDesc) => {
+		switch (weatherDesc) {
+			case "Rain": return "RAIN"; break;
+			case "Snow": return "SNOW"; break;
+			case "Clear": return "CLEAR_DAY"; break;
+			case "Clouds": return "CLOUDY"; break;
+			case "Mist": return "FOG"; break;
+			case "Sun": return "CLEAR_DAY"; break;
+		}
+	}
+
+	const weatherAPIKey = '50d9b938ed3fb013a16ec3ed594ea7dc';
+
+	useEffect(() => {
+		fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=29.326692516224206&lon=-11.79899394383519&appid=${weatherAPIKey}`)
+				.then(res => res.json())
+				.then(async res => {
+					console.log(res)
+				});
+	}, [])
 
 	return (
 		<div className="search-results-container flex-col">
 				<div className="search-results-nav flex-row">
 					<button className="unilist-button" onClick={() => showAddUniModal(true)}>Add University</button>
-					<button className="unilist-button" onClick={() => showFeedbackModal(true)}>Send Feedback</button>
+					<button className="unilist-button" onClick={() => showFeedbackModal(true)}>Make Edit</button>
 				</div>
 
 				{ props.globalState.universityListState != null && props.globalState.universityListState.length > 0 &&
@@ -165,7 +183,7 @@ function SearchResults(props) {
 									}}
 									onClick={() => {
 
-										console.log(item.university_data);
+										// console.log(item.university_data);
 
 										if (Object.keys(item.university_data).length > 0) {
 											// console.log('1st')
@@ -174,7 +192,7 @@ function SearchResults(props) {
 											}
 											
 											showUniversityDataModal(true, item, props);
-											console.log(item);
+											// console.log(item);
 										} else {
 											// console.log('2nd');
 											// If there's no valid data on the item being given,
@@ -185,10 +203,14 @@ function SearchResults(props) {
 										}
 									}}
 								>
-									<div className="weather-container">
-										<span className="degrees">15</span>
+									<div className="weather-container flex-row" onClick={() => {
+										console.log(item.university_data.ratings.weather.now);
+									}}>
+										<span className="degrees">{item.university_data.ratings.weather.now.temp.toFixed(0)} &#176;C</span>
+										<ReactAnimatedWeather
+											icon={getWeatherIcon(item.university_data.ratings.weather.now.desc)} color="white" size={40} animate={true}
+										/>
 									</div>
-									{/* <img className="thumbnail-image" src="/assets/university-images/mac.jpg"></img> */}
 									<div className="university-title">{item.name}</div>
 									<div className="overall-rating flex-row">
 										<img src={starIcon} />
