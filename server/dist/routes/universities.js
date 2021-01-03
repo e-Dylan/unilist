@@ -50,7 +50,6 @@ function getAllUniversities(req, res, next) {
                 case 1:
                     universities = _a.sent();
                     res.json(universities);
-                    console.log(universities);
                     return [2 /*return*/];
             }
         });
@@ -75,7 +74,7 @@ function searchUniversities(req, res, next) {
                         .getMany()];
                 case 1:
                     data = _a.sent();
-                    console.log(data);
+                    // console.log(data);
                     res.send(data);
                     return [2 /*return*/];
             }

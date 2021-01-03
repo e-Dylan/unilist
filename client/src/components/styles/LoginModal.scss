@@ -87,6 +87,23 @@
 				}
 			}
 		}
+		.login-modal-footer {
+			align-items: center;
+			color: white;
+			font-weight: lighter;
+			font-size: 13pt;
+			span {
+				margin-left: 5px;
+				color: rgba(235, 69, 110, 1);
+				font-weight: bold;
+				text-decoration: underline;
+				transition: 100ms all ease-in-out;
+				&:hover {
+					cursor: pointer;
+					color: rgb(231, 133, 157);
+				}
+			}
+		}
 	}
 }
 

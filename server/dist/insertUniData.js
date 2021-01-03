@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertUniversityData = void 0;
+exports.insertCityName = exports.insertUniversityDataData = exports.updateUniOverallRating = void 0;
 var typeorm_1 = require("typeorm");
 var University_1 = require("./entity/University");
 var calcActiveOverallRating = function (data) {
@@ -51,7 +51,7 @@ var calcActiveOverallRating = function (data) {
     var average = total / iters;
     return (average / 10).toFixed(1);
 };
-function insertUniversityData() {
+function updateUniOverallRating() {
     var _this = this;
     typeorm_1.getConnection().transaction(function (connection) { return __awaiter(_this, void 0, void 0, function () {
         var manager, uni, newData, average, finalData, error_1;
@@ -59,7 +59,7 @@ function insertUniversityData() {
             switch (_a.label) {
                 case 0:
                     manager = typeorm_1.getManager();
-                    return [4 /*yield*/, manager.findOne(University_1.University, 1)];
+                    return [4 /*yield*/, manager.findOne(University_1.University, 2)];
                 case 1:
                     uni = _a.sent();
                     _a.label = 2;
@@ -242,5 +242,65 @@ function insertUniversityData() {
         });
     }); });
 }
-exports.insertUniversityData = insertUniversityData;
+exports.updateUniOverallRating = updateUniOverallRating;
+function insertUniversityDataData() {
+    var _this = this;
+    // RIGHT NOW, FOR TESTING, ALL UNIVERSITIES HAVE TORONTO'S DATA (university_data.data).
+    typeorm_1.getConnection().transaction(function (connection) { return __awaiter(_this, void 0, void 0, function () {
+        var manager, torUni, torData, uni, newData;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    manager = typeorm_1.getManager();
+                    return [4 /*yield*/, manager.findOne(University_1.University, 1)];
+                case 1:
+                    torUni = _a.sent();
+                    torData = JSON.parse(torUni.university_data).data;
+                    return [4 /*yield*/, manager.findOne(University_1.University, 4)];
+                case 2:
+                    uni = _a.sent();
+                    newData = JSON.parse(uni.university_data);
+                    newData.data = torData;
+                    uni.university_data = JSON.stringify(newData);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+}
+exports.insertUniversityDataData = insertUniversityDataData;
+function insertCityName() {
+    var _this = this;
+    typeorm_1.getConnection().transaction(function (connection) { return __awaiter(_this, void 0, void 0, function () {
+        var manager, uni, cityName, newData, e_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    manager = typeorm_1.getManager();
+                    return [4 /*yield*/, manager.findOne(University_1.University, 4)];
+                case 1:
+                    uni = _a.sent();
+                    cityName = "Ottawa, ON";
+                    _a.label = 2;
+                case 2:
+                    _a.trys.push([2, 4, , 5]);
+                    newData = JSON.parse(uni.university_data);
+                    newData.data.the_city.location = cityName;
+                    newData = JSON.stringify(newData);
+                    uni.university_data = newData;
+                    console.log("[database]: Inserting city name " + cityName + " into table: university. Data: \n\n", JSON.parse(newData));
+                    console.log("+1 column changed: [" + uni.name + "].");
+                    return [4 /*yield*/, manager.save(uni)];
+                case 3:
+                    _a.sent();
+                    return [3 /*break*/, 5];
+                case 4:
+                    e_1 = _a.sent();
+                    console.log(e_1);
+                    return [3 /*break*/, 5];
+                case 5: return [2 /*return*/];
+            }
+        });
+    }); });
+}
+exports.insertCityName = insertCityName;
 //# sourceMappingURL=insertUniData.js.map

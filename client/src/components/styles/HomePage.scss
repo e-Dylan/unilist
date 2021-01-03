@@ -23,18 +23,18 @@
 
 		.homepage-logo {
 			position: absolute;
-			left: 20px;
+			left: 40px;
 			top: 20px;
 
 			img {
-				width: 40px;
-				height: 40px;
+				width: 50px;
+				height: 50px;
 			}
 		}
 
 		.login-button {
 			position: absolute;
-			right: 20px;
+			right: 40px;
 			top: 20px;
 			padding: 7px 15px;
 			width: auto;
@@ -43,6 +43,77 @@
 
 			&:hover {
 				background: linear-gradient(-5deg, #BA3E3F, rgba(235, 69, 110, 1));
+			}
+		}
+
+		// USER ACCOUNT DIV
+		.user-account {
+			position: absolute;
+			top: 20px;
+			right: 40px;
+			align-items: center;
+
+			.user-account-button {
+				padding: 7px 35px;
+				justify-content: space-around;
+				// background-color: gray;
+				color: white;
+				align-items: center;
+				text-transform: uppercase;
+				transition: 0.6s all ease-in-out;
+
+				.user-account-username {
+					margin-right: 20px;
+				}
+				.user-account-image {
+					width: 35px;
+					height: 35px;
+				}
+
+				&:hover {
+					cursor: pointer;
+					color: rgba(235, 69, 110, 1);
+				}
+			}
+			.user-account-dropdown {
+				max-height: 0px;
+				align-items: center;
+				color: white;
+				background-color: rgb(143, 40, 69);
+				width: 150%;
+				align-self: flex-end;
+				border-bottom-left-radius: 6px;
+				border-bottom-right-radius: 6px;
+				transform-origin: top;
+				overflow: hidden;
+				transition: 1s cubic-bezier(0, 1, 0, 1);
+
+				.dropdown-item {
+					transition: 0.5s cubic-bezier(0, 1, 0, 1);
+					padding: 11px 0;
+					width: 100%;
+					text-align: center;
+					// list-style: none;
+					font-size: 10pt;
+					pointer-events: auto;
+					z-index: 1312;
+					&:hover {
+						color: rgb(0, 0, 0);
+						cursor: pointer;
+					}
+				}
+			}
+
+			.user-account-dropdown-open {
+				max-height: 600px !important;
+				transition: all 0.6s ease-in-out;
+			}
+			
+			.user-account-button-open {
+				background-color: rgb(143, 40, 69);
+				transition: all 0.6s ease-in-out;
+				align-self: flex-end;
+				width: 109%;
 			}
 		}
 

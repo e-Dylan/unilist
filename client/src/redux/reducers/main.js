@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 import universityListReducer from './universityListReducer';
 import activeUniversityReducer from './activeUniversityReducer';
 import userReducer from './userReducer';
+import feedbackTagsReducer from './FeedbackTagsReducer';
 
 // import UserReducer from './userReducer';
 
@@ -16,6 +17,7 @@ const allReducers = combineReducers({
 	userState: userReducer,
 	universityListState: universityListReducer,
 	activeUniversityState: activeUniversityReducer,
+	feedbackTagsState: feedbackTagsReducer,
 });
 
 export default allReducers;

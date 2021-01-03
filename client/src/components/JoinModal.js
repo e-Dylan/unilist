@@ -9,16 +9,29 @@ import { setUserState } from '../redux/actions/setUserState';
 
 import './styles/JoinModal.scss';
 
-import * as api from '../api';
+import * as userApi from '../api/userApi';
+import * as paymentApi from '../api/paymentApi';
 
 // Components
 
 // Images/Icons
+// Free
+import ratingsIcon from '../resources/join-modal/free-membership/ratings-icon.svg';
+import readPostsIcon from '../resources/join-modal/free-membership/read-posts-icon.svg';
+import addDataIcon from '../resources/join-modal/free-membership/add-data.svg';
+// Active
+import makePostsIcon from '../resources/join-modal/active-membership/make-posts-icon.svg';
+// Premium
 import featuresIcon from '../resources/join-modal/premium-membership/features-icon.svg';
 import premiumIcon from '../resources/join-modal/premium-membership/premium-icon.svg';
 import additionalConnectionsIcon from '../resources/join-modal/premium-membership/additional-connections.svg';
 import mapIcon from '../resources/join-modal/premium-membership/map-icon.svg';
 import checkmarkIcon from '../resources/join-modal/premium-membership/checkmark-icon.svg';
+
+// STRIPE MEMBERSHIP PRICE ID'S
+const freePriceId = 'price_1I5cSXBwwOafHU1RVnITRrD8';
+const activePriceId = 'price_1I5c5GBwwOafHU1RaqmF4g6d';
+const premiumPriceId = 'price_1I5c6FBwwOafHU1RrFlNcYXr';
 
 export function showJoinModal(bool) {
 	const modalBg = document.getElementById('join-modal-bg');
@@ -52,7 +65,8 @@ $(document).mouseup(e => {
 
 function JoinModal(props) {
 
-	const [activeTab, setActiveTab] = useState('free');
+	const [activeTab, setActiveTab] = useState('free-membership-button');
+	const [priceId, setPriceId] = useState(freePriceId);
 
 	const setActiveMembershipTab = (buttonId) => {
 		const clicked = document.getElementById(buttonId);
@@ -66,6 +80,22 @@ function JoinModal(props) {
 		clicked.classList.add('button-active');
 		
 		setActiveTab(buttonId)
+		
+		// Set active price id when changing membership tabs.
+		switch(buttonId) {
+			case "free-membership-button": setPriceId(freePriceId); break;
+			case "active-membership-button": setPriceId(activePriceId); break;
+			case "premium-membership-button": setPriceId(premiumPriceId); break;
+		}
+
+		// const joinButton = document.querySelector('.join-button');
+		// joinButton.disabled = (buttonId !== "free-membership-button");
+		// if (joinButton.disabled) 
+		// 	joinButton.classList.add('button-disabled') 
+		// else 
+		// 	joinButton.classList.remove('button-disabled');
+
+		// console.log(joinButton.disabled);
 	}
 
 	const clearForm = () => {
@@ -73,6 +103,19 @@ function JoinModal(props) {
 			input.value = "";
 		});
 	}
+
+	// useEffect(() => {
+	// 	const script = document.createElement('script');
+
+	// 	script.src = "https://js.stripe.com/v3/";
+	// 	script.async = true;
+	  
+	// 	document.body.appendChild(script);
+	  
+	// 	return () => {
+	// 	  document.body.removeChild(script);
+	// 	}
+	//   }, []);
 
 	return (
 		<div className="modal-bg" id="join-modal-bg">
@@ -88,7 +131,7 @@ function JoinModal(props) {
 							<span className="desc-text">CONNECT INTERNATIONALLY</span>
 						</div>
 						<div className="membership-types">
-							<div className="membership-button flex-col" id="free-membership-button" onClick={() => {setActiveMembershipTab("free-membership-button")}}>
+							<div className="membership-button button-active flex-col" id="free-membership-button" onClick={() => {setActiveMembershipTab("free-membership-button")}}>
 								<span className="title-text">Free User: $0/month (free)</span>
 								<span className="desc-text">Use limited features</span>
 							</div>
@@ -97,7 +140,7 @@ function JoinModal(props) {
 								<span className="desc-text">Many features, cancel at any time.</span>
 							</div>
 							<div className="membership-button flex-col" id="premium-membership-button" onClick={() => {setActiveMembershipTab("premium-membership-button")}}>
-								<span className="title-text">Premium User: $12/month</span>
+								<span className="title-text">Premium User: $15/month</span>
 								<span className="desc-text">Full-access and support capabilities.</span>
 							</div>
 						</div>
@@ -122,6 +165,7 @@ function JoinModal(props) {
 								const username = document.getElementById('username-input').value;
 								const email = document.getElementById('email-input').value;
 								const password = document.getElementById('password-input').value;
+								var priceId;
 
 								const userData = {
 									username,
@@ -130,33 +174,34 @@ function JoinModal(props) {
 								};
 
 								try {
-									api.registerUser(userData)
-										.then(res => {
-											if (res && res.success) {
-												api.loginUser({ username, password })
-												.then(lres => {
-													if (lres && lres.success) {
-														props.setUserState({
-															isLoggedIn: true,
-															username: username,
-															email: email,
-															loading: false,
-														});
-														window.location.replace(api.DOMAIN_URL);
-													} else if (lres && !lres.success) {
-														alert(lres.msg);
-													}
-												})
-												clearForm();
-											} else if (res && !res.success) {
-												alert(res.msg);
-											}
-										});
+									// userApi.registerUser(userData)
+									// 	.then(res => {
+									// 		if (res && res.success) {
+									// 			var userData = { username, password }
+									// 			userApi.loginUser(userData)
+									// 				.then(userState => {
+									// 					props.setUserState(userState);
+									// 					console.log(userState);
+									// 				});
+									// 			clearForm();
+									// 			window.location.reload();
+									// 		} else if (res && !res.success) {
+									// 			console.log('failed to register');
+									// 			alert(res.msg);
+									// 		}
+									// 	});
+									paymentApi.createCheckoutSession(priceId)
+										.then(data => {
+											window.stripe.redirectToCheckout({
+												sessionId: data.sessionId,
+											})
+											.then(window.handleResult);
+										})
 								} catch (error) {
 									console.log(error);
 									clearForm();
 								}}}
-							>JOIN</button>
+							>SIGNUP</button>
 						</div>
 					</div>
 
@@ -170,25 +215,21 @@ function JoinModal(props) {
 									<div className="membership-tab-content flex-col">
 										<span className="title-text">FREE MEMBERSHIP</span>
 										<div className="membership-subtitle flex-row">
-											Limited access to data and social posts.
+											Limited access to live data and social posts.
 										</div>
 										
 										<ul className="feature-list">
 											<li className="li-feature flex-row">
-												<img className="li-image" />
+												<img className="li-image" src={ratingsIcon} alt="" />
 												<span className="li-text">View school information and data ratings.</span>
 											</li>
 											<li className="li-feature flex-row">
-												<img className="li-image" />
+												<img className="li-image" src={readPostsIcon} alt="" />
 												<span className="li-text">Read posts and comments.</span>
 											</li>
 											<li className="li-feature flex-row">
-												<img className="li-image" />
+												<img className="li-image" src={addDataIcon} alt="" />
 												<span className="li-text">Add your relevant updated data!</span>
-											</li>
-											<li className="li-feature flex-row">
-												<img className="li-image" />
-												<span className="li-text">Make account connections.</span>
 											</li>
 										</ul>
 									</div>
@@ -199,22 +240,28 @@ function JoinModal(props) {
 										<div className="membership-subtitle flex-row">
 											Talk and share in a community of the like-minded.
 										</div>
+
+										{/* <div className="not-available-bar">
+											NOT CURRENTLY AVAILABLE.<br /><br />
+											APP IS FREE WHILE I DEVELOP USER INTERACTION, SOCIAL ABILITIES, AND ADDITIONAL FEATURES.<br /><br />
+											ENJOY FREEMIUM WHILE IT LASTS.
+										</div> */}
 										
 										<ul className="feature-list">
 											<li className="li-feature flex-row">
-												<img className="li-image" />
+												<img className="li-image" alt="" />
 												<span className="li-text">Customize your own profile photo, bio, and more.</span>
 											</li>
 											<li className="li-feature flex-row">
-												<img className="li-image" />
+												<img className="li-image" alt="" />
 												<span className="li-text">Instant access to live information.</span>
 											</li>
 											<li className="li-feature flex-row">
-												<img className="li-image" />
+												<img className="li-image" src={makePostsIcon} alt="" />
 												<span className="li-text">Make public posts and leave comments.</span>
 											</li>
 											<li className="li-feature flex-row">
-												<img className="li-image" src={checkmarkIcon} />
+												<img className="li-image" alt="" src={checkmarkIcon} />
 												<span className="li-text">All features of free member.</span>
 											</li>
 										</ul>
@@ -226,26 +273,32 @@ function JoinModal(props) {
 										<div className="membership-subtitle flex-row">
 											Full access to live data and social networking.
 										</div>
+
+										{/* <div className="not-available-bar">
+											NOT CURRENTLY AVAILABLE.<br /><br />
+											APP IS FREE WHILE I DEVELOP USER INTERACTION, SOCIAL ABILITIES, AND ADDITIONAL FEATURES.<br /><br />
+											ENJOY FREEMIUM WHILE IT LASTS.
+										</div> */}
 										
 										<ul className="feature-list">
 											<li className="li-feature flex-row">
-												<img className="li-image" src={featuresIcon} />
+												<img className="li-image" alt="" src={featuresIcon} />
 												<span className="li-text">Premium access to all features.</span>
 											</li>
 											<li className="li-feature flex-row">
-												<img className="li-image"  src={mapIcon} />
+												<img className="li-image" alt=""  src={mapIcon} />
 												<span className="li-text">Live-map access for all universities.</span>
 											</li>
 											<li className="li-feature flex-row">
-												<img className="li-image" src={additionalConnectionsIcon} />
+												<img className="li-image" alt="" src={additionalConnectionsIcon} />
 												<span className="li-text">Additional profile connections.</span>
 											</li>
 											<li className="li-feature flex-row">
-												<img className="li-image" src={premiumIcon} />
+												<img className="li-image" alt="" src={premiumIcon} />
 												<span className="li-text">Premium badge on forum posts and comments.</span>
 											</li>
 											<li className="li-feature flex-row">
-												<img className="li-image" src={checkmarkIcon} />
+												<img className="li-image" alt="" src={checkmarkIcon} />
 												<span className="li-text">All features of active member.</span>
 											</li>
 										</ul>
@@ -255,9 +308,9 @@ function JoinModal(props) {
 									''
 								}
 
-								<div className="profile-photo-bar">
+								{/* <div className="profile-photo-bar">
 									Profiles:
-								</div>
+								</div> */}
 								<div className="payment-form">
 									Payment:
 								</div>

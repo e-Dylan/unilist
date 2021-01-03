@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import $ from 'jquery';
 
-import * as api from '../../api';
+import * as uniApi from '../../api/uniApi';
 
 // Redux
 import { bindActionCreators } from 'redux';
@@ -70,7 +70,7 @@ function SearchFilters(props) {
 	const [tags, setTags] = useState([]);
 
 	const setAllUniversities = () => {
-		api.fetchAllUniversities()
+		uniApi.fetchAllUniversities()
 			.then(universities => {
 				for (var i = 0; i < universities.length; i++) {
 					if (typeof universities[i].university_data == "string")
@@ -83,13 +83,13 @@ function SearchFilters(props) {
 
 	// Initialize state with all universities.
 	useEffect(() => {
-		console.log('setting');
+		// console.log('Setting search results to ALL universities at [SearchFilters.js] useEffect init.');
 		setAllUniversities();
 	}, [])
 
 	const addTag = async(tag) => {
 		await tags.push(tag.toLowerCase());
-		api.fetchUniversities(tags)
+		uniApi.fetchUniversities(tags)
 			.then(universities => {
 				for (var i = 0; i < universities.length; i++) {
 					if (typeof universities[i].university_data == "string")
@@ -105,7 +105,7 @@ function SearchFilters(props) {
 			// last tag being removed, go back to all universities.
 			setAllUniversities();
 		else
-			api.fetchUniversities(tags)
+			uniApi.fetchUniversities(tags)
 				.then(universities => {
 					for (var i = 0; i < universities.length; i++) {
 						if (typeof universities[i].university_data == "string")

@@ -7,18 +7,16 @@
  * @param { action } Action that alerts this reducer to update the store, called when user logs in. 
  */
 
-import * as uniApi from '../../api/uniApi';
+var stateInit = [];
 
-var stateInit = uniApi.nullUniData;
-
-const activeUniversityReducer = (state = stateInit, action) => {
+const feedbackTagsReducer = (state = stateInit, action) => {
 	switch (action.type) {
-		case "SET_ACTIVE_UNIVERSITY_STATE":
-			state.activeUniversityData = action.payload;
-			return state.activeUniversityData;
+		case "SET_FEEDBACK_TAGS_STATE":
+			state.feedbackTags = action.payload;
+			return state.feedbackTags;
 		default: 
 			return state;
 	}
 }
 
-export default activeUniversityReducer;
+export default feedbackTagsReducer;

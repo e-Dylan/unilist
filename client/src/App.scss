@@ -64,6 +64,15 @@ html {
 	}
 }
 
+.cancel-button {
+	background: var(--main_gray);
+	outline: rgb(238, 24, 42);
+	
+	&:hover {
+		background: linear-gradient(-5deg, #BA3E3F, rgba(235, 69, 110, 1));
+	}
+}
+
 .modal-bg {
 	position: fixed;
 	top: 0;

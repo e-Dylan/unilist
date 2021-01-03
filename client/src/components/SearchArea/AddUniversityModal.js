@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import $ from "jquery";
 
 import '../styles/AddUniversityModal.scss';
 
-import * as api from '../../api';
+import * as userApi from '../../api/userApi';
 
 // Components
 

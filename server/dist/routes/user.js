@@ -55,8 +55,43 @@ var register_schema = Joi.object({
         .pattern(new RegExp('^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{3,30}$'))
         .required(),
 });
-router.post('/isLoggedIn', function (req, res, next) {
-});
+router.post('/isLoggedIn', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var manager, user;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!req.session) return [3 /*break*/, 4];
+                if (!req.session.userID) return [3 /*break*/, 2];
+                manager = typeorm_1.getManager();
+                return [4 /*yield*/, manager.findOne(User_1.User, req.session.userID)];
+            case 1:
+                user = _a.sent();
+                res.json({
+                    success: true,
+                    username: user.username,
+                    email: user.email,
+                    message: "Welcome " + user.username
+                });
+                console.log("[/api/isLoggedIn]: User " + user.username + " has connected.");
+                return [2 /*return*/];
+            case 2:
+                res.json({
+                    success: false,
+                    message: "User is not logged in.",
+                });
+                console.log("[/api/isLoggedIn]: Guest user Anon has connected.");
+                return [2 /*return*/];
+            case 3: return [3 /*break*/, 5];
+            case 4:
+                res.json({
+                    success: false,
+                    msg: "User is not logged in, no session is available."
+                });
+                return [2 /*return*/];
+            case 5: return [2 /*return*/];
+        }
+    });
+}); });
 router.post('/register', function (req, res, next) {
     console.log(req.body);
     var _a = req.body, username = _a.username, email = _a.email, password = _a.password;
@@ -174,5 +209,26 @@ router.post('/login', function (req, res) { return __awaiter(void 0, void 0, voi
         return [2 /*return*/];
     });
 }); });
+router.post('/logout', function (req, res, next) {
+    if (req.session && req.session.userID) {
+        // User is logged in, terminate session
+        var sessionId = req.session.userID;
+        req.session.destroy();
+        console.log("[/api/logout]: User successfully logged out.");
+        res.json({
+            success: true,
+            msg: "Successfully logged out.",
+        });
+        return true;
+    }
+    else {
+        console.log('Guest user tried and failed to logout: no session ID.');
+        res.json({
+            success: false,
+            msg: "Not logging out: user was not logged in.",
+        });
+        return false;
+    }
+});
 module.exports = router;
 //# sourceMappingURL=user.js.map

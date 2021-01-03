@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import $ from "jquery";
 
 import '../styles/AddUniversityModal.scss';
@@ -10,11 +10,11 @@ import '../styles/SearchArea.scss';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import * as api from '../../api';
+import * as api from '../../api/userApi';
 import { setActiveUniversityState } from "../../redux/actions/setActiveUniversityState";
+import { setFeedbackTagsState } from '../../redux/actions/setFeedbackTagsState';
 
 // Components
-import SearchFilters from './SearchFilters';
 import RatingSlider from './RatingSlider';
 
 // Images/Icons
@@ -22,7 +22,7 @@ import unilistLogo from '../../resources/logo/unilist-logo.png';
 
 import { searchTagFilters } from '../SearchArea/SearchFilters';
 
-export const clearFeedbackModal = () => {
+export const clearFeedbackModal = (props) => {
 	// Clear university name
 	document.getElementById('university-name-input').value = "";
 	// Clear ratings
@@ -32,54 +32,66 @@ export const clearFeedbackModal = () => {
 	document.querySelectorAll('.rating-slider-label').forEach(label => {
 		label.innerHTML = "0";
 	});
+
+	// Clear tag buttons
+	const tagButtons = document.querySelectorAll('.feedback-tag-button');
+	tagButtons.forEach(button => {
+		button.classList.remove('button-active');
+	})
+	// Clear feedback tags state.
+	if (props !== null)
+		props.setFeedbackTagsState([]);
 }
 
-export const showFeedbackModal = (bool) => {
+export const showFeedbackModal = (bool, props) => {
 	const feedbackModal = document.getElementById('uni-feedback-modal');
 	const modalBg = document.getElementById('feedback-modal-bg');
+	const tagsMenu = document.querySelector('.tags-menu');
 	if (bool) {
 		// Set active item data, show modal.
 		feedbackModal.classList.add('modal-active');
 		modalBg.classList.add('modal-active');
+		tagsMenu.classList.add('modal-active');
 	} else {
 		// Hide modal.
 		feedbackModal.classList.remove('modal-active');
 		modalBg.classList.remove('modal-active');
-		clearFeedbackModal();
+		tagsMenu.classList.remove('modal-active');
+		clearFeedbackModal(props);
 	}
 }
 
-$(document).mouseup(e => {
-	var modalBg = $("#feedback-modal-bg");
-	// if target isnt in display window:
-	if (modalBg.is(e.target))
-	showFeedbackModal(false, null);
-})
-
 function FeedbackModal(props) {
 
-	const [tags, setTags] = useState([]);
+	const tags = props.globalState.feedbackTagsState;
+
+	$(document).mouseup(e => {
+		var modalBg = $("#feedback-modal-bg");
+		// if target isnt in display window:
+		if (modalBg.is(e.target))
+			showFeedbackModal(false, props);
+	})
 
 	const setActiveTab = (tabId) => {
-		document.querySelectorAll('.tab-button').forEach(ele => {
+		document.querySelectorAll('.feedback-modal-tab-button').forEach(ele => {
 			if (ele.classList.contains('tab-button-active')) ele.classList.remove('tab-button-active');
 		});
 
 		const tabButton = document.getElementById(tabId);
-		if (!tabButton.classList.contains('tab-button-active')) tabButton.classList.add('tab-button-active');
+		tabButton.classList.add('tab-button-active');
 		
-		document.querySelectorAll('.tab-container').forEach(item => {
+		document.querySelectorAll('.feedback-modal-tab').forEach(item => {
 			item.classList.remove('tab-active');
 		});
 		switch (tabId) {
-			case "ratings-tab-button": 
-				document.getElementById('ratings-tab-container').classList.add('tab-active');
+			case "feedback-modal-ratings-tab-button": 
+				document.getElementById('feedback-modal-ratings-tab-container').classList.add('tab-active');
 				break;
-			case "data-tab-button": 
-				document.getElementById('data-tab-container').classList.add('tab-active');
+			case "feedback-modal-data-tab-button": 
+				document.getElementById('feedback-modal-data-tab-container').classList.add('tab-active');
 				break;
-			case "cost-tab-button": 
-				document.getElementById('cost-tab-container').classList.add('tab-active');
+			case "feedback-modal-cost-tab-button": 
+				document.getElementById('feedback-modal-cost-tab-container').classList.add('tab-active');
 				break;
 		}
 		
@@ -95,12 +107,14 @@ function FeedbackModal(props) {
 	
 	const addTag = async(tag) => {
 		await tags.push(tag.toLowerCase());
+		console.log(tags);
 	}
 
 	const removeTag = (tag) => {
 		const i = tags.indexOf(tag.toLowerCase());
 		if (i > -1) 
 			tags.splice(i, 1);
+		console.log(tags);
 	}
 
 	const toggleButton = (buttonId, filterTag) => {
@@ -115,7 +129,7 @@ function FeedbackModal(props) {
 			filterButton.classList.add('button-active');
 			addTag(filterTag);
 		}
-		console.log(tags);
+		// console.log(tags);
 	}
 
 	return (
@@ -137,13 +151,13 @@ function FeedbackModal(props) {
 					<div className="data-col">
 						<div className="header-content">
 							<div className="tab-bar flex-row">
-								<div className="tab-button tab-button-active" id="ratings-tab-button" onClick={() => setActiveTab("ratings-tab-button")}>
+								<div className="feedback-modal-tab-button tab-button-active" id="feedback-modal-ratings-tab-button" onClick={() => setActiveTab("feedback-modal-ratings-tab-button")}>
 									Ratings
 								</div>
-								<div className="tab-button" id="data-tab-button" onClick={() => setActiveTab("data-tab-button")}>
+								<div className="feedback-modal-tab-button" id="feedback-modal-data-tab-button" onClick={() => setActiveTab("feedback-modal-data-tab-button")}>
 									Data
 								</div>
-								<div className="tab-button" id="cost-tab-button" onClick={() => setActiveTab("cost-tab-button")}>
+								<div className="feedback-modal-tab-button" id="feedback-modal-cost-tab-button" onClick={() => setActiveTab("feedback-modal-cost-tab-button")}>
 									Cost of Living
 								</div>
 							</div>
@@ -167,6 +181,7 @@ function FeedbackModal(props) {
 							</div>
 						</div>
 
+						{/* TAGS DROP MENU */}
 						<div className="tab-container tag-container flex-col">
 							<div className="tags-menu flex-col">
 								<div className="search-filters flex-col">
@@ -177,7 +192,7 @@ function FeedbackModal(props) {
 										<div className="filter-options flex-row">
 											{ Object.keys(searchTagFilters.location_filters).map((item, index) => {
 												return (
-													<div className="filter-button location-button flex-col" key={item} id={"locationButton"+index}>{searchTagFilters.location_filters[item]}</div>
+													<div className="filter-button feedback-tag-button location-button flex-col" key={item} id={"locationButton"+index}>{searchTagFilters.location_filters[item]}</div>
 												)
 											})}
 										</div>
@@ -185,9 +200,9 @@ function FeedbackModal(props) {
 									<div className="filter-section flex-col">
 										<span className="filter-title">Costs</span>
 										<div className="filter-options flex-row">
-											<div className="filter-button location-button flex-col">Low</div>
-											<div className="filter-button location-button flex-col">Moderate</div>
-											<div className="filter-button location-button flex-col">High</div>
+											<div className="filter-button feedback-tag-button location-button flex-col">Low</div>
+											<div className="filter-button feedback-tag-button location-button flex-col">Moderate</div>
+											<div className="filter-button feedback-tag-button location-button flex-col">High</div>
 										</div>
 									</div>
 									<div className="filter-section flex-col">
@@ -195,9 +210,9 @@ function FeedbackModal(props) {
 										<div className="filter-options flex-row">
 											{ Object.keys(searchTagFilters.community_filters).map((item, index) => {
 												return (
-													<div className="filter-button flex-col" key={item} id={"communityButton"+index} onClick={ async() => {
+													<div className="filter-button feedback-tag-button flex-col" key={item} id={"feedbackModalCommunityButton"+index} onClick={ async() => {
 														// var tempTags = tags;
-														toggleButton("communityButton"+index, searchTagFilters.community_filters[item]);
+														toggleButton("feedbackModalCommunityButton"+index, searchTagFilters.community_filters[item]);
 														// addTag(location_filters[item]);
 													}}>{searchTagFilters.community_filters[item]}</div>
 												)
@@ -209,9 +224,9 @@ function FeedbackModal(props) {
 										<div className="filter-options flex-row">
 											{ Object.keys(searchTagFilters.area_filters).map((item, index) => {
 												return (
-													<div className="filter-button flex-col" key={item} id={"areaButton"+index} onClick={ async() => {
+													<div className="filter-button feedback-tag-button flex-col" key={item} id={"feedbackModalAreaButton"+index} onClick={ async() => {
 														// var tempTags = tags;
-														toggleButton("areaButton"+index, searchTagFilters.area_filters[item]);
+														toggleButton("feedbackModalAreaButton"+index, searchTagFilters.area_filters[item]);
 														// addTag(location_filters[item]);
 													}}>{searchTagFilters.area_filters[item]}</div>
 												)
@@ -223,9 +238,9 @@ function FeedbackModal(props) {
 										<div className="filter-options flex-row">
 											{ Object.keys(searchTagFilters.qualities_filters).map((item, index) => {
 												return (
-													<div className="filter-button flex-col" key={item} id={"qualitiesButton"+index} onClick={ async() => {
+													<div className="filter-button feedback-tag-button flex-col" key={item} id={"feedbackModalQualitiesButton"+index} onClick={ async() => {
 														// var tempTags = tags;
-														toggleButton("qualitiesButton"+index, searchTagFilters.qualities_filters[item]);
+														toggleButton("feedbackModalQualitiesButton"+index, searchTagFilters.qualities_filters[item]);
 														// addTag(location_filters[item]);
 													}}>{searchTagFilters.qualities_filters[item]}</div>
 												)
@@ -239,7 +254,7 @@ function FeedbackModal(props) {
 						{/* Show each tab container depending on which is active */}
 
 						{/* RATINGS TAB */}
-						<div className="tab-container flex-row tab-active" id="ratings-tab-container">
+						<div className="tab-container feedback-modal-tab flex-row tab-active" id="feedback-modal-ratings-tab-container">
 							<div className="rating-container flex-row">
 								<RatingSlider labelTitle="Overall Rating" />
 							</div>
@@ -369,7 +384,7 @@ function FeedbackModal(props) {
 						</div>
 						
 						{/* DATA TAB */}
-						<div className="tab-container flex-row" id="data-tab-container">
+						<div className="tab-container feedback-modal-tab flex-row" id="feedback-modal-data-tab-container">
 							<div className="rows-container flex-col">
 
 								{/* Costs */}
@@ -377,23 +392,23 @@ function FeedbackModal(props) {
 									<span className="col-title">Costs ($/year)</span>
 									<div className="data-row flex-row">
 										<div className="data-key">Tuition</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Residence</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Mealplan/Food</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Books/Supplies</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Transportation</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 								</div> 
 								{/* The School */}
@@ -401,23 +416,23 @@ function FeedbackModal(props) {
 									<span className="col-title">The School</span>
 									<div className="data-row flex-row">
 										<div className="data-key">Known For</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Campus Size</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Campus Type</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Equipment</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Community</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 								</div> 
 								{/* Class Types */}
@@ -425,15 +440,15 @@ function FeedbackModal(props) {
 									<span className="col-title">Class Types</span>
 									<div className="data-row flex-row">
 										<div className="data-key">Class Sizes (Avg)</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Classrooms</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Classes</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 								</div> 
 							</div>
@@ -443,15 +458,15 @@ function FeedbackModal(props) {
 									<span className="col-title">Culture</span>
 									<div className="data-row flex-row">
 										<div className="data-key">Diversity</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Majority</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Average Class</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 								</div> 
 								{/* Awards */}
@@ -459,23 +474,23 @@ function FeedbackModal(props) {
 									<span className="col-title">Awards</span>
 									<div className="data-row flex-row">
 										<div className="data-key">Annual Value</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Scholarships</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Bursaries</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Applied/Auto</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Entrance/During</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 								</div> 
 								{/* Awards */}
@@ -483,15 +498,15 @@ function FeedbackModal(props) {
 									<span className="col-title">Jobs/Co-op</span>
 									<div className="data-row flex-row">
 										<div className="data-key">Co-op Service</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Reputation</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Average Salary</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 								</div> 
 							</div>
@@ -501,15 +516,15 @@ function FeedbackModal(props) {
 									<span className="col-title">The City</span>
 									<div className="data-row flex-row">
 										<div className="data-key">City Type</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Population</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Public Transit</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 								</div>
 								{/* Surroundings */}
@@ -517,19 +532,19 @@ function FeedbackModal(props) {
 									<span className="col-title">Surroundings</span>
 									<div className="data-row flex-row">
 										<div className="data-key">Restaurants</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Bars/Clubs</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Nature</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Near Water</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 								</div> 
 								{/* Environment */}
@@ -537,24 +552,30 @@ function FeedbackModal(props) {
 									<span className="col-title">Environment</span>
 									<div className="data-row flex-row">
 										<div className="data-key">Air Quality</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Pollution</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Water Quality</div>
-										<input className="data-input" placeholder="No data">{}</input>
+										<input className="datatab-data-input" placeholder="No data">{}</input>
 									</div>
 								</div> 
 							</div>
 						</div>
 
-						<div className="tab-container flex-row" id="cost-tab-container">
+						<div className="tab-container feedback-modal-tab flex-row" id="feedback-modal-cost-tab-container">
 							Coming soon.
 						</div>
-
+						
+						<div className="modal-footer flex-row">
+							<button className="unilist-button cancel-button" onClick={() => {
+								showFeedbackModal(false, props)
+							}}>Cancel</button>
+							<button className="unilist-button">Save</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -571,7 +592,7 @@ function mapStateToProps(globalState) {
 
 function matchDispatchToProps(dispatch) {
 	return bindActionCreators({ 
-		
+		setFeedbackTagsState: setFeedbackTagsState,
 	}, dispatch);
 }
 

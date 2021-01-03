@@ -14,11 +14,11 @@ const calcActiveOverallRating = (data) => {
 	return (average/10).toFixed(1);
 }
 
-export function insertUniversityData() {
+export function updateUniOverallRating() {
 	getConnection().transaction(async connection => {
 
 		const manager = getManager();
-		const uni = await manager.findOne(University, 1)
+		const uni = await manager.findOne(University, 2)
 
 		try {
 			var newData = {
@@ -194,4 +194,43 @@ export function insertUniversityData() {
 			console.log("\n\nCaught error: \n\n", error);
 		}
 	});
+}
+
+export function insertUniversityDataData() {
+	// RIGHT NOW, FOR TESTING, ALL UNIVERSITIES HAVE TORONTO'S DATA (university_data.data).
+	getConnection().transaction(async connection => {
+		const manager = getManager();
+		const torUni = await manager.findOne(University, 1);
+		const torData = JSON.parse(torUni.university_data).data;
+
+		const uni = await manager.findOne(University, 4);
+		var newData = JSON.parse(uni.university_data);
+		newData.data = torData;
+		uni.university_data = JSON.stringify(newData);
+
+		// await manager.save(uni);
+	});
+}
+
+export function insertCityName() {
+	getConnection().transaction(async connection => {
+		const manager = getManager();
+		const uni = await manager.findOne(University, 4);
+
+		const cityName = "Ottawa, ON";
+
+		try {
+			var newData = JSON.parse(uni.university_data);
+			newData.data.the_city.location = cityName;
+			newData = JSON.stringify(newData);
+			uni.university_data = newData;
+
+			console.log(`[database]: Inserting city name ${cityName} into table: university. Data: \n\n`, JSON.parse(newData));
+			console.log(`+1 column changed: [${uni.name}].`);
+
+			await manager.save(uni);
+		} catch (e) {
+			console.log(e);
+		}
+	})
 }

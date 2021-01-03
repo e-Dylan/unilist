@@ -146,6 +146,9 @@ function SearchResults(props) {
 	}
 
 	const getWeatherIcon = (weatherDesc) => {
+		const hours = new Date().getHours();
+		const isDayTime = hours > 6 && hours < 20;
+
 		switch (weatherDesc) {
 			case "Rain": return "RAIN"; break;
 			case "Snow": return "SNOW"; break;
@@ -153,23 +156,44 @@ function SearchResults(props) {
 			case "Clouds": return "CLOUDY"; break;
 			case "Mist": return "FOG"; break;
 			case "Sun": return "CLEAR_DAY"; break;
+			case "Wind": return "WIND"; break;
+			case "Windy": return "WIND"; break;
+			default:
+				if (isDayTime) {
+					return "CLEAR_DAY";
+					break;
+				} else {
+					return "CLEAR_NIGHT";
+					break;
+				} 
 		}
 	}
 
 	const weatherAPIKey = '50d9b938ed3fb013a16ec3ed594ea7dc';
 
-	useEffect(() => {
-		fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=29.326692516224206&lon=-11.79899394383519&appid=${weatherAPIKey}`)
-				.then(res => res.json())
-				.then(async res => {
-					console.log(res)
-				});
-	}, [])
+	// useEffect(() => {
+	// 	fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=5&lon=32.79899394383519&appid=${weatherAPIKey}`)
+	// 			.then(res => res.json())
+	// 			.then(async res => {
+	// 				console.log(res)
+	// 			});
+	// }, [])
+
+	const getTotalCost = (cost) => {
+		if (cost !== null) {
+			var total = 0;
+			const keys = Object.keys(cost);
+			for (var i = 0; i < keys.length; i++) {
+				total += parseInt(cost[keys[i]]);
+			}
+			return total || 0;
+		}
+	}
 
 	return (
 		<div className="search-results-container flex-col">
 				<div className="search-results-nav flex-row">
-					<button className="unilist-button" onClick={() => showAddUniModal(true)}>Add University</button>
+					{/* <button className="unilist-button" onClick={() => showAddUniModal(true)}>Add University</button> */}
 					<button className="unilist-button" onClick={() => showFeedbackModal(true)}>Make Edit</button>
 				</div>
 
@@ -186,7 +210,6 @@ function SearchResults(props) {
 										// console.log(item.university_data);
 
 										if (Object.keys(item.university_data).length > 0) {
-											// console.log('1st')
 											if (typeof item.university_data !== "object") {
 												item.university_data = JSON.parse(item.university_data);
 											}
@@ -194,7 +217,6 @@ function SearchResults(props) {
 											showUniversityDataModal(true, item, props);
 											// console.log(item);
 										} else {
-											// console.log('2nd');
 											// If there's no valid data on the item being given,
 											// set its university_data object to zeros.
 											// All the rest will be used, img etc.
@@ -203,18 +225,33 @@ function SearchResults(props) {
 										}
 									}}
 								>
-									<div className="weather-container flex-row" onClick={() => {
-										console.log(item.university_data.ratings.weather.now);
-									}}>
-										<span className="degrees">{item.university_data.ratings.weather.now.temp.toFixed(0)} &#176;C</span>
+
+									<div className="cost-container flex-row">
+										<div className="thumbnail-data-text-med flex-col" onClick={() => console.log(item.university_data)}> 
+											<span className="cost">${getTotalCost(item.university_data.data.costs)}/year</span>
+										</div>	
+									</div>
+
+									<div className="weather-container flex-row">
+										<div className="thumbnail-data-text-large flex-col"> 
+											<span className="temp">{item.university_data.ratings.weather.now.temp.toFixed(0)} &#176;C</span>
+											<span className="thumbnail-data-text-small">Feels {item.university_data.ratings.weather.now.feels_like.toFixed(0)} &#176;C</span>
+										</div>
 										<ReactAnimatedWeather
 											icon={getWeatherIcon(item.university_data.ratings.weather.now.desc)} color="white" size={40} animate={true}
-										/>
+										/>	
 									</div>
+
+									<div className="location-container flex-row">
+										<div className="thumbnail-data-text-med flex-col" onClick={() => console.log(item.university_data)}> 
+											<span className="temp">{item.university_data.data.the_city.location}</span>
+										</div>	
+									</div>
+
 									<div className="university-title">{item.name}</div>
 									<div className="overall-rating flex-row">
 										<img src={starIcon} />
-										<a>{item.university_data.overall_rating}</a>
+										<a>{item.university_data.ratings.overall_rating}</a>
 									</div>
 								</div>
 							);

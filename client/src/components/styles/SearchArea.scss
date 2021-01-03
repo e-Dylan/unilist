@@ -101,8 +101,8 @@
 		flex-wrap: wrap;
 		justify-content: flex-start;
 		.search-results-item {
-			width: 350px;
-			height: 200px;
+			width: 380px;
+			height: 230px;
 			color: black;
 			margin: 10px 5px;
 			background: #222;
@@ -127,16 +127,39 @@
 				transform: scale(1.025);
 			}
 
+			.cost-container {
+				align-items: center;
+				position: absolute;
+				bottom: 15px;
+				left: 0;
+				width: 40%;
+			}
+
 			.weather-container {
 				align-items: center;
 				position: absolute;
 				top: 15px;
-				right: 15px;
-				width: 30%;
-				.degrees {
-					font-size: 14pt;
-					margin-right: 10px;
-				}
+				right: 0px;
+				width: 40%;
+			}
+
+			.location-container {
+				position: absolute;
+				align-items: center;
+				bottom: 10px;
+				right: 0px;
+				width: 40%;
+			}
+			
+			.thumbnail-data-text-large {
+				font-size: 14pt;
+				color: white;
+			}
+			.thumbnail-data-text-med {
+				font-size: 11pt;
+			}
+			.thumbnail-data-text-small {
+				font-size: 8pt;
 			}
 
 			.university-title {

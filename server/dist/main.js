@@ -52,7 +52,9 @@ app.use('/api', api_router);
 // Routes defined using express in separate file
 typeorm_1.createConnection().then(function (connection) {
     var API_PORT = process.env.REACT_APP_API_PORT || 1337;
-    // insertUniData.insertUniversityData();
+    // insertUniData.updateUniOverallRating();
+    // insertUniData.insertCityName();
+    // insertUniData.insertUniversityDataData();
     app.listen(API_PORT, function () {
         console.log("[main.js]: Listening: http://localhost:" + API_PORT);
     });

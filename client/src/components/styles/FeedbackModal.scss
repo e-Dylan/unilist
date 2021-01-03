@@ -5,8 +5,8 @@
 .feedback-modal {
 	justify-content: flex-start;
 	padding: 0;
-	width: 55%;
-	height: 87%;
+	// width: 65%;
+	// height: 87%;
 	max-width: 1300px;
 	max-height: 1000px;
 	min-width: 652px;
@@ -41,15 +41,26 @@
 		max-height: none;
 		min-width: 0;
 		width: 75%;
+		height: 100%;
 
 		.data-col {
+			height: 100%;
 
 			.header-content {
 
 				.tab-bar {
-					
-					.tab-button {
+					.feedback-modal-tab-button {
+						font-weight: normal;
+						padding: 10px;
+						color: gray;
+						width: calc(100% / 5);
+						text-align: center;
+						cursor: pointer;
 						width: calc(100%/3);
+						&:hover {
+							border-bottom: 2px solid rgb(151, 55, 71);
+							color: rgb(151, 55, 71);
+						}
 					}
 				}
 
@@ -105,7 +116,7 @@
 				.rows-container {
 					.data-col {
 						.data-row {
-							.data-input {
+							.datatab-data-input {
 								background-color: rgb(150, 150, 150);
 								width: 50%;
 								padding: 5px 10px;
@@ -167,7 +178,7 @@
 					// background-color: rgb(68, 68, 68);
 					width: 44%;
 					align-items: center;
-					height: calc(100%/17);
+					height: calc(100%/17); // value seems to work
 					// margin: 10px;
 					padding: 1% 2%;
 					border-top: 2px solid rgba(109, 109, 109, 0.2);
@@ -219,6 +230,10 @@
 					}
 				}
 			}
+		}
+		.modal-footer {
+			width: 100%;
+			margin: 20px 0;
 		}
 	}
 }

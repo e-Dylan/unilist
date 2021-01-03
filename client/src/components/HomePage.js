@@ -14,43 +14,74 @@ import BIRDS from 'vanta/dist/vanta.birds.min'
 // Components
 import JoinModal, { showJoinModal } from "./JoinModal";
 import LoginModal, { showLoginModal } from "./LoginModal";
-import FeedbackModal, { showFeedbackModal } from './SearchArea/FeedbackModal';
+import FeedbackModal from './SearchArea/FeedbackModal';
+
+import * as userApi from '../api/userApi';
 
 // Images/Icons
 import unilistLogo from '../resources/logo/unilist-logo.png';
 import cityIcon from '../resources/homepage/city-icon.png';
 import networkIcon from '../resources/homepage/network-icon.svg';
+// account
+import profileIcon from '../resources/homepage/account/empty-profile-photo.png';
 
 function HomePage(props) {
 
 	const [vantaEffect, setVantaEffect] = useState(0)
 	const vantaRef = useRef(null)
 
-	// useEffect(() => {
-	// 	// Init Vanta
-	// 	if (!vantaEffect) {
-	// 		setVantaEffect(BIRDS({
-	// 			el: vantaRef.current,
-	// 			THREE: THREE,
-	// 			minHeight: 200.00,
-	// 			minWidth: 200.00,
-	// 			color1: 0xffc1df,
-	// 			color2: 0xe1bea6,
-	// 			colorMode: "lerpGradient",
-	// 			birdSize: 0.80,
-	// 			wingSpan: 35.00,
-	// 			speedLimit: 3.00,
-	// 			separation: 75.00,
-	// 			alignment: 11.00,
-	// 			cohesion: 7.00,
-	// 			quantity: 2.00,
-	// 			backgroundAlpha: 0.00
-	// 		}))
-	// 	}
-	// 	return () => {
-	// 		if (vantaEffect) vantaEffect.destroy()
-	// 	}
-	// }, [vantaEffect])
+	const toggleAccountDropdown = () => {
+		const accDropdown = document.querySelector('.user-account-dropdown');
+		const userAccButton = document.querySelector('.user-account-button');
+
+		if (accDropdown.classList.contains('user-account-dropdown-open')) {
+			accDropdown.classList.remove('user-account-dropdown-open');
+			userAccButton.classList.remove('user-account-button-open')
+		} else {
+			accDropdown.classList.add('user-account-dropdown-open');
+			userAccButton.classList.add('user-account-button-open')
+		}
+	}
+
+	const checkIsLoggedIn = () => {
+	// Check if user is logged in on initial page load. If so, set user state.
+		try {
+			userApi.checkIsLoggedIn()
+			.then(userState => {
+				// Set redux user state.
+				console.log(userState);
+				props.setUserState(userState);
+			});
+		} catch (e) {
+			console.log(e);
+		}
+	}
+
+	useEffect(() => {
+		// Init Vanta
+		if (!vantaEffect) {
+			setVantaEffect(BIRDS({
+				el: vantaRef.current,
+				THREE: THREE,
+				color1: 0xffc1df,
+				color2: 0xe1bea6,
+				birdSize: 0.80,
+				speedLimit: 3.00,
+				separation: 75.00,
+				alignment: 11.00,
+				cohesion: 7.00,
+				quantity: 2.00,
+				backgroundAlpha: 0,
+			}))
+		}
+		return () => {
+			if (vantaEffect) vantaEffect.destroy()
+		}
+	}, [vantaEffect])
+
+	useEffect(() => {
+		checkIsLoggedIn();
+	}, [])
 
   return (
     <div className="homepage-container">
@@ -59,15 +90,39 @@ function HomePage(props) {
 		<FeedbackModal />
 		<div className="homepage-image-container flex-col" ref={vantaRef}>
 			<a className="homepage-logo" href="/" >
-				<img src={unilistLogo} />
+				<img src={unilistLogo} alt="Logo" />
 			</a>
-			<button className="login-button unilist-button" onClick={() => showLoginModal(true)}>
-				Login
-			</button>
+			{ !props.globalState.userState.isLoggedIn ?
+				<button className="login-button unilist-button" onClick={() => showLoginModal(true)}>
+					Login
+				</button>
+			:
+				<div className="user-account flex-col">
+					<div className="user-account-button flex-row" onClick={() => {
+						toggleAccountDropdown();
+					}}>
+						<span className="user-account-username">{props.globalState.userState.username}</span>
+						<img className="user-account-image" src={profileIcon} />
+					</div>
+					<div className="user-account-dropdown flex-col">
+						<div className="dropdown-item">Settings</div>
+						<div className="dropdown-item">Profile</div>
+						<div className="dropdown-item" onClick={() => {
+							userApi.logoutUser()
+								.then(userState => {
+									console.log(userState)
+									props.setUserState(userState);
+									window.location.reload();
+								})
+							console.log('yes');
+						}}>Logout</div>
+					</div>
+				</div>
+			}
 			<div className="main-content-container container-center flex-row">
 				<div className="main-text flex-col">
 					<span className="title-text">
-						<img className="in-text-image" src={cityIcon} /> Find your spot.
+						<img className="in-text-image" src={cityIcon} alt="title logo" /> Find your spot.
 					</span>
 					<span className="desc-text">Join the community of students and broaden your opportunities.</span>
 				</div>
@@ -75,7 +130,7 @@ function HomePage(props) {
 					<div className="signup-form flex-col">
 						<div className="signup-container flex-col">
 							<div className="main-image flex-col">
-								<img src={networkIcon} />
+								<img src={networkIcon} alt="network icon" />
 							</div>
 							<div className="signup-text">Join your community.</div>
 							<input className="signup-input" id="signup-form-joinbutton" placeholder="enter your email" />

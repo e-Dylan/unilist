@@ -65,7 +65,9 @@ app.use('/api', api_router);
 createConnection().then(connection => {
 	const API_PORT = process.env.REACT_APP_API_PORT || 1337;
 
-	// insertUniData.insertUniversityData();
+	// insertUniData.updateUniOverallRating();
+	// insertUniData.insertCityName();
+	// insertUniData.insertUniversityDataData();
 
 	app.listen(API_PORT, () => {
 		console.log(`[main.js]: Listening: http://localhost:${API_PORT}`);

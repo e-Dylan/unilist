@@ -8,7 +8,7 @@ const router = express.Router();
 export async function getAllUniversities(req: Request, res: Response, next: Next) {
 	const universities = await getRepository(University).find();
 	res.json(universities);
-	console.log(universities);
+	// console.log(universities);
 }
 
 export function searchUniversities(req: Request, res: Response, next: Next) {
@@ -27,7 +27,7 @@ export function searchUniversities(req: Request, res: Response, next: Next) {
 		)
 		.getMany();
 		
-		console.log(data);
+		// console.log(data);
 		res.send(data);
 	})
 }

@@ -2,13 +2,13 @@ todo
 
 [frontend]
 
-	- connect "data" tab in unidata modal to backend:
-		-> make redux reducer store active uni data, initstate data so it doesn't error.
-		-> add unidata to rendered html form.
+	- thumbnail images
+		-> data showing about universities
+
+	- unidata modal:
+		-> autofill data content to "EDIT" modal when clicking to edit data.
 
 	- feedback form (once data form is done) to add or suggest universities:
-		-> allow users to give data for every field
-		-> give a name of a missing university
 		-> make a form for it, store somewhere (emails?)
 
 	- user scopes when logged in, render specific things.
@@ -16,5 +16,11 @@ todo
 
 	- campus map tab in unidata modal
 		-> design layout of the tab
+
+
+	- FREE SERVER AND DATABASE HOSTING
+		-> aws RDS (postgres) and CN3? for linux vps, needs card
+		-> Heroku does free app hosting, psql 20 conn's, 10,000 rows? not sure how many tables.
+		-> azure 12 months trial, needs credit card
 
 	

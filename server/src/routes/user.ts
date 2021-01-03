@@ -23,8 +23,37 @@ const register_schema = Joi.object({
 		.required(),
 });
 
-router.post('/isLoggedIn', (req: Request, res: Response, next: Next) => {
-	
+router.post('/isLoggedIn', async (req: Request, res: Response, next: Next) => {
+	if (req.session) {
+		if (req.session.userID) {
+
+			const manager = getManager();
+			const user = await manager.findOne(User, req.session.userID); 
+
+			res.json({
+				success: true,
+				username: user.username,
+				email: user.email,
+				message: `Welcome ${user.username}`
+			});
+
+			console.log(`[/api/isLoggedIn]: User ${user.username} has connected.`);
+			return;
+		} else {
+			res.json({
+				success: false,
+				message: "User is not logged in.",
+			});
+			console.log(`[/api/isLoggedIn]: Guest user Anon has connected.`);
+			return;
+		}
+	} else {
+		res.json({
+			success: false,
+			msg: "User is not logged in, no session is available."
+		});
+		return;
+	}
 });
 
 router.post('/register', (req: Request, res: Response, next: Next) => {
@@ -138,8 +167,28 @@ router.post('/login', async (req: Request, res: Response) => {
 			return;
 		}
 	})
-	
+});
 
+router.post('/logout', (req: Request, res: Response, next: Next) => {
+	if (req.session && req.session.userID) {
+		// User is logged in, terminate session
+		const sessionId = req.session.userID;
+		req.session.destroy();
+		console.log(`[/api/logout]: User successfully logged out.`);
+		
+		res.json({
+			success: true,
+			msg: "Successfully logged out.",
+		});
+		return true;
+	} else {
+		console.log('Guest user tried and failed to logout: no session ID.');
+		res.json({
+			success: false,
+			msg: "Not logging out: user was not logged in.",
+		});
+		return false;
+	}
 });
 
 

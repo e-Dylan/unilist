@@ -1,13 +1,20 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import $ from "jquery";
 
+// Redux
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { setUserState } from '../redux/actions/setUserState';
+
+// CSS
 import './styles/LoginModal.scss';
 import './styles/JoinModal.scss';
 
-import * as api from '../api';
+import * as userApi from '../api/userApi';
 
 // Components
+
+import { showJoinModal } from './JoinModal';
 
 // Images/Icons
 
@@ -43,53 +50,78 @@ function LoginModal(props) {
 
 	return (
 		<div className="modal-bg" id="login-modal-bg">
-			<div className="login-modal modal flex-row" id="login-modal">
+			<div className="login-modal modal flex-col" id="login-modal">
 	
 				<div className="header-bar" />
 
-					<div className="signup-form-col">
-						<div className="title-text-container flex-col">
-							<span className="title-text">LOGIN</span>
-							<div className="underline" />
+				<div className="signup-form-col">
+					<div className="title-text-container flex-col">
+						<span className="title-text">LOGIN</span>
+						<div className="underline" />
+					</div>
+					<div className="signup-form-container flex-col">
+						<div className="input-field flex-col">
+							<span className="signup-header">USERNAME</span>
+							<input className="login-input" id="login-username-input" placeholder="Username" />
 						</div>
-						<div className="signup-form-container flex-col">
-							<div className="input-field flex-col">
-								<span className="signup-header">USERNAME</span>
-								<input className="login-input" id="login-username-input" placeholder="Username" />
-							</div>
-							<div className="input-field flex-col">
-								<span className="signup-header">PASSWORD</span>
-								<input className="login-input" type="password" id="login-password-input" placeholder="Password" />
-							</div>
-							<button className="join-button" onClick={() => {
-								const username = document.getElementById('login-username-input').value;
-								const password = document.getElementById('login-password-input').value;
+						<div className="input-field flex-col">
+							<span className="signup-header">PASSWORD</span>
+							<input className="login-input" type="password" id="login-password-input" placeholder="Password" />
+						</div>
+						<button className="join-button" onClick={() => {
+							const username = document.getElementById('login-username-input').value;
+							const password = document.getElementById('login-password-input').value;
 
-								if (username.length > 3 && password.length > 3) {
-									const userData = {
-										username,
-										password,
-									};
-									try {
-										api.loginUser(userData)
-											.then(res => {
-												console.log(res);
-											});
-											clearForm();
-										}
-									catch (error) {
-										// console.log(error);
+							if (username.length > 3 && password.length > 3) {
+								const userData = {
+									username,
+									password,
+								};
+								try {
+									userApi.loginUser(userData)
+										.then(userState => {
+											console.log(userState);
+											props.setUserState(userState);
+											window.location.reload();
+										});
+										clearForm();
 									}
+								catch (error) {
+									// console.log(error);
 								}
-								}}
-							>LOGIN</button>
+							}
+							}}
+						>LOGIN</button>
+					</div>
+
+					<div className="login-modal-footer flex-col">
+						<div className="no-account-signup">Not a member? 
+							<span onClick={() => {
+								showJoinModal(true);
+								showLoginModal(false);
+							}}>
+								Join.
+							</span>
 						</div>
 					</div>
+				</div>
 				<div className="footer-bar" />
-
 			</div>
 		</div>
 	);
 }
 
-export default LoginModal;
+function mapStateToProps(globalState) {
+	// Retrieve any data contained in redux global store.
+	return {
+		globalState
+	};
+}
+
+function matchDispatchToProps(dispatch) {
+	return bindActionCreators({ 
+		setUserState: setUserState, 
+	}, dispatch);
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(LoginModal);

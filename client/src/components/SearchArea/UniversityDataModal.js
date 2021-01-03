@@ -10,7 +10,7 @@ import '../styles/UniversityDataModal.scss';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import * as api from '../../api';
+import * as uniApi from '../../api/uniApi';
 import { setActiveUniversityState } from "../../redux/actions/setActiveUniversityState";
 import { showFeedbackModal } from './FeedbackModal';
 
@@ -29,8 +29,8 @@ export const showUniversityDataModal = async (bool, data, props) => {
 	const modalBg = document.getElementById('data-modal-bg');
 	if (bool) {
 		// Set active item data, show modal.
-		if (data.university_data.ratings === undefined) data.university_data.ratings = api.nullUniData.university_data.ratings;
-		if (data.university_data.data === undefined) data.university_data.data = api.nullUniData.university_data.data;
+		if (data.university_data.ratings === undefined) data.university_data.ratings = uniApi.nullUniData.university_data.ratings;
+		if (data.university_data.data === undefined) data.university_data.data = uniApi.nullUniData.university_data.data;
 
 		props.setActiveUniversityState(data)
 
@@ -54,17 +54,71 @@ $(document).mouseup(e => {
 
 function UniversityDataModal(props) {
 
-	const [activeTabVar, setActiveTabVar] = useState("ratings-tab-button");
+	// const [activeTabVar, setActiveTabVar] = useState("data-modal-ratings-tab-button");
+
+	// const setActiveTab = (tabId) => {
+	// 	document.querySelectorAll('.data-modal-tab-button').forEach(ele => {
+	// 		ele.classList.remove('tab-button-active');
+	// 	});
+
+	// 	const tabButton = document.getElementById(tabId);
+	// 	tabButton.classList.add('tab-button-active');
+	// 	setActiveTabVar(tabId)
+		
+	// }
 
 	const setActiveTab = (tabId) => {
-		document.querySelectorAll('.tab-button').forEach(ele => {
+		document.querySelectorAll('.data-modal-tab-button').forEach(ele => {
 			if (ele.classList.contains('tab-button-active')) ele.classList.remove('tab-button-active');
 		});
 
 		const tabButton = document.getElementById(tabId);
-		if (!tabButton.classList.contains('tab-button-active')) tabButton.classList.add('tab-button-active');
-		setActiveTabVar(tabId)
+		tabButton.classList.add('tab-button-active');
 		
+		document.querySelectorAll('.data-modal-tab').forEach(item => {
+			item.classList.remove('tab-active');
+		});
+		switch (tabId) {
+			case "data-modal-ratings-tab-button": 
+				if (document.getElementById('data-modal-ratings-tab-container') != null)	
+					document.getElementById('data-modal-ratings-tab-container').classList.add('tab-active');
+				break;
+			case "data-modal-data-tab-button":
+				if (document.getElementById('data-modal-data-tab-container') != null)
+					document.getElementById('data-modal-data-tab-container').classList.add('tab-active');
+				break;
+			case "data-modal-cost-tab-button":
+				if (document.getElementById('data-modal-cost-tab-container') != null)
+					document.getElementById('data-modal-cost-tab-container').classList.add('tab-active');
+				break;
+		}
+		
+	}
+
+	const fillFeedbackDataWithActiveData = () => {
+		// Top university name input
+		const nameInput = document.getElementById('university-name-input'); // Uni name for feedback modal.
+		nameInput.value = props.globalState.activeUniversityState.name;
+
+		// Set values of each slider to parallel rating bar in data modal.
+		// DATA BARS MUST BE IDENTICALLY PARALLEL WITH RATING SLIDERS TO WORK.
+		const dataFillBars = document.querySelectorAll('.rating-bar-fill');
+		const ratingSliders = document.querySelectorAll('.rating-slider');
+		const ratingSliderLabels = document.querySelectorAll('.rating-slider-label');
+
+		dataFillBars.forEach((item, index) => {
+			const val = parseInt(item.style.width);
+			ratingSliders[index].value = val
+			ratingSliderLabels[index].innerHTML = val.toString();
+		})
+
+		// Data modal data values
+		const dataValues = document.querySelectorAll('.datatab-data-value');
+		// Feedback modal data values
+		const dataInputs = document.querySelectorAll('.datatab-data-input')
+		dataValues.forEach((item, index) => {
+			dataInputs[index].value = item.innerHTML;
+		})
 	}
 
 	useEffect(() => {
@@ -81,8 +135,8 @@ function UniversityDataModal(props) {
 		});
 	}, []);
 
-	var ratings = props.globalState.activeUniversityState.university_data.ratings || api.nullUniData.ratings;
-	var data = props.globalState.activeUniversityState.university_data.data || api.nullUniData.data;
+	var ratings = props.globalState.activeUniversityState.university_data.ratings || uniApi.nullUniData.ratings;
+	var data = props.globalState.activeUniversityState.university_data.data || uniApi.nullUniData.data;
 
 	return (
 		<div className="modal-bg" id="data-modal-bg">
@@ -96,19 +150,19 @@ function UniversityDataModal(props) {
 				}
 				<div className="data-col">
 					<div className="tab-bar flex-row">
-						<div className="tab-button tab-button-active" id="ratings-tab-button" onClick={() => setActiveTab("ratings-tab-button")}>
+						<div className="data-modal-tab-button tab-button-active" id="data-modal-ratings-tab-button" onClick={() => setActiveTab("data-modal-ratings-tab-button")}>
 							Ratings
 						</div>
-						<div className="tab-button" id="data-tab-button" onClick={() => setActiveTab("data-tab-button")}>
+						<div className="data-modal-tab-button" id="data-modal-data-tab-button" onClick={() => setActiveTab("data-modal-data-tab-button")}>
 							Data
 						</div>
-						<div className="tab-button" id="cost-tab-button" onClick={() => setActiveTab("cost-tab-button")}>
+						<div className="data-modal-tab-button" id="data-modal-cost-tab-button" onClick={() => setActiveTab("data-modal-cost-tab-button")}>
 							Cost of Living
 						</div>
-						<div className="tab-button" id="map-tab-button" onClick={() => setActiveTab("map-tab-button")}>
+						<div className="data-modal-tab-button" id="data-modal-map-tab-button" onClick={() => setActiveTab("data-modal-map-tab-button")}>
 							Campus Map
 						</div>
-						<div className="tab-button" id="talk-tab-button" onClick={() => setActiveTab("talk-tab-button")}>
+						<div className="data-modal-tab-button" id="data-modal-talk-tab-button" onClick={() => setActiveTab("data-modal-talk-tab-button")}>
 							Talk
 						</div>
 					</div>
@@ -119,18 +173,20 @@ function UniversityDataModal(props) {
 						<a onClick={() => { 
 							showFeedbackModal(true);
 							showUniversityDataModal(false);
-							const nameInput = document.getElementById('university-name-input'); // Uni name for feedback modal.
-							nameInput.value = props.globalState.activeUniversityState.name;
+
+							fillFeedbackDataWithActiveData();
 						}}>
-							Let me know.
+							Make a change.
 						 	<button className="unilist-button">Edit</button>
 						 </a>
 					</div>
 
 					{/* Show each tab container depending on which is active */}
 
-					{ activeTabVar === "ratings-tab-button" && ratings &&
-						<div className="tab-container flex-row" id="ratings-container">
+					
+					{/* RATINGS TAB */}
+					{ ratings &&
+						<div className="tab-container data-modal-tab flex-row tab-active" id="data-modal-ratings-tab-container">
 							<RatingBar title="Overall Rating" rating={ratings.overall_rating*10} ratings={ratings} />
 							<RatingBar title="Cost/Value" rating={ratings.cost_value.rating} ratings={ratings} />
 							<RatingBar title="Education" rating={ratings.education.rating} ratings={ratings} />
@@ -207,9 +263,10 @@ function UniversityDataModal(props) {
 						</div>
 					}
 
-					{ activeTabVar === "data-tab-button" && data &&
+					{/* DATA TAB */}
+					{ data &&
 
-						<div className="tab-container flex-row" id="data-container">
+						<div className="tab-container data-modal-tab flex-row" id="data-modal-data-tab-container">
 							<div className="rows-container flex-col">
 
 								{/* Costs */}
@@ -217,23 +274,23 @@ function UniversityDataModal(props) {
 									<span className="col-title">Costs ($/year)</span>
 									<div className="data-row flex-row">
 										<div className="data-key">Tuition</div>
-										<div className="data-value">{data.costs.tuition}</div>
+										<div className="datatab-data-value">{data.costs.tuition}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Residence</div>
-										<div className="data-value">{data.costs.residence}</div>
+										<div className="datatab-data-value">{data.costs.residence}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Mealplan/Food</div>
-										<div className="data-value">{data.costs.mealplan_food}</div>
+										<div className="datatab-data-value">{data.costs.mealplan_food}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Books/Supplies</div>
-										<div className="data-value">{data.costs.books_supplies}</div>
+										<div className="datatab-data-value">{data.costs.books_supplies}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Transportation</div>
-										<div className="data-value">{data.costs.transportation}</div>
+										<div className="datatab-data-value">{data.costs.transportation}</div>
 									</div>
 								</div> 
 								{/* The School */}
@@ -241,23 +298,23 @@ function UniversityDataModal(props) {
 									<span className="col-title">The School</span>
 									<div className="data-row flex-row">
 										<div className="data-key">Known For</div>
-										<div className="data-value">{data.the_school.known_for}</div>
+										<div className="datatab-data-value">{data.the_school.known_for}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Campus Size</div>
-										<div className="data-value">{data.the_school.campus_size}</div>
+										<div className="datatab-data-value">{data.the_school.campus_size}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Campus Type</div>
-										<div className="data-value">{data.the_school.campus_type}</div>
+										<div className="datatab-data-value">{data.the_school.campus_type}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Equipment</div>
-										<div className="data-value">{data.the_school.equipment}</div>
+										<div className="datatab-data-value">{data.the_school.equipment}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Community</div>
-										<div className="data-value">{data.the_school.community}</div>
+										<div className="datatab-data-value">{data.the_school.community}</div>
 									</div>
 								</div> 
 								{/* Class Types */}
@@ -265,15 +322,15 @@ function UniversityDataModal(props) {
 									<span className="col-title">Class Types</span>
 									<div className="data-row flex-row">
 										<div className="data-key">Class Sizes (Avg)</div>
-										<div className="data-value">{data.class_types.class_sizes}</div>
+										<div className="datatab-data-value">{data.class_types.class_sizes}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Classrooms</div>
-										<div className="data-value">{data.class_types.classrooms}</div>
+										<div className="datatab-data-value">{data.class_types.classrooms}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Classes</div>
-										<div className="data-value">{data.class_types.classes}</div>
+										<div className="datatab-data-value">{data.class_types.classes}</div>
 									</div>
 								</div> 
 							</div>
@@ -283,15 +340,15 @@ function UniversityDataModal(props) {
 									<span className="col-title">Culture</span>
 									<div className="data-row flex-row">
 										<div className="data-key">Diversity</div>
-										<div className="data-value">{data.culture.diversity}</div>
+										<div className="datatab-data-value">{data.culture.diversity}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Majority</div>
-										<div className="data-value">{data.culture.majority}</div>
+										<div className="datatab-data-value">{data.culture.majority}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Average Class</div>
-										<div className="data-value">{data.culture.average_class}</div>
+										<div className="datatab-data-value">{data.culture.average_class}</div>
 									</div>
 								</div> 
 								{/* Awards */}
@@ -299,23 +356,23 @@ function UniversityDataModal(props) {
 									<span className="col-title">Awards</span>
 									<div className="data-row flex-row">
 										<div className="data-key">Annual Value</div>
-										<div className="data-value">{data.awards.annual_value}</div>
+										<div className="datatab-data-value">{data.awards.annual_value}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Scholarships</div>
-										<div className="data-value">{data.awards.scholarships}</div>
+										<div className="datatab-data-value">{data.awards.scholarships}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Bursaries</div>
-										<div className="data-value">{data.awards.bursaries}</div>
+										<div className="datatab-data-value">{data.awards.bursaries}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Applied/Auto</div>
-										<div className="data-value">{data.awards.applied_auto}</div>
+										<div className="datatab-data-value">{data.awards.applied_auto}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Entrance/During</div>
-										<div className="data-value">{data.awards.entrance_during}</div>
+										<div className="datatab-data-value">{data.awards.entrance_during}</div>
 									</div>
 								</div> 
 								{/* Awards */}
@@ -323,15 +380,15 @@ function UniversityDataModal(props) {
 									<span className="col-title">Jobs/Co-op</span>
 									<div className="data-row flex-row">
 										<div className="data-key">Co-op Service</div>
-										<div className="data-value">{data.jobs_coop.coop_service}</div>
+										<div className="datatab-data-value">{data.jobs_coop.coop_service}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Reputation</div>
-										<div className="data-value">{data.jobs_coop.reputation}</div>
+										<div className="datatab-data-value">{data.jobs_coop.reputation}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Average Salary</div>
-										<div className="data-value">{data.jobs_coop.average_salary}</div>
+										<div className="datatab-data-value">{data.jobs_coop.average_salary}</div>
 									</div>
 								</div> 
 							</div>
@@ -341,15 +398,15 @@ function UniversityDataModal(props) {
 									<span className="col-title">The City</span>
 									<div className="data-row flex-row">
 										<div className="data-key">City Type</div>
-										<div className="data-value">{data.the_city.city_type}</div>
+										<div className="datatab-data-value">{data.the_city.city_type}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Population</div>
-										<div className="data-value">{data.the_city.population}</div>
+										<div className="datatab-data-value">{data.the_city.population}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Public Transit</div>
-										<div className="data-value">{data.the_city.public_transit}</div>
+										<div className="datatab-data-value">{data.the_city.public_transit}</div>
 									</div>
 								</div>
 								{/* Surroundings */}
@@ -357,19 +414,19 @@ function UniversityDataModal(props) {
 									<span className="col-title">Surroundings</span>
 									<div className="data-row flex-row">
 										<div className="data-key">Restaurants</div>
-										<div className="data-value">{data.surroundings.restaurants}</div>
+										<div className="datatab-data-value">{data.surroundings.restaurants}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Bars/Clubs</div>
-										<div className="data-value">{data.surroundings.bars_clubs}</div>
+										<div className="datatab-data-value">{data.surroundings.bars_clubs}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Nature</div>
-										<div className="data-value">{data.surroundings.nature}</div>
+										<div className="datatab-data-value">{data.surroundings.nature}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Near Water</div>
-										<div className="data-value">{data.surroundings.near_water}</div>
+										<div className="datatab-data-value">{data.surroundings.near_water}</div>
 									</div>
 								</div> 
 								{/* Environment */}
@@ -377,15 +434,15 @@ function UniversityDataModal(props) {
 									<span className="col-title">Environment</span>
 									<div className="data-row flex-row">
 										<div className="data-key">Air Quality</div>
-										<div className="data-value">{data.environment.air_quality}</div>
+										<div className="datatab-data-value">{data.environment.air_quality}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Pollution</div>
-										<div className="data-value">{data.environment.pollution}</div>
+										<div className="datatab-data-value">{data.environment.pollution}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Water Quality</div>
-										<div className="data-value">{data.environment.water_quality}</div>
+										<div className="datatab-data-value">{data.environment.water_quality}</div>
 									</div>
 								</div> 
 							</div>
@@ -393,7 +450,7 @@ function UniversityDataModal(props) {
 
 					}
 					
-					{ activeTabVar === "map-tab-button" ?
+					{ false === "data-modal-map-tab-button" ?
 							<div className="map-container" id="map"></div>
 					:
 						<div id="map" style={{width: 0+'px', height: 0+'px', display: 'none'}} />
