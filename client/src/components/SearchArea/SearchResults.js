@@ -21,6 +21,41 @@ import { showFeedbackModal } from './FeedbackModal';
 // Images/Icons
 import starIcon from '../../resources/search-area/search-results/star.png';
 
+export const getTotalCost = (cost) => {
+	if (cost !== null) {
+		var total = 0;
+		const keys = Object.keys(cost);
+		for (var i = 0; i < keys.length; i++) {
+			total += parseInt(cost[keys[i]]);
+		}
+		return total || 0;
+	}
+}
+
+export const getWeatherIcon = (weatherDesc) => {
+	const hours = new Date().getHours();
+	const isDayTime = hours > 6 && hours < 20;
+
+	switch (weatherDesc) {
+		case "Rain": return "RAIN"; break;
+		case "Snow": return "SNOW"; break;
+		case "Clear": return "CLEAR_DAY"; break;
+		case "Clouds": return "CLOUDY"; break;
+		case "Mist": return "FOG"; break;
+		case "Sun": return "CLEAR_DAY"; break;
+		case "Wind": return "WIND"; break;
+		case "Windy": return "WIND"; break;
+		default:
+			if (isDayTime) {
+				return "CLEAR_DAY";
+				break;
+			} else {
+				return "CLEAR_NIGHT";
+				break;
+			} 
+	}
+}
+
 function SearchResults(props) {
 
 	const nullUniversityData = {
@@ -145,30 +180,6 @@ function SearchResults(props) {
 		return (average/10).toFixed(1);
 	}
 
-	const getWeatherIcon = (weatherDesc) => {
-		const hours = new Date().getHours();
-		const isDayTime = hours > 6 && hours < 20;
-
-		switch (weatherDesc) {
-			case "Rain": return "RAIN"; break;
-			case "Snow": return "SNOW"; break;
-			case "Clear": return "CLEAR_DAY"; break;
-			case "Clouds": return "CLOUDY"; break;
-			case "Mist": return "FOG"; break;
-			case "Sun": return "CLEAR_DAY"; break;
-			case "Wind": return "WIND"; break;
-			case "Windy": return "WIND"; break;
-			default:
-				if (isDayTime) {
-					return "CLEAR_DAY";
-					break;
-				} else {
-					return "CLEAR_NIGHT";
-					break;
-				} 
-		}
-	}
-
 	const weatherAPIKey = '50d9b938ed3fb013a16ec3ed594ea7dc';
 
 	// useEffect(() => {
@@ -179,14 +190,41 @@ function SearchResults(props) {
 	// 			});
 	// }, [])
 
-	const getTotalCost = (cost) => {
-		if (cost !== null) {
-			var total = 0;
-			const keys = Object.keys(cost);
-			for (var i = 0; i < keys.length; i++) {
-				total += parseInt(cost[keys[i]]);
-			}
-			return total || 0;
+	const clearFeedbackModal = () => {
+		// Clear university name
+		document.getElementById('university-name-input').value = "";
+		// Clear ratings
+		document.querySelectorAll('.rating-slider').forEach(slider => {
+			slider.value = 0;
+		});
+		document.querySelectorAll('.rating-slider-label').forEach(label => {
+			label.innerHTML = "0";
+		});
+	
+		// Clear tag buttons
+		const tagButtons = document.querySelectorAll('.feedback-tag-button');
+		tagButtons.forEach(button => {
+			button.classList.remove('button-active');
+		})
+		// Clear feedback tags state.
+		if (props !== null)
+			props.setFeedbackTagsState([]);
+	}
+
+	const showFeedbackModal = (bool) => {
+		const feedbackModal = document.getElementById('uni-feedback-modal');
+		const modalBg = document.getElementById('feedback-modal-bg');
+		const tagsMenu = document.querySelector('.tags-menu');
+		if (bool) {
+			// Set active item data, show modal.
+			feedbackModal.classList.add('modal-active');
+			modalBg.classList.add('modal-active');
+		} else {
+			// Hide modal.
+			feedbackModal.classList.remove('modal-active');
+			modalBg.classList.remove('modal-active');
+			tagsMenu.classList.remove('modal-active');
+			clearFeedbackModal();
 		}
 	}
 

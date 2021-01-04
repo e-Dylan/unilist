@@ -11,6 +11,7 @@
 .main-image {
 	height: 200px;
 	width: 100%;
+	position: relative;
 	img {
 		height: 100%;
 		width: 100%;
@@ -19,6 +20,58 @@
 		-moz-background-size: cover; /* optional for Firefox 3.6 */ 
 		-o-background-size: cover; /* for Opera 9.5 */
 		// overflow: hidden;
+	}
+	
+	.thumbnail-data-container {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		color: white;
+		text-shadow: 1px 1px 0 rgba(0,0,0,0.35), 1px 1px 5px rgba(0,0,0,0.5);
+		font-size: 14pt;
+
+		.thumbnail-data-text-large {
+			font-size: 16pt;		
+		}
+		.thumbnail-data-text-small {
+			font-size: 11pt;		
+		}
+
+		.university-title {
+			text-align: center;
+		}
+
+		.weather-container, .location-container, .cost-container, .city-container {
+			position: absolute;
+		}
+
+		.overall-rating {
+			img {
+				width: 22px;
+				height: 22px;
+			}
+		}
+		.weather-container {
+			top: 15px;
+			right: 0px;
+			width: 30%;
+			.weather-text-container {
+				margin-right: 10px;
+			}
+		}
+		.cost-container {
+			bottom: 15px;
+			left: 0px;
+			width: 30%;
+		}
+		.location-container {
+			bottom: 15px;
+			right: 0px;
+			width: 30%;
+		}
+
 	}
 }
 

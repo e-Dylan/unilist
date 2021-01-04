@@ -57,27 +57,27 @@ function HomePage(props) {
 		}
 	}
 
-	useEffect(() => {
-		// Init Vanta
-		if (!vantaEffect) {
-			setVantaEffect(BIRDS({
-				el: vantaRef.current,
-				THREE: THREE,
-				color1: 0xffc1df,
-				color2: 0xe1bea6,
-				birdSize: 0.80,
-				speedLimit: 3.00,
-				separation: 75.00,
-				alignment: 11.00,
-				cohesion: 7.00,
-				quantity: 2.00,
-				backgroundAlpha: 0,
-			}))
-		}
-		return () => {
-			if (vantaEffect) vantaEffect.destroy()
-		}
-	}, [vantaEffect])
+	// useEffect(() => {
+	// 	// Init Vanta
+	// 	if (!vantaEffect) {
+	// 		setVantaEffect(BIRDS({
+	// 			el: vantaRef.current,
+	// 			THREE: THREE,
+	// 			color1: 0xffc1df,
+	// 			color2: 0xe1bea6,
+	// 			birdSize: 0.80,
+	// 			speedLimit: 3.00,
+	// 			separation: 75.00,
+	// 			alignment: 11.00,
+	// 			cohesion: 7.00,
+	// 			quantity: 2.00,
+	// 			backgroundAlpha: 0,
+	// 		}))
+	// 	}
+	// 	return () => {
+	// 		if (vantaEffect) vantaEffect.destroy()
+	// 	}
+	// }, [vantaEffect])
 
 	useEffect(() => {
 		checkIsLoggedIn();

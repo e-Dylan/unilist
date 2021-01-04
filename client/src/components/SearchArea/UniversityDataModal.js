@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import $ from "jquery";
 import mapboxgl from 'mapbox-gl';
+// Weather icons
+import ReactAnimatedWeather from 'react-animated-weather';
 
+// CSS
 import '../styles/AddUniversityModal.scss';
 import '../styles/UniversityDataModal.scss';
 
@@ -12,15 +15,19 @@ import { connect } from 'react-redux';
 
 import * as uniApi from '../../api/uniApi';
 import { setActiveUniversityState } from "../../redux/actions/setActiveUniversityState";
-import { showFeedbackModal } from './FeedbackModal';
 
 // Components
 import RatingBar from './RatingBar';
+
+import { getTotalCost } from './SearchResults';
+import { getWeatherIcon } from './SearchResults';
 
 // Images/Icons
 import unilistLogo from '../../resources/logo/unilist-logo.png';
 import scoresTabIcon from '../../resources/search-area/uni-data-modal/tab-icons/scores-icon.png';
 import schoolDataIcon from '../../resources/search-area/uni-data-modal/tab-icons/uni-data-icon.png';
+
+import starIcon from '../../resources/search-area/search-results/star.png';
 
 const MAPBOX_KEY = 'pk.eyJ1Ijoic2VsZmRyaXZpbmdkcml2ZXIiLCJhIjoiY2tqYm1iazVqNXF3aDJ1cnh0Z240d3BsMSJ9.f5GWrDlAMUeKDf3m5mfEgw';
 
@@ -66,6 +73,44 @@ function UniversityDataModal(props) {
 	// 	setActiveTabVar(tabId)
 		
 	// }
+
+	const clearFeedbackModal = () => {
+		// Clear university name
+		document.getElementById('university-name-input').value = "";
+		// Clear ratings
+		document.querySelectorAll('.rating-slider').forEach(slider => {
+			slider.value = 0;
+		});
+		document.querySelectorAll('.rating-slider-label').forEach(label => {
+			label.innerHTML = "0";
+		});
+
+		// Clear tag buttons
+		const tagButtons = document.querySelectorAll('.feedback-tag-button');
+		tagButtons.forEach(button => {
+			button.classList.remove('button-active');
+		})
+		// Clear feedback tags state.
+		if (props !== null)
+			props.setFeedbackTagsState([]);
+	}
+
+	const showFeedbackModal = (bool) => {
+		const feedbackModal = document.getElementById('uni-feedback-modal');
+		const modalBg = document.getElementById('feedback-modal-bg');
+		const tagsMenu = document.querySelector('.tags-menu');
+		if (bool) {
+			// Set active item data, show modal.
+			feedbackModal.classList.add('modal-active');
+			modalBg.classList.add('modal-active');
+		} else {
+			// Hide modal.
+			feedbackModal.classList.remove('modal-active');
+			modalBg.classList.remove('modal-active');
+			tagsMenu.classList.remove('modal-active');
+			clearFeedbackModal();
+		}
+	}
 
 	const setActiveTab = (tabId) => {
 		document.querySelectorAll('.data-modal-tab-button').forEach(ele => {
@@ -138,6 +183,9 @@ function UniversityDataModal(props) {
 	var ratings = props.globalState.activeUniversityState.university_data.ratings || uniApi.nullUniData.ratings;
 	var data = props.globalState.activeUniversityState.university_data.data || uniApi.nullUniData.data;
 
+	const activeUni = props.globalState.activeUniversityState;
+	console.log(activeUni);
+
 	return (
 		<div className="modal-bg" id="data-modal-bg">
 			<div className="modal data-modal flex-col" id="uni-data-modal">
@@ -146,6 +194,35 @@ function UniversityDataModal(props) {
 						<img style={{
 							backgroundImage: `url(/assets/university-images/${props.globalState.activeUniversityState.image_path})`
 						}} />
+						<div className="thumbnail-data-container flex-col">
+							<div className="cost-container flex-row">
+								<div className="thumbnail-data-text-med flex-col" onClick={() => console.log(activeUni.university_data)}> 
+									<span className="cost">${getTotalCost(activeUni.university_data.data.costs)}/year</span>
+								</div>	
+							</div>
+
+							<div className="weather-container flex-row">
+								<div className="thumbnail-data-text-large weather-text-container flex-col"> 
+									<span className="temp">{activeUni.university_data.ratings.weather.now.temp.toFixed(0)} &#176;C</span>
+									<span className="thumbnail-data-text-small">Feels {activeUni.university_data.ratings.weather.now.feels_like.toFixed(0)} &#176;C</span>
+								</div>
+								<ReactAnimatedWeather
+									icon={getWeatherIcon(activeUni.university_data.ratings.weather.now.desc)} color="white" size={40} animate={true}
+								/>	
+							</div>
+
+							<div className="location-container flex-row">
+								<div className="thumbnail-data-text-med flex-col" onClick={() => console.log(activeUni.university_data)}> 
+									<span className="temp">{activeUni.university_data.data.the_city.location}</span>
+								</div>	
+							</div>
+
+							<div className="university-title">{activeUni.name}</div>
+							<div className="overall-rating flex-row">
+								<img src={starIcon} />
+								<a>{activeUni.university_data.ratings.overall_rating}</a>
+							</div>
+						</div>
 					</div>
 				}
 				<div className="data-col">
@@ -271,26 +348,26 @@ function UniversityDataModal(props) {
 
 								{/* Costs */}
 								<div className="data-col flex-col">
-									<span className="col-title">Costs ($/year)</span>
+									<span className="col-title">Costs (year)</span>
 									<div className="data-row flex-row">
 										<div className="data-key">Tuition</div>
-										<div className="datatab-data-value">{data.costs.tuition}</div>
+										<div className="datatab-data-value">${data.costs.tuition}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Residence</div>
-										<div className="datatab-data-value">{data.costs.residence}</div>
+										<div className="datatab-data-value">${data.costs.residence}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Mealplan/Food</div>
-										<div className="datatab-data-value">{data.costs.mealplan_food}</div>
+										<div className="datatab-data-value">${data.costs.mealplan_food}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Books/Supplies</div>
-										<div className="datatab-data-value">{data.costs.books_supplies}</div>
+										<div className="datatab-data-value">${data.costs.books_supplies}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Transportation</div>
-										<div className="datatab-data-value">{data.costs.transportation}</div>
+										<div className="datatab-data-value">${data.costs.transportation}</div>
 									</div>
 								</div> 
 								{/* The School */}

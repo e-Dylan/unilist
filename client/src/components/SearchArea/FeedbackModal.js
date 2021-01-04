@@ -22,55 +22,46 @@ import unilistLogo from '../../resources/logo/unilist-logo.png';
 
 import { searchTagFilters } from '../SearchArea/SearchFilters';
 
-export const clearFeedbackModal = (props) => {
-	// Clear university name
-	document.getElementById('university-name-input').value = "";
-	// Clear ratings
-	document.querySelectorAll('.rating-slider').forEach(slider => {
-		slider.value = 0;
-	});
-	document.querySelectorAll('.rating-slider-label').forEach(label => {
-		label.innerHTML = "0";
-	});
-
-	// Clear tag buttons
-	const tagButtons = document.querySelectorAll('.feedback-tag-button');
-	tagButtons.forEach(button => {
-		button.classList.remove('button-active');
-	})
-	// Clear feedback tags state.
-	if (props !== null)
-		props.setFeedbackTagsState([]);
-}
-
-export const showFeedbackModal = (bool, props) => {
-	const feedbackModal = document.getElementById('uni-feedback-modal');
-	const modalBg = document.getElementById('feedback-modal-bg');
-	const tagsMenu = document.querySelector('.tags-menu');
-	if (bool) {
-		// Set active item data, show modal.
-		feedbackModal.classList.add('modal-active');
-		modalBg.classList.add('modal-active');
-		tagsMenu.classList.add('modal-active');
-	} else {
-		// Hide modal.
-		feedbackModal.classList.remove('modal-active');
-		modalBg.classList.remove('modal-active');
-		tagsMenu.classList.remove('modal-active');
-		clearFeedbackModal(props);
-	}
-}
-
 function FeedbackModal(props) {
 
 	const tags = props.globalState.feedbackTagsState;
 
-	$(document).mouseup(e => {
-		var modalBg = $("#feedback-modal-bg");
-		// if target isnt in display window:
-		if (modalBg.is(e.target))
-			showFeedbackModal(false, props);
-	})
+	const clearFeedbackModal = () => {
+		// Clear university name
+		document.getElementById('university-name-input').value = "";
+		// Clear ratings
+		document.querySelectorAll('.rating-slider').forEach(slider => {
+			slider.value = 0;
+		});
+		document.querySelectorAll('.rating-slider-label').forEach(label => {
+			label.innerHTML = "0";
+		});
+
+		// Clear tag buttons
+		const tagButtons = document.querySelectorAll('.feedback-tag-button');
+		tagButtons.forEach(button => {
+			if (button.classList.contains('button-active')) button.classList.remove('button-active');
+		})
+		// Clear feedback tags state.
+		props.setFeedbackTagsState([]);	
+	}
+
+	const showFeedbackModal = (bool) => {
+		const feedbackModal = document.getElementById('uni-feedback-modal');
+		const modalBg = document.getElementById('feedback-modal-bg');
+		const tagsMenu = document.querySelector('.tags-menu');
+		if (bool) {
+			// Set active item data, show modal.
+			if (!feedbackModal.classList.contains('modal-active')) feedbackModal.classList.add('modal-active');
+			if (!modalBg.classList.contains('modal-active')) modalBg.classList.add('modal-active');
+		} else {
+			// Hide modal.
+			if (feedbackModal.classList.contains('modal-active')) feedbackModal.classList.remove('modal-active');
+			if (modalBg.classList.contains('modal-active')) modalBg.classList.remove('modal-active');
+			if (tagsMenu.classList.contains('modal-active')) tagsMenu.classList.remove('modal-active');
+			clearFeedbackModal();
+		}
+	}
 
 	const setActiveTab = (tabId) => {
 		document.querySelectorAll('.feedback-modal-tab-button').forEach(ele => {
@@ -133,7 +124,7 @@ function FeedbackModal(props) {
 	}
 
 	return (
-		<div className="modal-bg" id="feedback-modal-bg">
+		<div className="modal-bg" id="feedback-modal-bg" onClick={() => showFeedbackModal(false)}>
 			<div className="modal feedback-modal flex-row" id="uni-feedback-modal">
 				<div className="feedback-col flex-col">
 					
@@ -572,7 +563,7 @@ function FeedbackModal(props) {
 						
 						<div className="modal-footer flex-row">
 							<button className="unilist-button cancel-button" onClick={() => {
-								showFeedbackModal(false, props)
+								showFeedbackModal(false);
 							}}>Cancel</button>
 							<button className="unilist-button">Save</button>
 						</div>
