@@ -12,10 +12,9 @@
 		justify-content: space-between;
 
 		.signup-form-col {
-			width: 49%;
+			width: 50%;
 			height: 100%;
-			background-color: rgb(30, 30, 30);
-			border: 1px solid rgb(82, 82, 82);
+			background-color: var(--main_gray);
 			border-radius: 5px;
 		}
 
@@ -179,9 +178,9 @@
 		}
 	
 		.membership-col {
-			width: 49%;
+			width: 50%;
 			height: 100%;
-			background-color: rgb(30, 30, 30);
+			background-color: rgb(45, 45, 45);
 			border-radius: 5px;
 			justify-content: flex-start;
 			
@@ -263,7 +262,7 @@
 	height: 12px;
 	width: 100%;
 	position: absolute;
-	top: -5px;
+	top: 0px;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 }
@@ -274,7 +273,7 @@
 	height: 12px;
 	width: 101%;
 	position: absolute;
-	bottom: -5px;
+	bottom:-2px;
 	width: 100%;
 	border-bottom-right-radius: 5px;
 	border-bottom-left-radius: 5px;

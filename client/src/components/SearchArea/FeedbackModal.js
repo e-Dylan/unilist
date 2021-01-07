@@ -26,6 +26,15 @@ function FeedbackModal(props) {
 
 	const tags = props.globalState.feedbackTagsState;
 
+
+	$(document).mouseup(e => {
+		var modalBg = $("#feedback-modal-bg");
+		// if target isnt in display window:
+		if (modalBg.is(e.target))
+			showFeedbackModal(false);
+	
+	})
+
 	const clearFeedbackModal = () => {
 		// Clear university name
 		document.getElementById('university-name-input').value = "";
@@ -124,7 +133,7 @@ function FeedbackModal(props) {
 	}
 
 	return (
-		<div className="modal-bg" id="feedback-modal-bg" onClick={() => showFeedbackModal(false)}>
+		<div className="modal-bg" id="feedback-modal-bg">
 			<div className="modal feedback-modal flex-row" id="uni-feedback-modal">
 				<div className="feedback-col flex-col">
 					

@@ -9,10 +9,8 @@ import { setUserState } from '../redux/actions/setUserState';
 
 import './styles/JoinModal.scss';
 
-import * as userApi from '../api/userApi';
-import * as paymentApi from '../api/paymentApi';
-
 // Components
+import SignupForm from './form/SignupForm';
 
 // Images/Icons
 // Free
@@ -66,7 +64,7 @@ $(document).mouseup(e => {
 function JoinModal(props) {
 
 	const [activeTab, setActiveTab] = useState('free-membership-button');
-	const [priceId, setPriceId] = useState(freePriceId);
+	const [stripePriceId, setStripePriceId] = useState(freePriceId);
 
 	const setActiveMembershipTab = (buttonId) => {
 		const clicked = document.getElementById(buttonId);
@@ -83,9 +81,9 @@ function JoinModal(props) {
 		
 		// Set active price id when changing membership tabs.
 		switch(buttonId) {
-			case "free-membership-button": setPriceId(freePriceId); break;
-			case "active-membership-button": setPriceId(activePriceId); break;
-			case "premium-membership-button": setPriceId(premiumPriceId); break;
+			case "free-membership-button": setStripePriceId(freePriceId); break;
+			case "active-membership-button": setStripePriceId(activePriceId); break;
+			case "premium-membership-button": setStripePriceId(premiumPriceId); break;
 		}
 
 		// const joinButton = document.querySelector('.join-button');
@@ -97,25 +95,6 @@ function JoinModal(props) {
 
 		// console.log(joinButton.disabled);
 	}
-
-	const clearForm = () => {
-		document.querySelectorAll('.signup-input').forEach(input => {
-			input.value = "";
-		});
-	}
-
-	// useEffect(() => {
-	// 	const script = document.createElement('script');
-
-	// 	script.src = "https://js.stripe.com/v3/";
-	// 	script.async = true;
-	  
-	// 	document.body.appendChild(script);
-	  
-	// 	return () => {
-	// 	  document.body.removeChild(script);
-	// 	}
-	//   }, []);
 
 	return (
 		<div className="modal-bg" id="join-modal-bg">
@@ -144,65 +123,9 @@ function JoinModal(props) {
 								<span className="desc-text">Full-access and support capabilities.</span>
 							</div>
 						</div>
-						<div className="signup-form-container flex-col">
-							<div className="input-field flex-col">
-								<span className="signup-header">USERNAME</span>
-								<input className="signup-input" id="username-input" placeholder="Username" />
-							</div>
-							<div className="input-field flex-col">
-								<span className="signup-header">EMAIL</span>
-								<input className="signup-input" id="email-input" placeholder="Email" />
-							</div>
-							<div className="input-field flex-col">
-								<span className="signup-header">PASSWORD</span>
-								<input className="signup-input" type="password" id="password-input" placeholder="Password" />
-							</div>
-							<div className="email-sub flex-row">
-								<input className="input-checkbox" type="checkbox"></input>
-								<span className="desc-text">Email me with live updates.</span>
-							</div>
-							<button className="join-button" onClick={() => {
-								const username = document.getElementById('username-input').value;
-								const email = document.getElementById('email-input').value;
-								const password = document.getElementById('password-input').value;
-								var priceId;
 
-								const userData = {
-									username,
-									email,
-									password,
-								};
-
-								try {
-									// userApi.registerUser(userData)
-									// 	.then(res => {
-									// 		if (res && res.success) {
-									// 			var userData = { username, password }
-									// 			userApi.loginUser(userData)
-									// 				.then(userState => {
-									// 					props.setUserState(userState);
-									// 					console.log(userState);
-									// 				});
-									// 			clearForm();
-									// 			window.location.reload();
-									// 		} else if (res && !res.success) {
-									// 			console.log('failed to register');
-									// 			alert(res.msg);
-									// 		}
-									// 	});
-									paymentApi.createCheckoutSession(priceId)
-										.then(data => {
-											window.stripe.redirectToCheckout({
-												sessionId: data.sessionId,
-											})
-											.then(window.handleResult);
-										})
-								} catch (error) {
-									console.log(error);
-									clearForm();
-								}}}
-							>SIGNUP</button>
-						</div>
+						<SignupForm stripePriceId={stripePriceId} />
+						
 					</div>
 
 					<div className="divider-center" />

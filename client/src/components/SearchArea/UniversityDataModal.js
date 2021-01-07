@@ -143,7 +143,7 @@ function UniversityDataModal(props) {
 	const fillFeedbackDataWithActiveData = () => {
 		// Top university name input
 		const nameInput = document.getElementById('university-name-input'); // Uni name for feedback modal.
-		nameInput.value = props.globalState.activeUniversityState.name;
+		nameInput.value = activeUni.name;
 
 		// Set values of each slider to parallel rating bar in data modal.
 		// DATA BARS MUST BE IDENTICALLY PARALLEL WITH RATING SLIDERS TO WORK.
@@ -180,19 +180,17 @@ function UniversityDataModal(props) {
 		});
 	}, []);
 
-	var ratings = props.globalState.activeUniversityState.university_data.ratings || uniApi.nullUniData.ratings;
-	var data = props.globalState.activeUniversityState.university_data.data || uniApi.nullUniData.data;
-
 	const activeUni = props.globalState.activeUniversityState;
-	console.log(activeUni);
+	var ratings = activeUni.university_data.ratings || uniApi.nullUniData.ratings;
+	var data = activeUni.university_data.data || uniApi.nullUniData.data;
 
 	return (
 		<div className="modal-bg" id="data-modal-bg">
 			<div className="modal data-modal flex-col" id="uni-data-modal">
-				{ props.globalState.activeUniversityState.image_path &&
+				{ activeUni.image_path &&
 					<div className="main-image">
 						<img style={{
-							backgroundImage: `url(/assets/university-images/${props.globalState.activeUniversityState.image_path})`
+							backgroundImage: `url(/assets/university-images/${activeUni.image_path})`
 						}} />
 						<div className="thumbnail-data-container flex-col">
 							<div className="cost-container flex-row">

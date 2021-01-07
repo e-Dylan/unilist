@@ -37,6 +37,7 @@
 		"node-fetch": "^2.6.1",
 		"pg": "^8.5.1",
 		"reflect-metadata": "^0.1.13",
+		"stripe": "^8.129.0",
 		"ts-node": "^9.1.1",
 		"typeorm": "^0.2.29",
 		"volleyball": "^1.5.1"
