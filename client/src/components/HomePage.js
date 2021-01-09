@@ -17,6 +17,7 @@ import LoginModal, { showLoginModal } from "./LoginModal";
 import FeedbackModal from './SearchArea/FeedbackModal';
 
 import * as userApi from '../api/userApi';
+import * as paymentApi from '../api/paymentApi';
 
 // Images/Icons
 import unilistLogo from '../resources/logo/unilist-logo.png';
@@ -57,6 +58,32 @@ function HomePage(props) {
 		}
 	}
 
+	const checkStripeSession = () => {
+
+		// STORE THE CUSTOMER ID IN THE DATABASE WHEN USER REGISTERS.
+
+		// Stripe
+		const urlParams = new URLSearchParams(window.location.search);
+		const sessionId = urlParams.get("session_id");
+		let customerId;
+
+		if (sessionId) { // returned in url when user reaches success page
+			fetch('/getCheckoutSession?sessionId=' + sessionId)
+			.then(result => {
+				return result.json()
+			})
+			.then(session => {
+				customerId = session.customer;
+				console.log(session);
+				console.log("customer id:", customerId);
+			})
+			.catch(error => {
+				console.log("Error retrieving user customer data: ", error);
+			});
+		}
+
+	}
+
 	// useEffect(() => {
 	// 	// Init Vanta
 	// 	if (!vantaEffect) {
@@ -81,6 +108,7 @@ function HomePage(props) {
 
 	useEffect(() => {
 		checkIsLoggedIn();
+		// checkStripeSession(); // checkout sessions are temporary, getting sub check by customer id
 	}, [])
 
   return (
@@ -107,6 +135,23 @@ function HomePage(props) {
 					<div className="user-account-dropdown flex-col">
 						<div className="dropdown-item">Settings</div>
 						<div className="dropdown-item">Profile</div>
+						<div className="dropdown-item" onClick={() => {
+							// implement once fetching user customer id is implemented
+							// save to db with webhook on register.
+							// only show this for paid members.
+							userApi.getCustomerId()
+							.then(data => {
+								console.log('got customerId response: ', data);
+								paymentApi.goCustomerPortal(data.customerId)
+								.then(data => {
+									console.log('Getting customer portal...');
+									window.location.href = data.url;
+								})
+							})
+
+							
+
+						}}>Manage Subscriptions</div>
 						<div className="dropdown-item" onClick={() => {
 							userApi.logoutUser()
 								.then(userState => {

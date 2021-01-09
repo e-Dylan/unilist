@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, createRef } from "react";
 import '../styles/SearchArea.scss';
 import '../styles/JoinModal.scss';
 
@@ -27,19 +27,20 @@ import Checkbox from './Checkbox';
 const stripePromise = loadStripe('pk_test_51I5ZHZBwwOafHU1RJC8oNmWQ0aTRjppGhPlkUYVz3FQolukVYg3GqHyUKyQigreTwkGIirEVu4aa6I7DI9jkLvT600WMlqeFQi');
 
 export const clearSignupForm = () => {
-	const signupInputs = document.querySelectorAll(item => {
+	const signupInputs = document.querySelectorAll('.signup-input');
+	signupInputs.forEach(item => {
 		item.value = "";
 	});
 }
 
-var registerSchema = yup.object().shape({
+var signupSchema = yup.object().shape({
 	username: yup.string().required('Enter a username to be known by.')
 		.matches(
 			/^[a-zA-Z0-9-_]{3,30}$/,
 			"Must contain 3-30 characters and may only be alphanumeric."
 		),
-	email: yup.string().email().required('Please enter an email.'),
-	password: yup.string().required()
+	email: yup.string().email('Invalid emails are forbidden - fakes are fine.').required('Please enter an email.'),
+	password: yup.string().required('Please enter a password.')
 	.matches(
 		/^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{3,30}$/,
 		"Password must contain 3-30 characters and can be alphanumeric with special characters."
@@ -47,68 +48,118 @@ var registerSchema = yup.object().shape({
 	createdOn: yup.date().default(() => { return new Date() }),
 });
 
+window.signupFormRef = createRef();
+
 function SignupForm(props) {
 
 	const handleRegister = (userData) => {
-		userApi.registerUser(userData)
-		.then(res => {
-			if (res && res.success) {
-				var userData = { username: userData.username, password: userData.password }
-				userApi.loginUser(userData)
-					.then(userState => {
-						props.setUserState(userState);
-						console.log(userState);
-					});
+		return new Promise((resolve, reject) => {
+			userApi.registerUser(userData)
+			.then(res => {
+				// Register user
+				alert(`[/api/register]: RESPONSE: ${res.msg}`);
+				if (res && res.success) {
+					userApi.loginUser(userData)
+						.then(userState => {
+							// Automatically login when registerd
+							props.setUserState(userState);
+							console.log(userState);
+							resolve();
+						});
+					clearSignupForm();
+					// window.location.reload();
+				} else if (res && !res.success) {
+					console.log('failed to register');
+					alert(res.msg);
+					reject();
+				} else {
+					reject();
+				}
+			});
+		})
+		
+	}
+
+	const initialValues = {
+		username: "",
+		email: "",
+		password: ""
+	};
+
+	const successfulSubmit = async (userData) => {
+			try {
+				// Check if user is signing up for free -> register them without stripe session
+				if (props.priceId === props.priceIds.freePriceId ) {
+					handleRegister(userData);
+				} else {
+					// User signing up with paid price id, make stripe session.
+					const stripe = await stripePromise;
+					paymentApi.createCheckoutSession({
+						priceId: props.priceId,
+						customerEmail: userData.email,
+					})
+					.then(session => {
+						// Register user with just user data, email matches the stripe customer email.
+						// Find completed checkout event by webhook, assign their customerid to
+						// their user in db by this email.
+						handleRegister(userData)
+							.then(() => {
+								// Wait for registration, then auto-logging in to complete, then checkout
+								stripe.redirectToCheckout({ sessionId: session.sessionId })
+								.then(stripe.handleResult);
+							})
+
+						
+					})
+				}
+			} catch (error) {
+				console.log(error);
 				clearSignupForm();
-				window.location.reload();
-			} else if (res && !res.success) {
-				console.log('failed to register');
-				alert(res.msg);
 			}
-		});
 	}
 
 	return (
-		<div className="signup-form-container flex-col">
-			<ValidationInput title="USERNAME" placeholder="Username" type="text" id="username-input" />
-			<ValidationInput title="EMAIL" placeholder="Email" type="email" id="email-input" />
-			<ValidationInput title="PASSWORD" placeholder="Password" type="password" id="password-input" />
+		<Formik 
+			initialValues={initialValues}
+			validationSchema={signupSchema}
+			onSubmit={successfulSubmit}
+			innerRef={window.signupFormRef}
+		>
 
-			<Checkbox title={"Email me with live updates."} />
-			<button className="join-button" onClick={ async() => {
-				try {
-					const userData = {
-						username: document.getElementById('username-input').value,
-						email: document.getElementById('email-input').value,
-						password: document.getElementById('password-input').value,
-					};
-					// Validate registration form
-					registerSchema.isValid(userData)
-						.then(valid => {
-							if (valid) {
+			{(formik) => {
 
-							}
-						})
+				const { errors, touched, isValid, dirty, setFieldValue } = formik;
+				return (
+					<div className="signup-form-container flex-col">
+						<Form className="signup-form flex-col">
+							{/* <ValidationInput title="USERNAME" placeholder="Username" type="text" id="username-input" />
+							<ValidationInput title="EMAIL" placeholder="Email" type="email" id="email-input" />
+							<ValidationInput title="PASSWORD" placeholder="Password" type="password" id="password-input" /> */}
 
-					// Handle registration
-					// handleRegister(userData);
-					
-					const stripe = await stripePromise;
+							<div className="form-row">
+								{/* <label htmlFor="username" className="signup-header">USERNAME</label> */}
+								<Field type="text" placeholder="Username" name="username" id="username-input" className="signup-input" />
+								<ErrorMessage name="username" component="span" className="error" />
+							</div>
+							<div className="form-row">
+								{/* <label htmlFor="username" className="signup-header">EMAIL</label> */}
+								<Field type="email" placeholder="Email" name="email" id="email-input" className="signup-input" />
+								<ErrorMessage name="email" component="span" className="error" />
+							</div>
+							<div className="form-row">
+								{/* <label htmlFor="username" className="signup-header">PASSWORD</label> */}
+								<Field type="password" placeholder="Password" name="password" id="password-input" className={errors.password && touched.password ? "signup-input input-error" : "signup-input"} />
+								<ErrorMessage name="password" component="span" className="error" />
+							</div>
 
-					paymentApi.createCheckoutSession(props.stripePriceId)
-						.then(session => {
-							console.log(session);
-							stripe.redirectToCheckout({
-								sessionId: session.sessionId,
-							})
-							.then(stripe.handleResult);
-						})
-				} catch (error) {
-					console.log(error);
-					clearSignupForm();
-				}}}
-			>SIGNUP</button>
-		</div>
+
+							<Checkbox title={"Email me with live updates."} />
+							<button className={!(dirty && isValid) ? "button-disabled join-button" : "join-button"} disabled={!(dirty && isValid)} type="submit">SIGNUP</button>
+						</Form>
+					</div>
+				);
+			}}
+		</Formik>
 	);
 }
 

@@ -36,19 +36,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var fetch = require('node-fetch');
 var Stripe = require('stripe');
 var stripe = Stripe('sk_test_51I5ZHZBwwOafHU1RLxwJmdLILEJczx2LBRhXDuFptzHsDj0R9pSXBNBKbbmUa1AgnqNi9BmwI1esI5MKwzuRbDZq00yLbT81aV');
 var express = require('express');
 var router = express.Router();
 router.post("/createCheckoutSession", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var priceId, session, e_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var _a, priceId, customerEmail, session, e_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                priceId = req.body.priceId;
-                _a.label = 1;
+                _a = req.body, priceId = _a.priceId, customerEmail = _a.customerEmail;
+                _b.label = 1;
             case 1:
-                _a.trys.push([1, 3, , 4]);
+                _b.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, stripe.checkout.sessions.create({
                         mode: "subscription",
                         payment_method_types: ["card"],
@@ -58,30 +59,64 @@ router.post("/createCheckoutSession", function (req, res) { return __awaiter(voi
                                 quantity: 1,
                             },
                         ],
-                        // {CHECKOUT_SESSION_ID} is a string literal; do not change it!
-                        // the actual Session ID is returned in the query parameter when your customer
-                        // is redirected to the success page.
-                        // success_url: 'https://unilisted.com/success.html?session_id={CHECKOUT_SESSION_ID}',
-                        // cancel_url: 'https://unilisted.com/canceled.html',
-                        success_url: 'http://localhost:3000/success.html?session_id={CHECKOUT_SESSION_ID}',
-                        cancel_url: 'http://localhost:3000',
+                        customer_email: customerEmail,
+                        // {CHECKOUT_SESSION_ID}
+                        // sessionId is returned in the query parameter when customer is redirected to success page.
+                        success_url: process.env.DOMAIN_DEVELOPMENT_URL + "/success.html?session_id={CHECKOUT_SESSION_ID}",
+                        cancel_url: process.env.DOMAIN_DEVELOPMENT_URL + "/cancel.html?session_id={CHECKOUT_SESSION_ID}",
                     })];
             case 2:
-                session = _a.sent();
+                session = _b.sent();
+                console.log('[/api/payment]: Received request to checkout, redirecting to stripe checkout portal.');
                 res.send({
                     sessionId: session.id,
                 });
                 return [3 /*break*/, 4];
             case 3:
-                e_1 = _a.sent();
+                e_1 = _b.sent();
+                console.log(e_1);
                 res.status(400);
-                return [2 /*return*/, res.send({
-                        error: {
-                            message: e_1.message,
-                        }
-                    })];
+                return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }
+    });
+}); });
+router.get('/getCheckoutSession', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var sessionId, session;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                sessionId = req.query.sessionId;
+                return [4 /*yield*/, stripe.checkout.sessions.retrieve(sessionId)];
+            case 1:
+                session = _a.sent();
+                res.json(session);
+                return [2 /*return*/];
+        }
+    });
+}); });
+router.post('/customerPortal', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var customerId, portalsession;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                customerId = req.body.customerId;
+                return [4 /*yield*/, stripe.billingPortal.sessions.create({
+                        customer: customerId,
+                        return_url: process.env.DOMAIN_DEVELOPMENT_URL,
+                    })];
+            case 1:
+                portalsession = _a.sent();
+                res.send({
+                    url: portalsession.url,
+                });
+                return [2 /*return*/];
+        }
+    });
+}); });
+router.post('/checkUserSubscription', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        return [2 /*return*/];
     });
 }); });
 module.exports = router;

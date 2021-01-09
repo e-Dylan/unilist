@@ -27,9 +27,11 @@ import mapIcon from '../resources/join-modal/premium-membership/map-icon.svg';
 import checkmarkIcon from '../resources/join-modal/premium-membership/checkmark-icon.svg';
 
 // STRIPE MEMBERSHIP PRICE ID'S
-const freePriceId = 'price_1I5cSXBwwOafHU1RVnITRrD8';
-const activePriceId = 'price_1I5c5GBwwOafHU1RaqmF4g6d';
-const premiumPriceId = 'price_1I5c6FBwwOafHU1RrFlNcYXr';
+const priceIds = {
+	freePriceId: 'price_1I5cSXBwwOafHU1RVnITRrD8',
+	activePriceId: 'price_1I5c5GBwwOafHU1RaqmF4g6d',
+	premiumPriceId: 'price_1I5c6FBwwOafHU1RrFlNcYXr',
+};
 
 export function showJoinModal(bool) {
 	const modalBg = document.getElementById('join-modal-bg');
@@ -48,9 +50,12 @@ export function showJoinModal(bool) {
 		if (modalBg.classList.contains('modal-active')) modalBg.classList.remove('modal-active');
 	}
 	
-	if (emailInput.value.length > 0)
-		emailInputModal.value = emailInput.value;
-		emailInput.value = "";
+	if (emailInput.value.length > 0) {
+		if (window.signupFormRef !== null && window.signupFormRef.current) {
+			window.signupFormRef.current.setFieldValue("email", emailInput.value, true);
+			emailInput.value = "";
+		}
+	}
 }
 
 $(document).mouseup(e => {
@@ -64,7 +69,7 @@ $(document).mouseup(e => {
 function JoinModal(props) {
 
 	const [activeTab, setActiveTab] = useState('free-membership-button');
-	const [stripePriceId, setStripePriceId] = useState(freePriceId);
+	const [priceId, setPriceId] = useState(priceIds.freePriceId);
 
 	const setActiveMembershipTab = (buttonId) => {
 		const clicked = document.getElementById(buttonId);
@@ -81,9 +86,9 @@ function JoinModal(props) {
 		
 		// Set active price id when changing membership tabs.
 		switch(buttonId) {
-			case "free-membership-button": setStripePriceId(freePriceId); break;
-			case "active-membership-button": setStripePriceId(activePriceId); break;
-			case "premium-membership-button": setStripePriceId(premiumPriceId); break;
+			case "free-membership-button": setPriceId(priceIds.freePriceId); break;
+			case "active-membership-button": setPriceId(priceIds.activePriceId); break;
+			case "premium-membership-button": setPriceId(priceIds.premiumPriceId); break;
 		}
 
 		// const joinButton = document.querySelector('.join-button');
@@ -124,7 +129,7 @@ function JoinModal(props) {
 							</div>
 						</div>
 
-						<SignupForm stripePriceId={stripePriceId} />
+						<SignupForm priceId={priceId} priceIds={priceIds} />
 						
 					</div>
 
@@ -140,7 +145,9 @@ function JoinModal(props) {
 										<div className="membership-subtitle flex-row">
 											Limited access to live data and social posts.
 										</div>
-										
+										<div className="info-bar">
+											No credit card. Upgrade whenever.
+										</div>
 										<ul className="feature-list">
 											<li className="li-feature flex-row">
 												<img className="li-image" src={ratingsIcon} alt="" />

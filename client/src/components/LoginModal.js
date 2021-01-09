@@ -72,7 +72,7 @@ function LoginModal(props) {
 							const username = document.getElementById('login-username-input').value;
 							const password = document.getElementById('login-password-input').value;
 
-							if (username.length > 3 && password.length > 3) {
+							if (username.length >= 3 && password.length >= 3) {
 								const userData = {
 									username,
 									password,
@@ -89,6 +89,8 @@ function LoginModal(props) {
 								catch (error) {
 									// console.log(error);
 								}
+							} else {
+								alert('Username and password must be 3-30 characters.')
 							}
 							}}
 						>LOGIN</button>

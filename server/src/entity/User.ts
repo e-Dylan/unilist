@@ -13,4 +13,10 @@ export class User {
 
 	@Column('json')
 	password?: string;
+
+	@Column()
+	scope?: string;
+
+	@Column()
+	stripe_customer_id?: string;
 }

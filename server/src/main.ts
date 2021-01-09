@@ -52,7 +52,7 @@ app.use(session({
 	resave: false,
 	saveUninitialized: true,
 	cookie: {
-		maAge: 1000 * 60 * 60 * 24 * 7,
+		maAge: 1000*60*60*24, // 1day
 		sameSite: true,
 		secure: false
 	},

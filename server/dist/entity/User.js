@@ -30,6 +30,14 @@ var User = /** @class */ (function () {
         typeorm_1.Column('json'),
         __metadata("design:type", String)
     ], User.prototype, "password", void 0);
+    __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", String)
+    ], User.prototype, "scope", void 0);
+    __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", String)
+    ], User.prototype, "stripe_customer_id", void 0);
     User = __decorate([
         typeorm_1.Entity()
     ], User);

@@ -7,10 +7,12 @@ export const DOMAIN_URL = process.env.NODE_ENV === "development" ?
 	
 // USER AUTH API CALLS
 export function registerUser(userData) {
-	if (!userData || !userData.username || !userData.email || !userData.password) {
-		 console.log('nulled, none');
-		 alert('One or more of your fields is empty.');
-		 return;
+
+	// FORM WAS INVALID -> SHOULDN'T BE ABLE TO HAPPEN
+	if (!userData || !userData.username || !userData.email || !userData.password) {			// User signed up free membership, no stripe session, had invalid registration info.
+		console.log('nulled, none');
+		alert('Registration information was invalid. Contact support at unilistmail@gmail.com if needed.');
+		return;
 	}
 
 	return fetch(`${API_URL}/register`, {
@@ -23,7 +25,8 @@ export function registerUser(userData) {
 		body: JSON.stringify({
 			username: userData.username,
 			email: userData.email,
-			password: userData.password
+			password: userData.password,
+			customerId: userData.customerId,
 		}),
 	})
 	.then(res => res.json())
@@ -55,6 +58,7 @@ export function loginUser(userData) {
 			})
 		.then(res => res.json())
 		.then(result => {
+			alert(result.msg);
 			if (result && result.success === true) {
 				userState = {
 					isLoggedIn: true,
@@ -147,5 +151,20 @@ export const checkIsLoggedIn = () => {
 			};
 		}
 		return userState;
+	})
+}
+
+export function getCustomerId() {
+	return fetch(`${API_URL}/getCustomerId`, {
+		method: 'POST',
+		credentials: 'include',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json',
+		},
+	})
+	.then(res => res.json())
+	.then(data => {
+		return data;
 	})
 }

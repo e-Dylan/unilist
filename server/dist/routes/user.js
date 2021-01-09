@@ -92,56 +92,95 @@ router.post('/isLoggedIn', function (req, res, next) { return __awaiter(void 0, 
         }
     });
 }); });
-router.post('/register', function (req, res, next) {
-    console.log(req.body);
-    var _a = req.body, username = _a.username, email = _a.email, password = _a.password;
-    var valid = register_schema.validate(req.body);
-    if (valid.error === undefined) {
-        var hashed_password = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-        typeorm_1.getConnection().transaction(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
-            var userRepo, user;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        userRepo = typeorm_1.getRepository(User_1.User);
-                        return [4 /*yield*/, userRepo.create({
-                                username: username,
-                                email: email,
-                                password: hashed_password
-                            })];
-                    case 1:
-                        user = _a.sent();
-                        return [4 /*yield*/, userRepo.save(user)
-                                .catch(function (error) {
-                                console.log(error);
-                                res.json({
-                                    success: false,
-                                    msg: "[/register]: Failed to register user " + username + ". Database insertion error."
-                                });
-                                return;
-                            })];
-                    case 2:
-                        _a.sent();
-                        console.log("[/register]: Successfully registered user: " + username + "\n\n");
+router.post('/register', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, username, email, password, customerId, valid, hashed_password;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                console.log(req.body);
+                _a = req.body, username = _a.username, email = _a.email, password = _a.password, customerId = _a.customerId;
+                return [4 /*yield*/, register_schema.validate(req.body)];
+            case 1:
+                valid = _b.sent();
+                if (valid.error === undefined) {
+                    hashed_password = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+                    typeorm_1.getConnection().transaction(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
+                        var userRepo, user;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    userRepo = typeorm_1.getRepository(User_1.User);
+                                    return [4 /*yield*/, userRepo.create({
+                                            username: username,
+                                            email: email,
+                                            password: hashed_password,
+                                            stripe_customer_id: customerId,
+                                        })];
+                                case 1:
+                                    user = _a.sent();
+                                    return [4 /*yield*/, userRepo.save(user)
+                                            .then(function (data) {
+                                            if (customerId === undefined) {
+                                                // Must be free membership
+                                                console.log("[/api/register]: Successfully registered FREE user: " + username + ".\nCustomerId: None.\n\n");
+                                                res.json({
+                                                    success: true,
+                                                    msg: "Successfully registered user " + username + ".",
+                                                    username: username,
+                                                });
+                                                return;
+                                            }
+                                            else {
+                                                // Either paid or free.
+                                                console.log("[/api/register]: Successfully registered user: " + username + ".\nCustomerId: " + customerId + ".\n\n");
+                                                res.json({
+                                                    success: true,
+                                                    msg: "Successfully registered user " + username + ".",
+                                                    username: username,
+                                                });
+                                                return;
+                                            }
+                                        })
+                                            .catch(function (error) {
+                                            console.log(error);
+                                            res.json({
+                                                success: false,
+                                                msg: "[/api/register]: Failed to register user " + username + ". Database insertion error."
+                                            });
+                                            return;
+                                        })];
+                                case 2:
+                                    _a.sent();
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); });
+                }
+                else {
+                    // JOI schema failed.
+                    if (customerId) {
+                        // Paid user, failed joi schema -> front-end handles assistance.
+                        console.log("[/register]: Customer id token failed JOI auth schema.");
                         res.json({
-                            success: true,
-                            msg: "Successfully registered user " + username + ".",
-                            username: username,
+                            success: false,
+                            msg: "Registration unsuccessful: customerId broke joi schema",
                         });
                         return [2 /*return*/];
+                    }
+                    else {
+                        // Free user -> form invalid.
+                        console.log("[/register]: Failed to register user. Invalid field credientials.");
+                        res.json({
+                            success: false,
+                            msg: "Registration unsuccessful, all fields must be alphanumeric and between 3-30 characters."
+                        });
+                        return [2 /*return*/];
+                    }
                 }
-            });
-        }); });
-    }
-    else {
-        console.log("[/register]: Failed to register user. Invalid field credientials.");
-        res.json({
-            success: false,
-            msg: "Registration unsuccessful, all fields must be alphanumeric and between 3-30 characters."
-        });
-        return;
-    }
-});
+                return [2 /*return*/];
+        }
+    });
+}); });
 router.post('/login', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, username, password, userRepo, user;
     return __generator(this, function (_b) {
@@ -230,5 +269,53 @@ router.post('/logout', function (req, res, next) {
         return false;
     }
 });
+router.post('/getCustomerId', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var manager, user;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!req.session) return [3 /*break*/, 4];
+                if (!req.session.userID) return [3 /*break*/, 2];
+                manager = typeorm_1.getManager();
+                return [4 /*yield*/, manager.findOne(User_1.User, req.session.userID)];
+            case 1:
+                user = _a.sent();
+                if (user) {
+                    console.log("[/api/getCustomerId]: Returning customerId for user " + user.username + ".");
+                    res.json({
+                        success: true,
+                        username: user.username,
+                        customerId: user.stripe_customer_id,
+                        msg: "Returned Stripe customer id for " + user.username + "."
+                    });
+                    return [2 /*return*/];
+                }
+                else {
+                    res.json({
+                        success: false,
+                        msg: "Couldn't find user with this userId. No customer exists."
+                    });
+                    return [2 /*return*/];
+                }
+                return [3 /*break*/, 3];
+            case 2:
+                // No user id, user is not logged in.
+                res.json({
+                    success: false,
+                    msg: "Could not return customerId, user is not logged in."
+                });
+                return [2 /*return*/];
+            case 3: return [3 /*break*/, 5];
+            case 4:
+                // Session doesn't exist, error occured.
+                res.json({
+                    success: false,
+                    msg: "User session didn't exist, error occured.",
+                });
+                _a.label = 5;
+            case 5: return [2 /*return*/];
+        }
+    });
+}); });
 module.exports = router;
 //# sourceMappingURL=user.js.map

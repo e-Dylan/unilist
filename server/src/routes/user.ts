@@ -56,13 +56,13 @@ router.post('/isLoggedIn', async (req: Request, res: Response, next: Next) => {
 	}
 });
 
-router.post('/register', (req: Request, res: Response, next: Next) => {
+router.post('/register', async (req: Request, res: Response, next: Next) => {
 
 	console.log(req.body);
 
-	var { username, email, password } = req.body;
+	var { username, email, password, customerId } = req.body;
 
-	const valid = register_schema.validate(req.body);
+	const valid = await register_schema.validate(req.body);
 	if (valid.error === undefined) {
 		var hashed_password = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
@@ -72,34 +72,61 @@ router.post('/register', (req: Request, res: Response, next: Next) => {
 			const user = await userRepo.create({
 				username,
 				email,
-				password: hashed_password
+				password: hashed_password,
+				stripe_customer_id: customerId,
 			});
 			await userRepo.save(user)
+			.then(data => {
+				if (customerId === undefined) {
+					// Must be free membership
+					console.log(`[/api/register]: Successfully registered FREE user: ${username}.\nCustomerId: None.\n\n`);
+					res.json({
+						success: true,
+						msg: `Successfully registered user ${username}.`,
+						username: username,
+					});
+					return;
+				} else {
+					// Either paid or free.
+					console.log(`[/api/register]: Successfully registered user: ${username}.\nCustomerId: ${customerId}.\n\n`);
+					res.json({
+						success: true,
+						msg: `Successfully registered user ${username}.`,
+						username: username,
+					});
+					return;
+				}
+			})
 			.catch((error: any) => {
 				console.log(error);
 				res.json({
 					success: false,
-					msg: `[/register]: Failed to register user ${username}. Database insertion error.`
+					msg: `[/api/register]: Failed to register user ${username}. Database insertion error.`
 				})
 				return;
 			});
-
-			console.log(`[/register]: Successfully registered user: ${username}\n\n`);
-			res.json({
-				success: true,
-				msg: `Successfully registered user ${username}.`,
-				username: username,
-			});
-			return;
 		})
 
 	} else {
-		console.log(`[/register]: Failed to register user. Invalid field credientials.`);
-		res.json({
-			success: false,
-			msg: "Registration unsuccessful, all fields must be alphanumeric and between 3-30 characters."
-		});
-		return;
+		// JOI schema failed.
+		if (customerId) {
+			// Paid user, failed joi schema -> front-end handles assistance.
+			console.log(`[/register]: Customer id token failed JOI auth schema.`);
+			res.json({
+				success: false,
+				msg: "Registration unsuccessful: customerId broke joi schema",
+			})
+			return;
+		} else {
+			// Free user -> form invalid.
+			console.log(`[/register]: Failed to register user. Invalid field credientials.`);
+			res.json({
+				success: false,
+				msg: "Registration unsuccessful, all fields must be alphanumeric and between 3-30 characters."
+			});
+			return;
+		}
+		
 	}
 });
 
@@ -191,5 +218,46 @@ router.post('/logout', (req: Request, res: Response, next: Next) => {
 	}
 });
 
+router.post('/getCustomerId', async (req: Request, res: Response) => {
+	if (req.session) {
+		if (req.session.userID) {
+
+			const manager = getManager();
+			const user = await manager.findOne(User, req.session.userID); 
+
+			if (user) {
+				console.log(`[/api/getCustomerId]: Returning customerId for user ${user.username}.`);
+
+				res.json({
+					success: true,
+					username: user.username,
+					customerId: user.stripe_customer_id,
+					msg: `Returned Stripe customer id for ${user.username}.`
+				});
+				return;
+			} else {
+				res.json({
+					success: false,
+					msg: `Couldn't find user with this userId. No customer exists.`
+				});
+				return;
+			}
+		} else {
+			// No user id, user is not logged in.
+			res.json({
+				success: false,
+				msg: "Could not return customerId, user is not logged in."
+			});
+			return;
+		}
+		
+	} else {
+		// Session doesn't exist, error occured.
+		res.json({
+			success: false,
+			msg: "User session didn't exist, error occured.",
+		})
+	}
+})
 
 module.exports = router;
