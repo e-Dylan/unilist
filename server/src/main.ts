@@ -68,6 +68,9 @@ createConnection().then(connection => {
 	// insertUniData.updateUniOverallRating();
 	// insertUniData.insertCityName();
 	// insertUniData.insertUniversityDataData();
+	
+	// Overwrites every university's ratings object with new data object structure (if ever updated). -> toronto data rn.
+	// insertUniData.insertUniversityDataRatings();
 
 	app.listen(API_PORT, () => {
 		console.log(`[main.js]: Listening: http://localhost:${API_PORT}`);

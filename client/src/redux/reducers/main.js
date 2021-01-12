@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 // Reducers
 import universityListReducer from './universityListReducer';
 import activeUniversityReducer from './activeUniversityReducer';
+import editingUniversityReducer from './editingUniversityReducer';
 import userReducer from './userReducer';
 import feedbackTagsReducer from './FeedbackTagsReducer';
 
@@ -17,6 +18,7 @@ const allReducers = combineReducers({
 	userState: userReducer,
 	universityListState: universityListReducer,
 	activeUniversityState: activeUniversityReducer,
+	editingUniversityState: editingUniversityReducer,
 	feedbackTagsState: feedbackTagsReducer,
 });
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import '../styles/SearchArea.scss';
+import '../../styles/SearchArea.scss';
 
 // Images/Icons
 

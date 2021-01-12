@@ -36,9 +36,168 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertCityName = exports.insertUniversityDataData = exports.updateUniOverallRating = void 0;
+exports.insertCityName = exports.insertUniversityDataData = exports.insertUniversityDataRatings = exports.updateUniOverallRating = void 0;
 var typeorm_1 = require("typeorm");
 var University_1 = require("./entity/University");
+var torData = {
+    ratings: {
+        overall_rating: { rating: 7.7 },
+        education: {
+            rating: 92,
+            desc: "Superior",
+        },
+        covid19: {
+            rating: 25,
+            cases: {
+                rating: 65,
+                total: 133,
+                past_week: 14,
+            },
+            qol: {
+                rating: 50,
+                desc: "Good",
+            }
+        },
+        the_city: {
+            rating: 90
+        },
+        food: {
+            rating: 84,
+        },
+        amenities: {
+            rating: 85,
+        },
+        sports: {
+            rating: 80,
+            desc: "44 teams in 26 sports",
+        },
+        transportation: {
+            rating: 97,
+        },
+        academic_resources: {
+            rating: 89,
+        },
+        parties: {
+            rating: 0,
+            frequency: { rating: 0, desc: "Uncertain" },
+            quality: { rating: 73, desc: "Uncertain" },
+        },
+        online_resources: {
+            rating: 90,
+        },
+        professor_interaction: {
+            rating: 0,
+            desc: "Uncertain",
+        },
+        cost_value: {
+            rating: 80,
+        },
+        fun: {
+            rating: 50
+        },
+        campus: {
+            rating: 87
+        },
+        people_community: {
+            rating: 87
+        },
+        internet: {
+            rating: 90,
+            desc: "High speed"
+        },
+        clubs_extracurriculars: {
+            rating: 76,
+        },
+        restaurants: {
+            rating: 95,
+        },
+        academic_services: {
+            rating: 90,
+        },
+        fitness_gym: {
+            rating: 75
+        },
+        weather: {
+            rating: 60,
+            now: {
+                rating: 40,
+                temp: 0,
+                feels_like: 0,
+                desc: "Snowing",
+            },
+            average: {
+                rating: 83,
+                temp: 0,
+                feels_like: 0,
+                desc: "Warm summers, cold winters.",
+            }
+        },
+        facilities: {
+            rating: 90
+        },
+        research: {
+            rating: 97
+        },
+    },
+    location_data: {
+        lat: 43.66301198062148, lng: -79.39574759717516
+    },
+    data: {
+        costs: {
+            tuition: "$6,590",
+            residence: "~$9,500",
+            mealplan_food: "$5,300",
+            books_supplies: "$1,000",
+            transportation: "$210",
+        },
+        the_school: {
+            known_for: "Biotech & AI",
+            campus_size: "Very large",
+            campus_type: "Big city",
+            equipment: "High tech",
+            community: "Large, diverse",
+        },
+        class_types: {
+            class_sizes: "< 50 students",
+            classrooms: "Lecture halls",
+            classes: "Lectures, labs",
+        },
+        culture: {
+            diversity: "Complex",
+            majority: "Uncertain",
+            average_class: "Uncertain",
+        },
+        awards: {
+            annual_value: "$23 million",
+            scholarships: "Yes",
+            bursaries: "Yes",
+            applied_auto: "Both",
+            entrance_during: "Both",
+        },
+        jobs_coop: {
+            coop_service: "Yes",
+            reputation: "Supportive",
+            average_salary: "$50,000",
+        },
+        the_city: {
+            city_type: "Big city",
+            population: "2,819,723",
+            public_transit: "Bus, rail, cabs",
+        },
+        surroundings: {
+            restaurants: "Tons.",
+            bars_clubs: "Lots, all styles.",
+            nature: "Lots: parks, paths.",
+            near_water: "Lake Ontario",
+        },
+        environment: {
+            // https://aqicn.org/city/toronto/ AUTOMATE
+            air_quality: "Moderate (55)",
+            pollution: "Low (37)",
+            water_quality: "Safe (tap)",
+        },
+    },
+};
 var calcActiveOverallRating = function (data) {
     var total = 0;
     var iters = 0;
@@ -65,166 +224,9 @@ function updateUniOverallRating() {
                     _a.label = 2;
                 case 2:
                     _a.trys.push([2, 4, , 5]);
-                    newData = {
-                        ratings: {
-                            overall_rating: undefined,
-                            education: {
-                                rating: 92,
-                                desc: "Superior",
-                            },
-                            covid19: {
-                                rating: 25,
-                                cases: {
-                                    rating: 65,
-                                    total: 133,
-                                    past_week: 14,
-                                },
-                                qol: {
-                                    rating: 50,
-                                    desc: "Good",
-                                }
-                            },
-                            the_city: {
-                                rating: 90
-                            },
-                            food: {
-                                rating: 84,
-                            },
-                            amenities: {
-                                rating: 85,
-                            },
-                            sports: {
-                                rating: 80,
-                                desc: "44 teams in 26 sports",
-                            },
-                            transportation: {
-                                rating: 97,
-                            },
-                            academic_resources: {
-                                rating: 89,
-                            },
-                            parties: {
-                                rating: 73,
-                                frequency: { rating: 0, desc: "Uncertain" },
-                            },
-                            online_resources: {
-                                rating: 90,
-                            },
-                            professor_interaction: {
-                                rating: 0,
-                                desc: "Uncertain",
-                            },
-                            cost_value: {
-                                rating: 80,
-                            },
-                            fun: {
-                                rating: 50
-                            },
-                            campus: {
-                                rating: 87
-                            },
-                            people_community: {
-                                rating: 87
-                            },
-                            internet: {
-                                rating: 90,
-                                desc: "High speed"
-                            },
-                            clubs_extracurriculars: {
-                                rating: 76,
-                            },
-                            restaurants: {
-                                rating: 95,
-                            },
-                            academic_services: {
-                                rating: 90,
-                            },
-                            fitness_gym: {
-                                rating: 75
-                            },
-                            weather: {
-                                rating: 60,
-                                now: {
-                                    rating: 40,
-                                    temp: 0,
-                                    feels_like: 0,
-                                    desc: "Snowing",
-                                },
-                                average: {
-                                    rating: 83,
-                                    temp: 0,
-                                    feels_like: 0,
-                                    desc: "Warm summers, cold winters.",
-                                }
-                            },
-                            facilities: {
-                                rating: 90
-                            },
-                            research: {
-                                rating: 97
-                            },
-                        },
-                        location_data: {
-                            lat: 43.66301198062148, lng: -79.39574759717516
-                        },
-                        data: {
-                            costs: {
-                                tuition: "$6,590",
-                                residence: "~$9,500",
-                                mealplan_food: "$5,300",
-                                books_supplies: "$1,000",
-                                transportation: "$210",
-                            },
-                            the_school: {
-                                known_for: "Biotech & AI",
-                                campus_size: "Very large",
-                                campus_type: "Big city",
-                                equipment: "High tech",
-                                community: "Large, diverse",
-                            },
-                            class_types: {
-                                class_sizes: "< 50 students",
-                                classrooms: "Lecture halls",
-                                classes: "Lectures, labs",
-                            },
-                            culture: {
-                                diversity: "Complex",
-                                majority: "Uncertain",
-                                average_class: "Uncertain",
-                            },
-                            awards: {
-                                annual_value: "$23 million",
-                                scholarships: "Yes",
-                                bursaries: "Yes",
-                                applied_auto: "Both",
-                                entrance_during: "Both",
-                            },
-                            jobs_coop: {
-                                coop_service: "Yes",
-                                reputation: "Supportive",
-                                average_salary: "$50,000",
-                            },
-                            the_city: {
-                                city_type: "Big city",
-                                population: "2,819,723",
-                                public_transit: "Bus, rail, cabs",
-                            },
-                            surroundings: {
-                                restaurants: "Tons.",
-                                bars_clubs: "Lots, all styles.",
-                                nature: "Lots: parks, paths.",
-                                near_water: "Lake Ontario",
-                            },
-                            environment: {
-                                // https://aqicn.org/city/toronto/ AUTOMATE
-                                air_quality: "Moderate (55)",
-                                pollution: "Low (37)",
-                                water_quality: "Safe (tap)",
-                            },
-                        },
-                    };
+                    newData = torData;
                     average = calcActiveOverallRating(newData.ratings);
-                    newData.ratings.overall_rating = average;
+                    newData.ratings.overall_rating.rating = parseInt(average);
                     finalData = JSON.stringify(newData);
                     uni.university_data = finalData;
                     console.log('[database]: Inserting university into table: university. Data: \n\n', JSON.parse(finalData));
@@ -243,9 +245,42 @@ function updateUniOverallRating() {
     }); });
 }
 exports.updateUniOverallRating = updateUniOverallRating;
+function insertUniversityDataRatings() {
+    var _this = this;
+    typeorm_1.getConnection().transaction(function (connection) { return __awaiter(_this, void 0, void 0, function () {
+        var manager, numUniversities, newRatings, i, uni, copy;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    manager = typeorm_1.getManager();
+                    return [4 /*yield*/, manager.count(University_1.University)];
+                case 1:
+                    numUniversities = _a.sent();
+                    newRatings = torData.ratings;
+                    i = 1;
+                    _a.label = 2;
+                case 2:
+                    if (!(i <= numUniversities)) return [3 /*break*/, 5];
+                    return [4 /*yield*/, manager.findOne(University_1.University, i)];
+                case 3:
+                    uni = _a.sent();
+                    copy = JSON.parse(uni.university_data);
+                    copy.ratings = newRatings;
+                    uni.university_data = JSON.stringify(copy);
+                    manager.save(uni);
+                    _a.label = 4;
+                case 4:
+                    i++;
+                    return [3 /*break*/, 2];
+                case 5: return [2 /*return*/];
+            }
+        });
+    }); });
+}
+exports.insertUniversityDataRatings = insertUniversityDataRatings;
 function insertUniversityDataData() {
     var _this = this;
-    // RIGHT NOW, FOR TESTING, ALL UNIVERSITIES HAVE TORONTO'S DATA (university_data.data).
+    // RIGHT NOW, FOR TESTING, ALL UNIVERSITIES HAVE TORONTO'S DATA (university_data).
     typeorm_1.getConnection().transaction(function (connection) { return __awaiter(_this, void 0, void 0, function () {
         var manager, torUni, torData, uni, newData;
         return __generator(this, function (_a) {

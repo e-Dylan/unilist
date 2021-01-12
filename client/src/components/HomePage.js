@@ -13,8 +13,8 @@ import BIRDS from 'vanta/dist/vanta.birds.min'
 
 // Components
 import JoinModal, { showJoinModal } from "./JoinModal";
-import LoginModal, { showLoginModal } from "./LoginModal";
-import FeedbackModal from './SearchArea/FeedbackModal';
+import LoginModal, { showLoginModal } from "./Modals/LoginModal/LoginModal";
+import FeedbackModal from './Modals/FeedbackModal/FeedbackModal';
 
 import * as userApi from '../api/userApi';
 import * as paymentApi from '../api/paymentApi';

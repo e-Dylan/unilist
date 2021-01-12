@@ -1,0 +1,1 @@
+{"version":3,"file":"AddedUniversity.js","sourceRoot":"","sources":["../../src/entity/AddedUniversity.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,mCAAsF;AAGtF;IAAA;IAYA,CAAC;IAVA;QADC,gCAAsB,EAAE;;+CACb;IAGZ;QADC,gBAAM,EAAE;;iDACK;IAGd;QADC,gBAAM,EAAE;;iDACK;IAGd;QADC,gBAAM,CAAC,MAAM,CAAC;;4DACU;IAXb,eAAe;QAD3B,gBAAM,EAAE;OACI,eAAe,CAY3B;IAAD,sBAAC;CAAA,AAZD,IAYC;AAZY,0CAAe"}

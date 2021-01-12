@@ -3,55 +3,57 @@ import { DOMAIN_URL } from './userApi';
 
 export const nullUniData = {
 	id: 0,
-	name: undefined,
-	tags: undefined,
+	name: "undefined",
+	tags: "undefined",
 	university_data: {
 		ratings: {
+			overall_rating: { rating: 0 },
 			education: {
-				rating: 92,
-				desc: "Superior",
+				rating: 0,
+				desc: "",
 			},
 			covid19: {
-				rating: 25,
+				rating: 0,
 				cases: {
-					rating: 65,
-					total: 133,
-					past_week: 14,
+					rating: 0,
+					total: 0,
+					past_week: 0,
 				},
 				qol: {
-					rating: 50,
+					rating: 0,
 					desc: "Good",
 				}
 			},
 			the_city: {
-				rating:	90
+				rating:	0
 			},
 			food: {
-				rating: 84,
+				rating: 0,
 			},
 			amenities: {
-				rating: 85,
+				rating: 0,
 			},
 			sports: {
-				rating: 80,
-				desc: "44 teams in 26 sports",
+				rating: 0,
+				desc: "",
 			},
 			transportation: {
-				rating: 97,
+				rating: 0,
 			},
 			academic_resources: {
-				rating: 89,
+				rating: 0,
 			},
 			parties: {
-				rating: 73,
-				frequency: { rating: 0, desc: "Uncertain" },
+				rating: 0,
+				frequency: { rating: 0, desc: "" },
+				quality: { rating: 0, desc: "" },
 			},
 			online_resources: {
-				rating: 90,
+				rating: 0,
 			},
 			professor_interaction: {
 				rating: 0,
-				desc: "Uncertain",
+				desc: "",
 			},
 			cost_value: {
 				rating: 0,
@@ -67,7 +69,7 @@ export const nullUniData = {
 			},
 			internet: {
 				rating: 0,
-				desc: "High speed"
+				desc: "undefined"
 			},
 			clubs_extracurriculars: {
 				rating: 0,
@@ -82,17 +84,18 @@ export const nullUniData = {
 				rating: 0
 			},
 			weather: {
+				rating: 0,
 				now: {
 					rating: 0,
 					temp: 0,
 					feels_like: 0,
-					desc: "Snowing",
+					desc: "",
 				},
 				average: {
 					rating: 0,
 					temp: 0,
 					feels_like: 0,
-					desc: "Warm summers, cold winters.",
+					desc: "",
 				}
 			},
 			facilities: {
@@ -217,4 +220,21 @@ export function addUniversityToDb(uniData) {
 		.then(result => {
 			console.log(result);
 		})
+}
+
+export function editUniversity(uniData) {
+	return fetch(`${API_URL}/editUniversity`, {
+		method: 'POST',
+		credentials: 'include',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(uniData) // stringified prior
+	})
+	.then(res => res.json())
+	.then(result => {
+		console.log(result);
+		return result;
+	})
 }

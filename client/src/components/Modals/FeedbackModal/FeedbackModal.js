@@ -1,31 +1,37 @@
 import React, { useState } from "react";
 import $ from "jquery";
 
-import '../styles/AddUniversityModal.scss';
-import '../styles/UniversityDataModal.scss';
-import '../styles/FeedbackModal.scss';
-import '../styles/SearchArea.scss';
+import '../../styles/AddUniversityModal.scss';
+import '../../styles/UniversityDataModal.scss';
+import '../../styles/FeedbackModal.scss';
+import '../../styles/SearchArea.scss';
 
 // Redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+// Actions
+import { setActiveUniversityState } from "../../../redux/actions/setActiveUniversityState";
+import { setEditingUniversityState } from "../../../redux/actions/setEditingUniversityState";
+import { setFeedbackTagsState } from '../../../redux/actions/setFeedbackTagsState';
 
-import * as api from '../../api/userApi';
-import { setActiveUniversityState } from "../../redux/actions/setActiveUniversityState";
-import { setFeedbackTagsState } from '../../redux/actions/setFeedbackTagsState';
+// api
+import * as uniApi from '../../../api/uniApi'; 
 
 // Components
 import RatingSlider from './RatingSlider';
+import RatingSliderHalf from "./RatingSliderHalf";
 
 // Images/Icons
-import unilistLogo from '../../resources/logo/unilist-logo.png';
+import unilistLogo from '../../../resources/logo/unilist-logo.png';
 
-import { searchTagFilters } from '../SearchArea/SearchFilters';
+import { searchTagFilters } from '../../SearchArea/SearchFilters';
 
 function FeedbackModal(props) {
 
+	const editingRatings = props.globalState.editingUniversityState.university_data.ratings;
 	const tags = props.globalState.feedbackTagsState;
 
+	const [loading, setLoading] = useState(false);
 
 	$(document).mouseup(e => {
 		var modalBg = $("#feedback-modal-bg");
@@ -71,6 +77,13 @@ function FeedbackModal(props) {
 			clearFeedbackModal();
 		}
 	}
+
+	// const updateEditingStateValues = () => {
+	// 	const ratingSliders = document.querySelectorAll('.rating-slider')
+	// 	ratingSliders.forEach(slider => {
+
+	// 	})
+	// }
 
 	const setActiveTab = (tabId) => {
 		document.querySelectorAll('.feedback-modal-tab-button').forEach(ele => {
@@ -137,13 +150,15 @@ function FeedbackModal(props) {
 			<div className="modal feedback-modal flex-row" id="uni-feedback-modal">
 				<div className="feedback-col flex-col">
 					
-					<div className="title-text">Send Me Feedback</div>
+					<div className="title-text">Update the Data</div>
 					<p className="desc-text">
-						This app works by crowdsourcing information from the people who know it best: students.
-					<br /> <br />
-						If you know a school that isn't on the list, 
-						or you know information that is missing or out-of-date, 
-						simply fix it with what you know.
+						This app works by crowdsourcing information from the people who know it best: <span style={{color: 'rgba(235, 69, 110, 1)'}}>students.</span>
+					</p>
+					<p className="desc-text">
+						Know a missing school? <span style={{color: 'rgba(235, 69, 110, 1)'}}>Add it to our list.</span>
+					</p>
+					<p className="desc-text">
+						Know anything more accurate about an existing school? <span style={{color: 'rgba(235, 69, 110, 1)'}}>Update it.</span>
 					</p>
 
 				</div>
@@ -170,7 +185,10 @@ function FeedbackModal(props) {
 							<div className="uni-info flex-row">
 								<div className="data-row flex-row">
 									<span className="uni-label">University</span>
-									<input className="feedback-input" id="university-name-input" placeholder="University name"></input>
+									<input className="feedback-input" id="university-name-input" placeholder="University name" onChange={e => {
+										props.globalState.editingUniversityState.name = e.target.value;
+										props.setEditingUniversityState(props.globalState.editingUniversityState);
+									}} />
 								</div>
 								<div className="data-row flex-row">
 									{/* <span className="uni-label">Tags</span> */}
@@ -255,132 +273,48 @@ function FeedbackModal(props) {
 
 						{/* RATINGS TAB */}
 						<div className="tab-container feedback-modal-tab flex-row tab-active" id="feedback-modal-ratings-tab-container">
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Overall Rating" />
-							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Cost/Value" />
-							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Education" />
-							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Fun" />
-							</div>
+							<RatingSlider stateVal={"overall_rating"} labelTitle="Overall Rating" />
+							<RatingSlider stateVal={"cost_value"} labelTitle="Cost/Value" />
+							<RatingSlider stateVal={"education"} labelTitle="Education" />
+							<RatingSlider stateVal={"fun"} labelTitle="Fun" />
 							<div className="rating-container flex-row">
 								<span className="rating-title">COVID-19</span>
 								<div className="rating-bar">
-								<div className="rating-bar-row flex-row">
-										<span className="bar-label">Cases</span>
-										<input className="rating-slider half-height" type="range" id="covid19-cases-slider" min="0" max="100" onChange={() => {
-											const slider = document.getElementById('covid19-cases-slider');
-											document.getElementById("covid19-cases-label").innerHTML = slider.value;
-										}} />
-										<label id="covid19-cases-label" className="rating-slider-label">0</label>
-									</div>
-									<div className="rating-bar-row flex-row">
-										<span className="bar-label">QoL</span>
-										<input className="rating-slider half-height" type="range" id="covid19-qol-slider" min="0" max="100" onChange={() => {
-											const slider = document.getElementById('covid19-qol-slider');
-											document.getElementById("covid19-qol-label").innerHTML = slider.value;
-										}} />
-										<label id="covid19-qol-label" className="rating-slider-label">0</label>
-									</div>
+									<RatingSliderHalf stateVal={"covid19"} labelTitle="Cases" />
+									<RatingSliderHalf stateVal={"covid19"} labelTitle="QoL" />
 								</div>
 							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Campus" />
-							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="The City" />
-							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="People/Community" />
-							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Food" />
-							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Internet" />
-							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Amenitites" />
-							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Clubs/Ext. Currs." />
-							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Sports" />
-							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Restaurants" />
-							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Transportation" />
-							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Academic Services" />
-							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Academic Resources" />
-							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Fitness/Gym" />
-							</div>
+							<RatingSlider stateVal={"campus"} labelTitle="Campus" />
+							<RatingSlider stateVal={"the_city"} labelTitle="The City" />
+							<RatingSlider stateVal={"people_community"} labelTitle="People/Community" />
+							<RatingSlider stateVal={"food"} labelTitle="Food" />
+							<RatingSlider stateVal={"internet"} labelTitle="Internet" />
+							<RatingSlider stateVal={"amenities"} labelTitle="Amenitites" />
+							<RatingSlider stateVal={"clubs_extracurriculars"} labelTitle="Clubs/Ext. Currs." />
+							<RatingSlider stateVal={"sports"} labelTitle="Sports" />
+							<RatingSlider stateVal={"restaurants"} labelTitle="Restaurants" />
+							<RatingSlider stateVal={"transportation"} labelTitle="Transportation" />
+							<RatingSlider stateVal={"academic_services"} labelTitle="Academic Services" />
+							<RatingSlider stateVal={"academic_resources"} labelTitle="Academic Resources" />
+							<RatingSlider stateVal={"fitness_gym"} labelTitle="Fitness/Gym" />
 							<div className="rating-container flex-row">
 								<span className="rating-title">Parties</span>
 								<div className="rating-bar">
-									<div className="rating-bar-row flex-row">
-										<span className="bar-label">Frequency</span>
-										<input className="rating-slider half-height" type="range" id="parties-freq-slider" min="0" max="100" onChange={() => {
-											const slider = document.getElementById('parties-freq-slider');
-											document.getElementById("parties-freq-label").innerHTML = slider.value;
-										}} />
-										<label id="parties-freq-label" className="rating-slider-label">0</label>
-									</div>
-									<div className="rating-bar-row flex-row">
-										<span className="bar-label">Quality</span>
-										<input className="rating-slider half-height" type="range" id="parties-quality-slider" min="0" max="100" onChange={() => {
-											const slider = document.getElementById('parties-quality-slider');
-											document.getElementById("parties-quality-label").innerHTML = slider.value;
-										}} />
-										<label id="parties-quality-label" className="rating-slider-label">0</label>
-									</div>
+									<RatingSliderHalf stateVal={"parties"} labelTitle="Frequency" />
+									<RatingSliderHalf stateVal={"parties"} labelTitle="Quality" />
 								</div>
 							</div>
 							<div className="rating-container flex-row">
 								<span className="rating-title">Weather</span>
 								<div className="rating-bar">
-									<div className="rating-bar-row flex-row">
-										<span className="bar-label">Now</span>
-										<input className="rating-slider half-height" type="range" id="weather-now-slider" min="0" max="100" onChange={() => {
-											const slider = document.getElementById('weather-now-slider');
-											document.getElementById("weather-now-label").innerHTML = slider.value;
-										}} />
-										<label id="weather-now-label" className="rating-slider-label">0</label>
-									</div>
-									<div className="rating-bar-row">
-										<span className="bar-label">Average</span>
-										<input className="rating-slider half-height" type="range" id="weather-average-slider" min="0" max="100" onChange={() => {
-											const slider = document.getElementById('weather-average-slider');
-											document.getElementById("weather-average-label").innerHTML = slider.value;
-										}} />
-										<label id="weather-average-label" className="rating-slider-label">0</label>
-									</div>
+									<RatingSliderHalf stateVal={"weather"} labelTitle="Now" />
+									<RatingSliderHalf stateVal={"weather"} labelTitle="Average" />
 								</div>
 							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Online Resources" />
-							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Facilities" />
-							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Prof. Interaction" />
-							</div>
-							<div className="rating-container flex-row">
-								<RatingSlider labelTitle="Research" />
-							</div>
+							<RatingSlider stateVal={"online_resources"} labelTitle="Online Resources" />
+							<RatingSlider stateVal={"facilities"} labelTitle="Facilities" />
+							<RatingSlider stateVal={"professor_interaction"} labelTitle="Prof. Interaction" />
+							<RatingSlider stateVal={"research"} labelTitle="Research" />
 						</div>
 						
 						{/* DATA TAB */}
@@ -574,7 +508,19 @@ function FeedbackModal(props) {
 							<button className="unilist-button cancel-button" onClick={() => {
 								showFeedbackModal(false);
 							}}>Cancel</button>
-							<button className="unilist-button">Save</button>
+							<button className="unilist-button" onClick={() => {
+								// console.log(`Saving university edit data`);
+								// console.log(props.globalState.editingUniversityState);
+								uniApi.editUniversity(props.globalState.editingUniversityState)
+									.then(res => {
+										if (res.data) {
+											// Update client redux state with changed uni data instead of refreshing page to call db.
+
+										} else {
+											// University didn't exist, added a new one -> no data returned
+										}
+									})
+							}}>Save</button>
 						</div>
 					</div>
 				</div>
@@ -593,6 +539,7 @@ function mapStateToProps(globalState) {
 function matchDispatchToProps(dispatch) {
 	return bindActionCreators({ 
 		setFeedbackTagsState: setFeedbackTagsState,
+		setEditingUniversityState: setEditingUniversityState,
 	}, dispatch);
 }
 

@@ -11,9 +11,9 @@ import * as uniApi from '../../api/uniApi';
 
 var stateInit = uniApi.nullUniData;
 
-const activeUniversityReducer = (state = stateInit, action) => {
+const editingUniversityReducer = (state = stateInit, action) => {
 	switch (action.type) {
-		case "SET_ACTIVE_UNIVERSITY_STATE":
+		case "SET_EDITING_UNIVERSITY_STATE":
 			state = action.payload;
 			return state;
 		default: 
@@ -21,4 +21,4 @@ const activeUniversityReducer = (state = stateInit, action) => {
 	}
 }
 
-export default activeUniversityReducer;
+export default editingUniversityReducer;

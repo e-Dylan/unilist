@@ -2,17 +2,25 @@ todo
 
 [frontend]
 
-	- thumbnail images
-		-> data showing about universities
+	- editing university data/adding university data
+		- /editUniversity route, through the feedback modal
 
-	- unidata modal:
-		-> autofill data content to "EDIT" modal when clicking to edit data.
+		EDITING:
+			- add updating .data fields in editingUniversityState to be
+				saved to the backend and updated, weighted ratings are done
 
-	- feedback form (once data form is done) to add or suggest universities:
-		-> make a form for it, store somewhere (emails?)
+		ADDING/EDITING:
+			- completion: display a form front end (clean, sleek, stripe-looking check mark popup)
+
+				-> LoadingModal popup after clicking save, loading for a second,
+				then display either green checkmark or red X based on response
+					res.success.
+					-> display div for res.message underneath.
+					
 
 	- user scopes when logged in, render specific things.
-		-> user account functionality, account button top right?
+		-> user account functionality, account button top right
+		-> manage billings if user has a subscription
 
 	- campus map tab in unidata modal
 		-> design layout of the tab

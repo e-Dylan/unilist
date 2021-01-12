@@ -47,13 +47,13 @@ console.log("Initializing [updateWeather] cronjob - running every [7 days (Sunda
  * updates at: uni.university_data.ratings.now. [temp], [feels_like], [desc]
  * 			   uni.university_data.ratings.average. [temp], [feels_like], [desc] <-- TO MAKE. GET DATA FROM API.
  */
-cron.schedule('0 0 * * 0', function () {
-    var _this = this;
+// cron.schedule('0 0 * * 0', () => { // 7 days, sunday
+cron.schedule('*/10 * * * *', function () {
+    console.log('RUNNING: [updateWeather] cronjob - running every [10 minutes].');
     // cron.schedule('* * * * *', () => { // 1 minute
-    console.log('RUNNING: [updateWeather] cronjob - running every [7 days (Sundays)].');
-    typeorm_1.getConnection().transaction(function (connection) { return __awaiter(_this, void 0, void 0, function () {
+    // console.log('RUNNING: [updateWeather] cronjob - running every [7 days (Sundays)].');
+    typeorm_1.getConnection().transaction(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
         var manager, entity, numRows, _loop_1, i;
-        var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -73,7 +73,7 @@ cron.schedule('0 0 * * 0', function () {
                                     lng = JSON.parse(uni.university_data).location_data.lng;
                                     fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lng + "&appid=" + weatherAPIKey)
                                         .then(function (res) { return res.json(); })
-                                        .then(function (res) { return __awaiter(_this, void 0, void 0, function () {
+                                        .then(function (res) { return __awaiter(void 0, void 0, void 0, function () {
                                         var nowCurrentTemp, nowFeelsLikeTemp, nowWeatherDesc, avgCurrentTemp, avgFeelsLikeTemp, newData;
                                         return __generator(this, function (_a) {
                                             switch (_a.label) {

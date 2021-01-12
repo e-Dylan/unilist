@@ -227,11 +227,15 @@
 
 		.main-text {
 			width: 90% !important;
+			justify-content: center;
+			align-items: center;
 			.title-text {
 				font-size: 22pt !important;
+				text-align: center;
 			}
 			.desc-text {
 				font-size: 15pt !important;
+				text-align: center;
 			}
 		}
 		.main-signup {

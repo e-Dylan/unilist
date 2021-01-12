@@ -241,9 +241,6 @@ function JoinModal(props) {
 								{/* <div className="profile-photo-bar">
 									Profiles:
 								</div> */}
-								<div className="payment-form">
-									Payment:
-								</div>
 							</div>
 						</div>
 						

@@ -7,16 +7,19 @@ import { connect } from 'react-redux';
 // Actions (setters)
 import { setUniversityListState } from '../../redux/actions/setUniversityListState';
 import { setActiveUniversityState } from '../../redux/actions/setActiveUniversityState';
+import { setEditingUniversityState } from "../../redux/actions/setEditingUniversityState";
+
+// API
+import * as uniApi from '../../api/uniApi';
 
 // Weather icons
 import ReactAnimatedWeather from 'react-animated-weather';
 
 // Components
-import UniversityDataModal from "./UniversityDataModal";
-import { showUniversityDataModal } from './UniversityDataModal';
+import UniversityDataModal from "../Modals/UniversityDataModal/UniversityDataModal";
+import { showUniversityDataModal } from '../Modals/UniversityDataModal/UniversityDataModal';
 import AddUniversityModal from './AddUniversityModal';
 import { showAddUniModal } from './AddUniversityModal';
-import { showFeedbackModal } from './FeedbackModal';
 
 // Images/Icons
 import starIcon from '../../resources/search-area/search-results/star.png';
@@ -57,106 +60,6 @@ export const getWeatherIcon = (weatherDesc) => {
 }
 
 function SearchResults(props) {
-
-	const nullUniversityData = {
-		id: 0,
-		name: undefined,
-		tags: undefined,
-		university_data: {
-			education: {
-				rating: 0,
-				desc: "undefined",
-			},
-			covid19: {
-				rating: 0,
-				cases: {
-					rating: 0,
-					total: 0,
-					past_week: 0,
-				},
-				qol: {
-					rating: 0,
-					desc: "undefined",
-				}
-			},
-			the_city: {
-				rating:	0
-			},
-			food: {
-				rating: 0,
-			},
-			amenities: {
-				rating: 0,
-			},
-			sports: {
-				rating: 0,
-				desc: "undefined",
-			},
-			transportation: {
-				rating: 0,
-			},
-			academic_resources: {
-				rating: 0,
-			},
-			parties: {
-				rating: 0,
-				frequency: { rating: 0, desc: "Uncertain" },
-			},
-			online_resources: {
-				rating: 0,
-			},
-			professor_interaction: {
-				rating: 0,
-				desc: "Uncertain",
-			},
-			cost_value: {
-				rating: 0,
-			},
-			fun: {
-				rating: 0
-			},
-			campus: {
-				rating: 0
-			},
-			people_community: {
-				rating: 0
-			},
-			internet: {
-				rating: 0,
-				desc: "High speed"
-			},
-			clubs_extracurriculars: {
-				rating: 0,
-			},
-			restaurants: {
-				rating: 0,
-			},
-			academic_services: {
-				rating: 0,
-			},
-			fitness_gym: {
-				rating: 0
-			},
-			weather: {
-				rating: 0,
-				now: {
-					rating: 0,
-					desc: "Snowing",
-				},
-				average: {
-					rating: 0,
-					desc: "Warm summers, cold winters.",
-				}
-			},
-			facilities: {
-				rating: 0
-			},
-			research: {
-				rating: 0
-			},
-		},
-		image_path: "University_of_Toronto.png"
-	};
 
 	// Not working since data for some schools are empty.
 	const calcOverallRating = (universityData) => {
@@ -232,7 +135,19 @@ function SearchResults(props) {
 		<div className="search-results-container flex-col">
 				<div className="search-results-nav flex-row">
 					{/* <button className="unilist-button" onClick={() => showAddUniModal(true)}>Add University</button> */}
-					<button className="unilist-button" onClick={() => showFeedbackModal(true)}>Make Edit</button>
+					<button className="unilist-button" onClick={() => {
+						showFeedbackModal(true)
+						// PREVENT THIS FROM APPENDING THE CURRENT OBJECT
+						// WITH A NEW UNIDATA OBJECT.
+						// HAS A REFERENCE TO ITSELF - CREATES "CIRCULAR".
+						// OVERWRITE STATE, DON'T ADD A LOOPING OBJECT.
+						// IDK WHY IT IS. -> stringifying works with nested objects - overwriting strings works.
+						// fix by stringifying when overwriting? takes parsing everywhere though.
+						// GET A DEEPCOPY LIBRARY?
+						
+						// props.setEditingUniversityState(uniApi.nullUniData);
+					}}
+					>Add University</button>
 				</div>
 
 				{ props.globalState.universityListState != null && props.globalState.universityListState.length > 0 &&
@@ -258,7 +173,7 @@ function SearchResults(props) {
 											// If there's no valid data on the item being given,
 											// set its university_data object to zeros.
 											// All the rest will be used, img etc.
-											item.university_data = nullUniversityData.university_data;
+											item.university_data = uniApi.nullUniData.university_data;
 											showUniversityDataModal(true, item, props);
 										}
 									}}
@@ -289,7 +204,7 @@ function SearchResults(props) {
 									<div className="university-title">{item.name}</div>
 									<div className="overall-rating flex-row">
 										<img src={starIcon} />
-										<a>{item.university_data.ratings.overall_rating}</a>
+										<a>{item.university_data.ratings.overall_rating.rating}</a>
 									</div>
 								</div>
 							);
@@ -315,6 +230,7 @@ function matchDispatchToProps(dispatch) {
 	return bindActionCreators({ 
 		setUniversityListState: setUniversityListState,
 		setActiveUniversityState: setActiveUniversityState,
+		setEditingUniversityState: setEditingUniversityState,
 	}, dispatch);
 }
 

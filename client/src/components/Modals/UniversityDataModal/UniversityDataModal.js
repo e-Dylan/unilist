@@ -6,28 +6,29 @@ import mapboxgl from 'mapbox-gl';
 import ReactAnimatedWeather from 'react-animated-weather';
 
 // CSS
-import '../styles/AddUniversityModal.scss';
-import '../styles/UniversityDataModal.scss';
+import '../../styles/AddUniversityModal.scss';
+import '../../styles/UniversityDataModal.scss';
 
 // Redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import * as uniApi from '../../api/uniApi';
-import { setActiveUniversityState } from "../../redux/actions/setActiveUniversityState";
+import * as uniApi from '../../../api/uniApi';
+import { setActiveUniversityState } from "../../../redux/actions/setActiveUniversityState";
+import { setEditingUniversityState } from "../../../redux/actions/setEditingUniversityState";
 
 // Components
 import RatingBar from './RatingBar';
 
-import { getTotalCost } from './SearchResults';
-import { getWeatherIcon } from './SearchResults';
+import { getTotalCost } from '../../SearchArea/SearchResults';
+import { getWeatherIcon } from '../../SearchArea/SearchResults';
 
 // Images/Icons
-import unilistLogo from '../../resources/logo/unilist-logo.png';
-import scoresTabIcon from '../../resources/search-area/uni-data-modal/tab-icons/scores-icon.png';
-import schoolDataIcon from '../../resources/search-area/uni-data-modal/tab-icons/uni-data-icon.png';
+import unilistLogo from '../../../resources/logo/unilist-logo.png';
+import scoresTabIcon from '../../../resources/search-area/uni-data-modal/tab-icons/scores-icon.png';
+import schoolDataIcon from '../../../resources/search-area/uni-data-modal/tab-icons/uni-data-icon.png';
 
-import starIcon from '../../resources/search-area/search-results/star.png';
+import starIcon from '../../../resources/search-area/search-results/star.png';
 
 const MAPBOX_KEY = 'pk.eyJ1Ijoic2VsZmRyaXZpbmdkcml2ZXIiLCJhIjoiY2tqYm1iazVqNXF3aDJ1cnh0Z240d3BsMSJ9.f5GWrDlAMUeKDf3m5mfEgw';
 
@@ -39,7 +40,7 @@ export const showUniversityDataModal = async (bool, data, props) => {
 		if (data.university_data.ratings === undefined) data.university_data.ratings = uniApi.nullUniData.university_data.ratings;
 		if (data.university_data.data === undefined) data.university_data.data = uniApi.nullUniData.university_data.data;
 
-		props.setActiveUniversityState(data)
+		props.setActiveUniversityState(data);
 
 		if (!uniDataModal.classList.contains('modal-active')) uniDataModal.classList.add('modal-active');
 		if (!modalBg.classList.contains('modal-active')) modalBg.classList.add('modal-active');
@@ -164,6 +165,10 @@ function UniversityDataModal(props) {
 		dataValues.forEach((item, index) => {
 			dataInputs[index].value = item.innerHTML;
 		})
+
+		// Set state editing university data object to active university data (make a copy)
+		const copy = {...props.globalState.activeUniversityState};
+		props.setEditingUniversityState(copy);
 	}
 
 	useEffect(() => {
@@ -218,7 +223,7 @@ function UniversityDataModal(props) {
 							<div className="university-title">{activeUni.name}</div>
 							<div className="overall-rating flex-row">
 								<img src={starIcon} />
-								<a>{activeUni.university_data.ratings.overall_rating}</a>
+								<a>{activeUni.university_data.ratings.overall_rating.rating}</a>
 							</div>
 						</div>
 					</div>
@@ -262,7 +267,7 @@ function UniversityDataModal(props) {
 					{/* RATINGS TAB */}
 					{ ratings &&
 						<div className="tab-container data-modal-tab flex-row tab-active" id="data-modal-ratings-tab-container">
-							<RatingBar title="Overall Rating" rating={ratings.overall_rating*10} ratings={ratings} />
+							<RatingBar title="Overall Rating" rating={ratings.overall_rating.rating} ratings={ratings} />
 							<RatingBar title="Cost/Value" rating={ratings.cost_value.rating} ratings={ratings} />
 							<RatingBar title="Education" rating={ratings.education.rating} ratings={ratings} />
 							<RatingBar title="Fun" rating={ratings.fun.rating} ratings={ratings} />
@@ -547,6 +552,7 @@ function mapStateToProps(globalState) {
 function matchDispatchToProps(dispatch) {
 	return bindActionCreators({ 
 		setActiveUniversityState: setActiveUniversityState,
+		setEditingUniversityState: setEditingUniversityState,
 	}, dispatch);
 }
 

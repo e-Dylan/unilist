@@ -4,17 +4,17 @@ import $ from "jquery";
 // Redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setUserState } from '../redux/actions/setUserState';
+import { setUserState } from '../../../redux/actions/setUserState';
 
 // CSS
-import './styles/LoginModal.scss';
-import './styles/JoinModal.scss';
+import '../../styles/LoginModal.scss';
+import '../../styles/JoinModal.scss';
 
-import * as userApi from '../api/userApi';
+import * as userApi from '../../../api/userApi';
 
 // Components
 
-import { showJoinModal } from './JoinModal';
+import { showJoinModal } from '../../JoinModal';
 
 // Images/Icons
 
