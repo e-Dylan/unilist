@@ -25,6 +25,7 @@ import DataTable from './DataTable';
 
 // Images/Icons
 import unilistLogo from '../../../resources/logo/unilist-logo.png';
+import loadingIcon from '../../../resources/feedback-modal/loading.svg';
 
 import { searchTagFilters } from '../../SearchArea/SearchFilters';
 
@@ -67,16 +68,20 @@ function FeedbackModal(props) {
 		const feedbackModal = document.getElementById('uni-feedback-modal');
 		const modalBg = document.getElementById('feedback-modal-bg');
 		const tagsMenu = document.querySelector('.tags-menu');
-		if (bool) {
-			// Set active item data, show modal.
-			if (!feedbackModal.classList.contains('modal-active')) feedbackModal.classList.add('modal-active');
-			if (!modalBg.classList.contains('modal-active')) modalBg.classList.add('modal-active');
-		} else {
-			// Hide modal.
-			if (feedbackModal.classList.contains('modal-active')) feedbackModal.classList.remove('modal-active');
-			if (modalBg.classList.contains('modal-active')) modalBg.classList.remove('modal-active');
-			if (tagsMenu.classList.contains('modal-active')) tagsMenu.classList.remove('modal-active');
-			// clearFeedbackModal();
+		try {
+			if (bool) {
+				// Set active item data, show modal.
+				if (!feedbackModal.classList.contains('modal-active')) feedbackModal.classList.add('modal-active');
+				if (!modalBg.classList.contains('modal-active')) modalBg.classList.add('modal-active');
+			} else {
+				// Hide modal.
+				if (feedbackModal.classList.contains('modal-active')) feedbackModal.classList.remove('modal-active');
+				if (modalBg.classList.contains('modal-active')) modalBg.classList.remove('modal-active');
+				if (tagsMenu.classList.contains('modal-active')) tagsMenu.classList.remove('modal-active');
+				// clearFeedbackModal();
+			}
+		} catch (err) {
+			
 		}
 	}
 
@@ -147,11 +152,66 @@ function FeedbackModal(props) {
 		// console.log(tags);
 	}
 
+	const showModalContent = (bool) => {
+		const feedbackCol = document.querySelector('.feedback-col');
+		const dataCol = document.querySelector('.data-modal');
+
+		if (bool) {
+			feedbackCol.classList.remove('hidden');
+			dataCol.classList.remove('hidden');
+		} else {
+			feedbackCol.classList.add('hidden');
+			dataCol.classList.add('hidden');
+		}
+	}
+
+	const setLoadState = (bool) => {
+		const feedbackModal = document.querySelector('.feedback-modal')
+		const loadingBox = document.querySelector('.loading-box');
+		if (bool) {
+			showModalContent(false);
+			feedbackModal.classList.add('loading-modal');
+			loadingBox.classList.remove('hidden');
+		} else {
+			showFeedbackModal(false);
+			// Wait until feedback modal isn't showing to reshow hidden content.
+			setTimeout(() => {
+				loadingBox.classList.add('hidden');
+				// Remove success state styles.
+				$('.checkmark').toggle();
+				$('.loading-box').removeClass('loading-success');
+				// Remove loading state modal dimensions.
+				feedbackModal.classList.remove('loading-modal');
+				showModalContent(true);
+			}, 500)
+			
+		}
+	}
+
+	const setLoadSuccess = (bool) => {
+		if (bool) {
+			setTimeout(() => {
+				$('.checkmark').toggle();
+				$('.loading-box').addClass('loading-success')
+				setTimeout(() => {
+					setLoadState(false);
+				}, 1000);
+			}, 1000)
+		} else {
+			// enable failure animation.
+		}
+	}
+
 	return (
 		<div className="modal-bg" id="feedback-modal-bg">
 			<div className="modal feedback-modal flex-row" id="uni-feedback-modal">
+
+				<div className="loading-box hidden">
+					<img src={loadingIcon} />
+					<div class="checkmark draw" />
+				</div>
+
 				<div className="feedback-col flex-col">
-					
 					<div className="title-text">Update the Data</div>
 					<p className="desc-text">
 						This app works by crowdsourcing information from the people who know it best: <span style={{color: 'rgba(235, 69, 110, 1)'}}>students.</span>
@@ -390,14 +450,30 @@ function FeedbackModal(props) {
 								showFeedbackModal(false);
 							}}>Cancel</button>
 							<button className="unilist-button" onClick={() => {
+								// Enter loading state
+								setLoadState(true);
+
 								uniApi.editUniversity(props.globalState.editingUniversityState)
 									.then(res => {
-										if (res.data) {
-											// Update client redux state with changed uni data instead of refreshing page to call db.
+										if (res && res.success) {
+											setLoadSuccess(true);
+											if (res.data) {
+												// Update client redux state with changed uni data instead of refreshing page to call db.
 
+											} else {
+												// University didn't exist, added a new one -> no data returned
+
+											}
 										} else {
-											// University didn't exist, added a new one -> no data returned
+											setTimeout(() => {
+												$('.checkmark').toggle();
+												$('.loading-box').addClass('loading-failure')
+												setTimeout(() => {
+													setLoadState(false);
+												}, 500);
+											}, 1000)
 										}
+										
 									})
 							}}>Save</button>
 						</div>
