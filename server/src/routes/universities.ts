@@ -70,11 +70,13 @@ export function editUniversity(req: Request, res: Response) {
 			// University already exists, make an edit to it.
 
 			// Get existing uni data
-			const data = JSON.parse(uni.university_data);
-			const ratings = data.ratings;
+			const uniData = JSON.parse(uni.university_data);
+			const ratings = uniData.ratings;
 			
 			const newRatings = university.university_data.ratings;
-			// console.log(newRatings); 
+
+			// UNIVERSITY_DATA.DATA CANNOT BE DIRECTLY AND IMMEDIATELY CHANGED BY USERS.
+			// ONLY ADDS TO THE ADD_UNIVERSITY DATABASE FOR ME TO REVIEW.
 
 			// Adjust all ratings by small weight
 			console.log(`Received university submission (EDIT): editing current university: ${university.name}:\n\n`, university);
@@ -87,10 +89,10 @@ export function editUniversity(req: Request, res: Response) {
 				// Weighted sum
 				const adjustedRating = (currentRating*currentRatingWeight + newRating*newRatingWeight)
 				// Overwrite old rating with adjusted rating
-				data.ratings[Object.keys(ratings)[i]].rating = adjustedRating.toFixed(1);
+				uniData.ratings[Object.keys(ratings)[i]].rating = adjustedRating.toFixed(1);
 			}
 			
-			uni.university_data = JSON.stringify(data);
+			uni.university_data = JSON.stringify(uniData);
 			manager.save(uni)
 			.then(uni => {
 				res.json({
@@ -101,9 +103,7 @@ export function editUniversity(req: Request, res: Response) {
 					// rather than refreshing the page and recalling db.
 				});	
 			})
-
-			
-			
+	
 		} else {
 			// University doesn't exist, add it -> to added_university table.
 			console.log("University not found in database, adding as a new university to database: [add_university]");

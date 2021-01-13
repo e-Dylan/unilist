@@ -117,7 +117,7 @@ function editUniversity(req, res) {
     var newRatingWeight = 0.03;
     var currentRatingWeight = 1 - newRatingWeight;
     typeorm_1.getConnection().transaction(function (connection) { return __awaiter(_this, void 0, void 0, function () {
-        var manager, uni, data, ratings, newRatings, i, currentRating, newRating, adjustedRating, name, tags, university_data, addedUniRepo, newUni;
+        var manager, uni, uniData, ratings, newRatings, i, currentRating, newRating, adjustedRating, name, tags, university_data, addedUniRepo, newUni;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -126,10 +126,11 @@ function editUniversity(req, res) {
                 case 1:
                     uni = _a.sent();
                     if (uni) {
-                        data = JSON.parse(uni.university_data);
-                        ratings = data.ratings;
+                        uniData = JSON.parse(uni.university_data);
+                        ratings = uniData.ratings;
                         newRatings = university.university_data.ratings;
-                        // console.log(newRatings); 
+                        // UNIVERSITY_DATA.DATA CANNOT BE DIRECTLY AND IMMEDIATELY CHANGED BY USERS.
+                        // ONLY ADDS TO THE ADD_UNIVERSITY DATABASE FOR ME TO REVIEW.
                         // Adjust all ratings by small weight
                         console.log("Received university submission (EDIT): editing current university: " + university.name + ":\n\n", university);
                         for (i = 0; i < Object.keys(ratings).length; i++) {
@@ -137,9 +138,9 @@ function editUniversity(req, res) {
                             newRating = newRatings[Object.keys(ratings)[i]].rating;
                             adjustedRating = (currentRating * currentRatingWeight + newRating * newRatingWeight);
                             // Overwrite old rating with adjusted rating
-                            data.ratings[Object.keys(ratings)[i]].rating = adjustedRating.toFixed(1);
+                            uniData.ratings[Object.keys(ratings)[i]].rating = adjustedRating.toFixed(1);
                         }
-                        uni.university_data = JSON.stringify(data);
+                        uni.university_data = JSON.stringify(uniData);
                         manager.save(uni)
                             .then(function (uni) {
                             res.json({

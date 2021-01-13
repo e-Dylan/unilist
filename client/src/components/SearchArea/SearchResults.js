@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { setUniversityListState } from '../../redux/actions/setUniversityListState';
 import { setActiveUniversityState } from '../../redux/actions/setActiveUniversityState';
 import { setEditingUniversityState } from "../../redux/actions/setEditingUniversityState";
+import { setFeedbackTagsState } from "../../redux/actions/setFeedbackTagsState";
 
 // API
 import * as uniApi from '../../api/uniApi';
@@ -104,6 +105,11 @@ function SearchResults(props) {
 			label.innerHTML = "0";
 		});
 	
+		// Clear data inputs
+		document.querySelectorAll('.datatab-data-input').forEach(input => {
+			input.value = "";
+		});
+
 		// Clear tag buttons
 		const tagButtons = document.querySelectorAll('.feedback-tag-button');
 		tagButtons.forEach(button => {
@@ -119,7 +125,8 @@ function SearchResults(props) {
 		const modalBg = document.getElementById('feedback-modal-bg');
 		const tagsMenu = document.querySelector('.tags-menu');
 		if (bool) {
-			// Set active item data, show modal.
+			// Opening by "Add University" button, needs to be empty.
+			clearFeedbackModal();
 			feedbackModal.classList.add('modal-active');
 			modalBg.classList.add('modal-active');
 		} else {
@@ -127,7 +134,6 @@ function SearchResults(props) {
 			feedbackModal.classList.remove('modal-active');
 			modalBg.classList.remove('modal-active');
 			tagsMenu.classList.remove('modal-active');
-			clearFeedbackModal();
 		}
 	}
 
@@ -231,6 +237,7 @@ function matchDispatchToProps(dispatch) {
 		setUniversityListState: setUniversityListState,
 		setActiveUniversityState: setActiveUniversityState,
 		setEditingUniversityState: setEditingUniversityState,
+		setFeedbackTagsState: setFeedbackTagsState,
 	}, dispatch);
 }
 

@@ -20,6 +20,8 @@ import * as uniApi from '../../../api/uniApi';
 // Components
 import RatingSlider from './RatingSlider';
 import RatingSliderHalf from "./RatingSliderHalf";
+import DataRow from './DataRow';
+import DataTable from './DataTable';
 
 // Images/Icons
 import unilistLogo from '../../../resources/logo/unilist-logo.png';
@@ -74,7 +76,7 @@ function FeedbackModal(props) {
 			if (feedbackModal.classList.contains('modal-active')) feedbackModal.classList.remove('modal-active');
 			if (modalBg.classList.contains('modal-active')) modalBg.classList.remove('modal-active');
 			if (tagsMenu.classList.contains('modal-active')) tagsMenu.classList.remove('modal-active');
-			clearFeedbackModal();
+			// clearFeedbackModal();
 		}
 	}
 
@@ -320,183 +322,62 @@ function FeedbackModal(props) {
 						{/* DATA TAB */}
 						<div className="tab-container feedback-modal-tab flex-row" id="feedback-modal-data-tab-container">
 							<div className="rows-container flex-col">
-
-								{/* Costs */}
-								<div className="data-col flex-col">
-									<span className="col-title">Costs ($/year)</span>
-									<div className="data-row flex-row">
-										<div className="data-key">Tuition</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Residence</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Mealplan/Food</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Books/Supplies</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Transportation</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-								</div> 
-								{/* The School */}
-								<div className="data-col flex-col">
-									<span className="col-title">The School</span>
-									<div className="data-row flex-row">
-										<div className="data-key">Known For</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Campus Size</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Campus Type</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Equipment</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Community</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-								</div> 
-								{/* Class Types */}
-								<div className="data-col flex-col">
-									<span className="col-title">Class Types</span>
-									<div className="data-row flex-row">
-										<div className="data-key">Class Sizes (Avg)</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Classrooms</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Classes</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-								</div> 
+								<DataTable title="Costs ($/year)" table="costs" rows={[
+									["Tuition", "tuition"], 
+									["Residence", "residence"],
+									["Mealplan/Food", "mealplan_food"],
+									["Books/Supplies", "books_supplies"],
+									["Transportation", "transportation"],
+								]} />
+								<DataTable title="The School" table="the_school" rows={[
+									["Known For", "known_for"],
+									["Campus Size", "campus_size"],
+									["Campus Type", "campus_type"],
+									["Equipment", "equipment"],
+									["Community", "community"],
+								]} />
+								<DataTable title="Class Types" table="class_types" rows={[
+									["Class Sizes (Avg)", "class_sizes"],
+									["Classrooms", "classrooms"],
+									["Classes", "classes"],
+								]} />
 							</div>
 							<div className="rows-container flex-col">
-								{/* Culture */}
-								<div className="data-col flex-col">
-									<span className="col-title">Culture</span>
-									<div className="data-row flex-row">
-										<div className="data-key">Diversity</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Majority</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Average Class</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-								</div> 
-								{/* Awards */}
-								<div className="data-col flex-col">
-									<span className="col-title">Awards</span>
-									<div className="data-row flex-row">
-										<div className="data-key">Annual Value</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Scholarships</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Bursaries</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Applied/Auto</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Entrance/During</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-								</div> 
-								{/* Awards */}
-								<div className="data-col flex-col">
-									<span className="col-title">Jobs/Co-op</span>
-									<div className="data-row flex-row">
-										<div className="data-key">Co-op Service</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Reputation</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Average Salary</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-								</div> 
+								<DataTable title="Culture" table="culture" rows={[
+									["Diversity", "diversity"],
+									["Majority", "majority"],
+									["Average Class", "average_class"],
+								]} />
+								<DataTable title="Awards" table="awards" rows={[
+									["Annual Value", "annual_value"], 
+									["Scholarships", "scholarships"],
+									["Bursaries", "bursaries"],
+									["Applied/Auto", "applied_auto"],
+									["Entrance/During", "entrance_during"],
+								]} />
+								<DataTable title="Jobs/Co-op" rows={[
+									["Co-op Service", "coop_service"], 
+									["Reputation", "reputation"],
+									["Average Salary", "average_salary"],
+								]} />
 							</div>
 							<div className="rows-container flex-col">
-								{/* The City */}
-								<div className="data-col flex-col">
-									<span className="col-title">The City</span>
-									<div className="data-row flex-row">
-										<div className="data-key">City Type</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Population</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Public Transit</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-								</div>
-								{/* Surroundings */}
-								<div className="data-col flex-col">
-									<span className="col-title">Surroundings</span>
-									<div className="data-row flex-row">
-										<div className="data-key">Restaurants</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Bars/Clubs</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Nature</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Near Water</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-								</div> 
-								{/* Environment */}
-								<div className="data-col flex-col">
-									<span className="col-title">Environment</span>
-									<div className="data-row flex-row">
-										<div className="data-key">Air Quality</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Pollution</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-									<div className="data-row flex-row">
-										<div className="data-key">Water Quality</div>
-										<input className="datatab-data-input" placeholder="No data">{}</input>
-									</div>
-								</div> 
+								<DataTable title="The City" table="the_city" rows={[
+									["City Type", "city_type"], 
+									["Population", "popultion"], 
+									["Public Transit", "public_transit"],
+								]} />
+								<DataTable title="Surroundings" table="surroundings" rows={[
+									["Restaurants", "restaurants"], 
+									["Bars/Clubs", "bars_clubs"],
+									["Nature", "nature"],
+									["Near Water", "near_water"],
+								]} />
+								<DataTable title="Environment" table="environment" rows={[
+									["Air Quality", "air_quality"],
+									["Pollution", "pollution"],
+									["Water Quality", "water_quality"],
+								]} />
 							</div>
 						</div>
 
@@ -509,8 +390,6 @@ function FeedbackModal(props) {
 								showFeedbackModal(false);
 							}}>Cancel</button>
 							<button className="unilist-button" onClick={() => {
-								// console.log(`Saving university edit data`);
-								// console.log(props.globalState.editingUniversityState);
 								uniApi.editUniversity(props.globalState.editingUniversityState)
 									.then(res => {
 										if (res.data) {

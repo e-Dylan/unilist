@@ -163,11 +163,13 @@ function UniversityDataModal(props) {
 		// Feedback modal data values
 		const dataInputs = document.querySelectorAll('.datatab-data-input')
 		dataValues.forEach((item, index) => {
+			if (item.innerHTML[0] === "$") item.innerHTML = item.innerHTML.slice(1, item.innerHTML.length);
 			dataInputs[index].value = item.innerHTML;
 		})
 
 		// Set state editing university data object to active university data (make a copy)
-		const copy = {...props.globalState.activeUniversityState};
+		// const copy = {...props.globalState.activeUniversityState};
+		const copy = JSON.parse(JSON.stringify(props.globalState.activeUniversityState));
 		props.setEditingUniversityState(copy);
 	}
 
