@@ -11,15 +11,16 @@ $check-thickness: 3px;
 $check-color: $brand-success;
 
 .hidden {
-	opacity: 0;
+	opacity: 0 !important;
 	pointer-events: none;
+	transition: 200ms all ease-in-out;
 }
 
 .loading-modal {
 	width: 300px !important;
 	height: 400px !important;
 	transition: 400ms all ease-in-out;
-	
+
 	.loading-success {
 		img {
 			filter: invert(43%) sepia(96%) saturate(1007%) hue-rotate(88deg) brightness(70%) contrast(119%);
@@ -264,6 +265,7 @@ $check-color: $brand-success;
 						
 						&::-webkit-slider-runnable-track {
 							height: 100%;
+							width: 100%;
 							-webkit-appearance: none;
 						}
 
@@ -275,7 +277,7 @@ $check-color: $brand-success;
 							height: 100%;
 							cursor: pointer;
 							background: #ffffff;
-							box-shadow: -80px 0 0 80px rgb(235, 69, 110);
+							box-shadow: -100px 0 0 100px rgb(235, 69, 110);
 						}
 					}
 				}
@@ -290,7 +292,7 @@ $check-color: $brand-success;
 		width: 100%;
 		height: 100%;
 		position: absolute;
-		top: 0;
+		top: -30px;
 		min-width: 100px;
 		min-height: 100px;
 		display: flex;
@@ -315,6 +317,7 @@ $check-color: $brand-success;
 				animation-timing-function: ease;
 				animation-name: checkmark;
 				transform: scaleX(-1) rotate(135deg);
+				position: absolute;
 			}
 			
 			&:after {
@@ -329,6 +332,16 @@ $check-color: $brand-success;
 				top: $check-height;
 				position: absolute;
 			}
+		}
+
+		.result-text {
+			opacity: 1;
+			max-width: 200px;
+			text-align: center;
+			position: relative;
+			top: 20px;
+			color: white;
+			transition: 200ms all ease-in-out;
 		}
 	}
 }
@@ -354,4 +367,47 @@ $check-color: $brand-success;
 		width: $check-width;
 		opacity: 1;
 	}
+}
+
+.ui-error{
+	display: none;
+	&-circle{
+		stroke-dasharray:260.75219024795285px, 260.75219024795285px;
+		stroke-dashoffset: 260.75219024795285px;
+		animation: ani-error-circle 1.2s linear;
+	}
+	&-line1{
+		stroke-dasharray: 54px 55px;
+		stroke-dashoffset: 55px;
+		stroke-linecap: round;
+		animation: ani-error-line .15s 1.2s linear both;
+	}
+	&-line2{
+		stroke-dasharray: 54px 55px;
+		stroke-dashoffset: 55px;
+		stroke-linecap: round;
+		animation: ani-error-line .2s .9s linear both;
+	}
+}
+@keyframes ani-error-line{
+	to { stroke-dashoffset: 0; }
+}
+
+ @keyframes ani-error-circle {
+		0% {
+				stroke-dasharray: 0, 260.75219024795285px;
+				stroke-dashoffset: 0;
+		}
+		35% {
+				stroke-dasharray: 120px, 120px;
+				stroke-dashoffset: -120px;
+		}
+		70% {
+				stroke-dasharray: 0, 260.75219024795285px;
+				stroke-dashoffset: -260.75219024795285px;
+		}
+		100% {
+				stroke-dasharray: 260.75219024795285px, 0;
+				stroke-dashoffset: -260.75219024795285px;
+		}
 }

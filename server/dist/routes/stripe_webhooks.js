@@ -45,64 +45,51 @@ router.post('/webhook', function (req, res) {
     try {
         var event = req.body;
         typeorm_1.getConnection().transaction(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
-            var manager, _a, checkoutSession, customerId_1, email, user;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        manager = typeorm_1.getManager();
-                        _a = event.type;
-                        switch (_a) {
-                            case 'payment_intent.succeeded': return [3 /*break*/, 1];
-                            case 'payment_method.attached': return [3 /*break*/, 2];
-                            case 'checkout.session.completed': return [3 /*break*/, 3];
-                        }
-                        return [3 /*break*/, 5];
-                    case 1: 
-                    // const paymentIntent = event.data.object;
-                    // console.log(paymentIntent);
-                    // Then define and call a method to handle the successful payment intent.
-                    // handlePaymentIntentSucceeded(paymentIntent);
-                    return [3 /*break*/, 6];
-                    case 2: 
-                    // const paymentMethod = event.data.object;
-                    // console.log(paymentMethod);
-                    // Then define and call a method to handle the successful attachment of a PaymentMethod.
-                    // handlePaymentMethodAttached(paymentMethod);
-                    return [3 /*break*/, 6];
-                    case 3:
+            var manager, checkoutSession, customerId_1, subscriptionId_1, email;
+            return __generator(this, function (_a) {
+                manager = typeorm_1.getManager();
+                // // Handle the event
+                switch (event.type) {
+                    case 'payment_intent.succeeded':
+                        // const paymentIntent = event.data.object;
+                        // console.log(paymentIntent);
+                        // Then define and call a method to handle the successful payment intent.
+                        // handlePaymentIntentSucceeded(paymentIntent);
+                        break;
+                    case 'payment_method.attached':
+                        // const paymentMethod = event.data.object;
+                        // console.log(paymentMethod);
+                        // Then define and call a method to handle the successful attachment of a PaymentMethod.
+                        // handlePaymentMethodAttached(paymentMethod);
+                        break;
+                    // Handle completed subscription checkout, store customerId in database.
+                    case 'checkout.session.completed':
                         console.log("CHECKOUT SESSION COMPLETED");
                         checkoutSession = event.data.object;
                         console.log(checkoutSession);
                         customerId_1 = checkoutSession.customer;
+                        subscriptionId_1 = checkoutSession.subscription;
                         email = checkoutSession.customer_email;
-                        return [4 /*yield*/, manager.findOne(User_1.User, { email: email })
-                                .then(function (user) { return __awaiter(void 0, void 0, void 0, function () {
-                                return __generator(this, function (_a) {
-                                    switch (_a.label) {
-                                        case 0:
-                                            if (!user) return [3 /*break*/, 2];
-                                            // user exists in database with this email that was successfully subscribed with,
-                                            // insert customerId for them.
-                                            user.stripe_customer_id = customerId_1;
-                                            return [4 /*yield*/, manager.save(user)
-                                                    .then(function (data) {
-                                                    console.log(data);
-                                                })];
-                                        case 1:
-                                            _a.sent();
-                                            _a.label = 2;
-                                        case 2: return [2 /*return*/];
-                                    }
+                        manager.findOne(User_1.User, { email: email })
+                            .then(function (user) {
+                            if (user && customerId_1 && subscriptionId_1) {
+                                // user exists in database with this email that was successfully subscribed with,
+                                // insert customerId for them.
+                                user.stripe_customer_id = customerId_1;
+                                user.stripe_sub_id = subscriptionId_1;
+                                manager.save(user)
+                                    .then(function (data) {
+                                    console.log('[STRIPE_WEBHOOK]: Saving new member as user:\n\n', data);
                                 });
-                            }); })];
-                    case 4:
-                        user = _b.sent();
-                        return [3 /*break*/, 6];
-                    case 5:
+                            }
+                            else {
+                            }
+                        });
+                        break;
+                    default:
                         console.log("Unhandled event type " + event.type);
-                        _b.label = 6;
-                    case 6: return [2 /*return*/];
                 }
+                return [2 /*return*/];
             });
         }); });
     }

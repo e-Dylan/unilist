@@ -22,20 +22,28 @@ import RatingBar from './RatingBar';
 
 import { getTotalCost } from '../../SearchArea/SearchResults';
 import { getWeatherIcon } from '../../SearchArea/SearchResults';
+import { showJoinModal } from "../../JoinModal";
 
 // Images/Icons
 import unilistLogo from '../../../resources/logo/unilist-logo.png';
 import scoresTabIcon from '../../../resources/search-area/uni-data-modal/tab-icons/scores-icon.png';
 import schoolDataIcon from '../../../resources/search-area/uni-data-modal/tab-icons/uni-data-icon.png';
-
 import starIcon from '../../../resources/search-area/search-results/star.png';
 
 const MAPBOX_KEY = 'pk.eyJ1Ijoic2VsZmRyaXZpbmdkcml2ZXIiLCJhIjoiY2tqYm1iazVqNXF3aDJ1cnh0Z240d3BsMSJ9.f5GWrDlAMUeKDf3m5mfEgw';
 
 export const showUniversityDataModal = async (bool, data, props) => {
+	// Authorize user scopes.
+	if (props.globalState.userState.isLoggedIn === false) {
+		// show user join modal, prevent access to data.
+		showJoinModal(true);
+		return false;
+	}
+
 	const uniDataModal = document.getElementById('uni-data-modal');
 	const modalBg = document.getElementById('data-modal-bg');
 	if (bool) {
+
 		// Set active item data, show modal.
 		if (data.university_data.ratings === undefined) data.university_data.ratings = uniApi.nullUniData.university_data.ratings;
 		if (data.university_data.data === undefined) data.university_data.data = uniApi.nullUniData.university_data.data;
@@ -52,14 +60,6 @@ export const showUniversityDataModal = async (bool, data, props) => {
 	}
 }
 
-$(document).mouseup(e => {
-	var modalBg = $("#data-modal-bg");
-	// if target isnt in display window:
-	if (modalBg.is(e.target))
-		showUniversityDataModal(false, null, null);
-
-})
-
 function UniversityDataModal(props) {
 
 	// const [activeTabVar, setActiveTabVar] = useState("data-modal-ratings-tab-button");
@@ -74,6 +74,13 @@ function UniversityDataModal(props) {
 	// 	setActiveTabVar(tabId)
 		
 	// }
+
+	$(document).mouseup(e => {
+		var modalBg = $("#data-modal-bg");
+		// if target isnt in display window:
+		if (modalBg.is(e.target))
+			showUniversityDataModal(false, null, props);
+	})
 
 	const clearFeedbackModal = () => {
 		// Clear university name
@@ -97,6 +104,12 @@ function UniversityDataModal(props) {
 	}
 
 	const showFeedbackModal = (bool) => {
+		// Authorize user scopes
+		if (props.globalState.userState.isLoggedIn === false) {
+			showJoinModal(true);
+			return false;
+		}
+
 		const feedbackModal = document.getElementById('uni-feedback-modal');
 		const modalBg = document.getElementById('feedback-modal-bg');
 		const tagsMenu = document.querySelector('.tags-menu');
@@ -252,9 +265,9 @@ function UniversityDataModal(props) {
 					<div className="header-message-container flex-row">
 						<img src={unilistLogo} />
 						<span> See anything you think needs updating? </span>
-						<a onClick={() => { 
+						<a onClick={() => {
 							showFeedbackModal(true);
-							showUniversityDataModal(false);
+							showUniversityDataModal(false, null, props);
 
 							fillFeedbackDataWithActiveData();
 						}}>

@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import '../../styles/SearchArea.scss';
 
+// RIGHT NOW NOT IN USE ANYWHERE.
+// MAYBE REUSABLE COMPONENT IN FUTURE.
+
 // Redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';

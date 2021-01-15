@@ -27,7 +27,7 @@ import DataTable from './DataTable';
 import unilistLogo from '../../../resources/logo/unilist-logo.png';
 import loadingIcon from '../../../resources/feedback-modal/loading.svg';
 
-import { searchTagFilters } from '../../SearchArea/SearchFilters';
+import { searchTagFilters } from '../../SearchArea/SearchFilters/SearchFilters';
 
 function FeedbackModal(props) {
 
@@ -178,8 +178,12 @@ function FeedbackModal(props) {
 			setTimeout(() => {
 				loadingBox.classList.add('hidden');
 				// Remove success state styles.
-				$('.checkmark').toggle();
+				$('.checkmark').toggle(false);
 				$('.loading-box').removeClass('loading-success');
+				$('.loading-box').removeClass('loading-failure');
+				$('.result-text').text("");
+				// $('.result-text').addClass("hidden");
+				document.querySelector('.result-text').classList.add('hidden');
 				// Remove loading state modal dimensions.
 				feedbackModal.classList.remove('loading-modal');
 				showModalContent(true);
@@ -191,7 +195,10 @@ function FeedbackModal(props) {
 	const setLoadSuccess = (bool) => {
 		if (bool) {
 			setTimeout(() => {
+				$('.result-text').text("Successfully saved.");
 				$('.checkmark').toggle();
+				// $('.result-text').removeClass("hidden");
+				document.querySelector('.result-text').classList.remove('hidden');
 				$('.loading-box').addClass('loading-success')
 				setTimeout(() => {
 					setLoadState(false);
@@ -199,6 +206,15 @@ function FeedbackModal(props) {
 			}, 1000)
 		} else {
 			// enable failure animation.
+			setTimeout(() => {
+				$('.result-text').text("Save was unsuccessful.\nPlease try again.");
+				$('.ui-error').toggle(); // x animation (when I get one)
+				$('.result-text').removeClass("hidden");
+				$('.loading-box').addClass('loading-failure')
+				setTimeout(() => {
+					setLoadState(false);
+				}, 1000);
+			}, 1000)
 		}
 	}
 
@@ -208,7 +224,16 @@ function FeedbackModal(props) {
 
 				<div className="loading-box hidden">
 					<img src={loadingIcon} />
-					<div class="checkmark draw" />
+
+					<div className="checkmark draw" />
+
+					<div className="ui-error">
+
+					</div>
+					
+					<div className="result-text hidden">
+						
+					</div>
 				</div>
 
 				<div className="feedback-col flex-col">
@@ -465,13 +490,7 @@ function FeedbackModal(props) {
 
 											}
 										} else {
-											setTimeout(() => {
-												$('.checkmark').toggle();
-												$('.loading-box').addClass('loading-failure')
-												setTimeout(() => {
-													setLoadState(false);
-												}, 500);
-											}, 1000)
+											setLoadSuccess(false);
 										}
 										
 									})

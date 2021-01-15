@@ -19,4 +19,7 @@ export class User {
 
 	@Column()
 	stripe_customer_id?: string;
+
+	@Column()
+	stripe_sub_id?: string;
 }

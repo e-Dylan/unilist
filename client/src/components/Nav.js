@@ -17,7 +17,7 @@ function Nav(props) {
 					<a className="unilist-logo" href="/">
 						<img src={unilistLogo} />
 					</a>
-					<li className="nav-link">Community</li>
+					<li className="nav-link">Social</li>
 					<li className="nav-link">Universities</li>
 					<li className="nav-link">Find Jobs</li>
 				</ul>

@@ -2,10 +2,17 @@ import { getRepository, getConnection, getManager } from "typeorm";
 import { Request, Response, Next } from "express";
 import { User } from '../entity/User';
 
+const stripe = require('stripe')('sk_test_51I5ZHZBwwOafHU1RLxwJmdLILEJczx2LBRhXDuFptzHsDj0R9pSXBNBKbbmUa1AgnqNi9BmwI1esI5MKwzuRbDZq00yLbT81aV');
 const bcrypt = require('bcryptjs');
 const Joi = require('joi');
 const express = require('express');
 const router = express.Router();
+
+export const priceIds = {
+	freePriceId: 'price_1I5cSXBwwOafHU1RVnITRrD8',
+	activePriceId: 'price_1I5c5GBwwOafHU1RaqmF4g6d',
+	premiumPriceId: 'price_1I5c6FBwwOafHU1RrFlNcYXr',
+};
 
 const register_schema = Joi.object({
     username: Joi.string()
@@ -246,7 +253,7 @@ router.post('/getCustomerId', async (req: Request, res: Response) => {
 			// No user id, user is not logged in.
 			res.json({
 				success: false,
-				msg: "Could not return customerId, user is not logged in."
+				msg: "Could not return customerId, user has not registered for a membership."
 			});
 			return;
 		}
@@ -259,5 +266,69 @@ router.post('/getCustomerId', async (req: Request, res: Response) => {
 		})
 	}
 })
+
+router.post('/getMembership', async (req: Request, res: Response) => {
+
+	// Route is only ever called after user authenticates that they're logged in.
+	// User MUST have active session (req.session) and a userId on that session.
+	const session = req.session;
+	if (session === undefined || session.userID === undefined) {
+		res.json({
+			success: false,
+			msg: "You are not currently logged in.",
+		});
+		return false;
+	}
+
+	getConnection().transaction(async connection => {
+		const manager = getManager();
+		console.log(req.session);
+		manager.findOne(User, {id: req.session.userID})
+			.then(user => {
+				const subId = user.stripe_sub_id;
+				if (subId) {
+					// Customer exists, find their subscription type.
+					stripe.subscriptions.retrieve(subId)
+						.then(subscription => {
+							if (subscription) {
+								// User subscription object exists, validate if active.
+								// console.log(subscription);
+								var membership;
+								switch(subscription.plan.id) {
+									case priceIds.freePriceId: membership = "free_member";
+										break;
+									case priceIds.activePriceId: membership = "active_member";
+										break;
+									case priceIds.premiumPriceId: membership = "premium_member";
+										break;
+									default: membership = "unregistered";
+								}
+								res.json({
+									success: true,
+									subscription_status: subscription.status,
+									subscription_type: membership,
+									msg: "Your subscription is currently active.",
+								});
+							} else {
+								res.json({
+									success: false,
+									msg: "Subscription id exists, but no valid subscription object is available.",
+								});
+								return false;
+							}
+						});
+				} else {
+					// User has no subscription id, not registered.
+					res.json({
+						success: false,
+						subscription_status: "inactive",
+						subscription_type: "undefined",
+						msg: "You are not currently subscribed as a member.",
+					});
+				}
+			})
+
+	});
+});
 
 module.exports = router;

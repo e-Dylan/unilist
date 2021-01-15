@@ -3,7 +3,7 @@ import './App.scss';
 // Components
 import Nav from './components/Nav';
 import HomePage from './components/HomePage';
-import SearchArea from './components/SearchArea';
+import SearchArea from './components/SearchArea/SearchArea';
 
 function App() {
   return (

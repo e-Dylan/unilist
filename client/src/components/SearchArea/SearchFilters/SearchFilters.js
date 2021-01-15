@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
 import $ from 'jquery';
 
-import * as uniApi from '../../api/uniApi';
+import * as uniApi from '../../../api/uniApi';
 
 // Redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 // Actions (setters)
-import { setUniversityListState } from '../../redux/actions/setUniversityListState';
+import { setUniversityListState } from '../../../redux/actions/setUniversityListState';
 
-import '../../App.scss';
-import '../styles/SearchArea.scss';
+import '../../../App.scss';
+import '../../styles/SearchArea.scss';
+
+// Styled Components
+import { SearchFiltersContainer } from './SearchFilters.components';
+import { FilterSectionContainer } from './SearchFilters.components';
+import { FilterOptionsContainer } from './SearchFilters.components';
 
 // Components;
 export const searchTagFilters = {
@@ -140,32 +145,35 @@ function SearchFilters(props) {
 	}
 
 	return (
-		<div className="search-filters flex-col">
+		<SearchFiltersContainer>
 			<div className="filters-title flex-col">
 				{/* <span className="title-text">Add filters [+]</span> */}
 				<span className="desc-text">Narrow down your results to see what fits for you.</span>
 			</div>
-			<div className="filter-section flex-col">
+
+			<FilterSectionContainer>
 				<span className="filter-title">Location</span>
-				<div className="filter-options flex-row">
+				<FilterOptionsContainer>
 					{ Object.keys(searchTagFilters.location_filters).map((item, index) => {
 						return (
 							<div className="filter-button location-button flex-col" key={item} id={"locationButton"+index}>{searchTagFilters.location_filters[item]}</div>
 						)
 					})}
-				</div>
-			</div>
-			<div className="filter-section flex-col">
+				</FilterOptionsContainer>
+			</FilterSectionContainer>
+
+			<FilterSectionContainer>
 				<span className="filter-title">Costs</span>
-				<div className="filter-options flex-row">
+				<FilterOptionsContainer>
 					<div className="filter-button location-button flex-col">Low</div>
 					<div className="filter-button location-button flex-col">Moderate</div>
 					<div className="filter-button location-button flex-col">High</div>
-				</div>
-			</div>
-			<div className="filter-section flex-col">
+				</FilterOptionsContainer>
+			</FilterSectionContainer>
+
+			<FilterSectionContainer>
 				<span className="filter-title">Community</span>
-				<div className="filter-options flex-row">
+				<FilterOptionsContainer>
 					{ Object.keys(searchTagFilters.community_filters).map((item, index) => {
 						return (
 							<div className="filter-button flex-col" key={item} id={"communityButton"+index} onClick={ async() => {
@@ -175,11 +183,12 @@ function SearchFilters(props) {
 							}}>{searchTagFilters.community_filters[item]}</div>
 						)
 					})}
-				</div>
-			</div>
-			<div className="filter-section flex-col">
+				</FilterOptionsContainer>
+			</FilterSectionContainer>
+
+			<FilterSectionContainer>
 				<span className="filter-title">Surrounding City</span>
-				<div className="filter-options flex-row">
+				<FilterOptionsContainer>
 					{ Object.keys(searchTagFilters.area_filters).map((item, index) => {
 						return (
 							<div className="filter-button flex-col" key={item} id={"areaButton"+index} onClick={ async() => {
@@ -189,11 +198,12 @@ function SearchFilters(props) {
 							}}>{searchTagFilters.area_filters[item]}</div>
 						)
 					})}
-				</div>
-			</div>
-			<div className="filter-section flex-col">
+				</FilterOptionsContainer>
+			</FilterSectionContainer>
+			
+			<FilterSectionContainer>
 				<span className="filter-title">Qualities of Life</span>
-				<div className="filter-options flex-row">
+				<FilterOptionsContainer>
 					{ Object.keys(searchTagFilters.qualities_filters).map((item, index) => {
 						return (
 							<div className="filter-button flex-col" key={item} id={"qualitiesButton"+index} onClick={ async() => {
@@ -203,9 +213,9 @@ function SearchFilters(props) {
 							}}>{searchTagFilters.qualities_filters[item]}</div>
 						)
 					})}
-				</div>
-			</div>
-		</div>
+				</FilterOptionsContainer>
+			</FilterSectionContainer>
+		</SearchFiltersContainer>
 	);
 }
 

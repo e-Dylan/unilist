@@ -128,3 +128,9 @@ html {
 	height: 1px;
 	width: 100%;
 }
+
+.shadow {
+	-moz-box-shadow: 5px 5px 5px rgb(0, 0, 0);
+	-webkit-box-shadow: 5px 5px 5px rgb(0, 0, 0);
+	box-shadow: 5px 5px 5px rgb(0, 0, 0);
+}

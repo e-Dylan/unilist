@@ -21,6 +21,7 @@ import UniversityDataModal from "../Modals/UniversityDataModal/UniversityDataMod
 import { showUniversityDataModal } from '../Modals/UniversityDataModal/UniversityDataModal';
 import AddUniversityModal from './AddUniversityModal';
 import { showAddUniModal } from './AddUniversityModal';
+import { showJoinModal } from '../JoinModal';
 
 // Images/Icons
 import starIcon from '../../resources/search-area/search-results/star.png';
@@ -121,6 +122,13 @@ function SearchResults(props) {
 	}
 
 	const showFeedbackModal = (bool) => {
+		// Authorize user scopes.
+		if (props.globalState.userState.isLoggedIn === false) {
+			// show user join modal, prevent access to data.
+			showJoinModal(true);
+			return false;
+		}
+
 		const feedbackModal = document.getElementById('uni-feedback-modal');
 		const modalBg = document.getElementById('feedback-modal-bg');
 		const tagsMenu = document.querySelector('.tags-menu');

@@ -251,26 +251,27 @@
 					}
 
 					.feature-list {
-						border: 1px solid rgb(82, 82, 82);
+						border: 1px solid rgb(0, 0, 0);
 						margin: 10px 0;
 						border-radius: 5px;
 						width: 100%;
-						color: rgb(194, 194, 194);
+						color: rgb(49, 49, 49);
 						list-style-type: none;
 						text-decoration: none;
+						background-color: rgb(226, 226, 226);
 
 						.li-feature {
-							justify-content: flex-start;
-							margin: 20px 0;
+							justify-content: space-between;
+							margin: 20px 20px;
 							align-items: center;
 
 							.li-image {
-								width: 20px;
-								height: 20px;
-								margin: 0 30px;
+								width: 15%;
+								height: 15%;
+								margin: 0 5%;
 							}
 							.li-text {
-								
+								width: 70%;
 							}
 						}
 						

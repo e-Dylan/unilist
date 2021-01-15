@@ -37,8 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var fetch = require('node-fetch');
-var Stripe = require('stripe');
-var stripe = Stripe('sk_test_51I5ZHZBwwOafHU1RLxwJmdLILEJczx2LBRhXDuFptzHsDj0R9pSXBNBKbbmUa1AgnqNi9BmwI1esI5MKwzuRbDZq00yLbT81aV');
+var stripe = require('stripe')('sk_test_51I5ZHZBwwOafHU1RLxwJmdLILEJczx2LBRhXDuFptzHsDj0R9pSXBNBKbbmUa1AgnqNi9BmwI1esI5MKwzuRbDZq00yLbT81aV');
 var express = require('express');
 var router = express.Router();
 router.post("/createCheckoutSession", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -112,11 +111,6 @@ router.post('/customerPortal', function (req, res) { return __awaiter(void 0, vo
                 });
                 return [2 /*return*/];
         }
-    });
-}); });
-router.post('/checkUserSubscription', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        return [2 /*return*/];
     });
 }); });
 module.exports = router;

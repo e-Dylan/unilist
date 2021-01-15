@@ -36,12 +36,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.priceIds = void 0;
 var typeorm_1 = require("typeorm");
 var User_1 = require("../entity/User");
+var stripe = require('stripe')('sk_test_51I5ZHZBwwOafHU1RLxwJmdLILEJczx2LBRhXDuFptzHsDj0R9pSXBNBKbbmUa1AgnqNi9BmwI1esI5MKwzuRbDZq00yLbT81aV');
 var bcrypt = require('bcryptjs');
 var Joi = require('joi');
 var express = require('express');
 var router = express.Router();
+exports.priceIds = {
+    freePriceId: 'price_1I5cSXBwwOafHU1RVnITRrD8',
+    activePriceId: 'price_1I5c5GBwwOafHU1RaqmF4g6d',
+    premiumPriceId: 'price_1I5c6FBwwOafHU1RrFlNcYXr',
+};
 var register_schema = Joi.object({
     username: Joi.string()
         .alphanum()
@@ -302,7 +309,7 @@ router.post('/getCustomerId', function (req, res) { return __awaiter(void 0, voi
                 // No user id, user is not logged in.
                 res.json({
                     success: false,
-                    msg: "Could not return customerId, user is not logged in."
+                    msg: "Could not return customerId, user has not registered for a membership."
                 });
                 return [2 /*return*/];
             case 3: return [3 /*break*/, 5];
@@ -315,6 +322,77 @@ router.post('/getCustomerId', function (req, res) { return __awaiter(void 0, voi
                 _a.label = 5;
             case 5: return [2 /*return*/];
         }
+    });
+}); });
+router.post('/getMembership', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var session;
+    return __generator(this, function (_a) {
+        session = req.session;
+        if (session === undefined || session.userID === undefined) {
+            res.json({
+                success: false,
+                msg: "You are not currently logged in.",
+            });
+            return [2 /*return*/, false];
+        }
+        typeorm_1.getConnection().transaction(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
+            var manager;
+            return __generator(this, function (_a) {
+                manager = typeorm_1.getManager();
+                console.log(req.session);
+                manager.findOne(User_1.User, { id: req.session.userID })
+                    .then(function (user) {
+                    var subId = user.stripe_sub_id;
+                    if (subId) {
+                        // Customer exists, find their subscription type.
+                        stripe.subscriptions.retrieve(subId)
+                            .then(function (subscription) {
+                            if (subscription) {
+                                // User subscription object exists, validate if active.
+                                // console.log(subscription);
+                                var membership;
+                                switch (subscription.plan.id) {
+                                    case exports.priceIds.freePriceId:
+                                        membership = "free_member";
+                                        break;
+                                    case exports.priceIds.activePriceId:
+                                        membership = "active_member";
+                                        break;
+                                    case exports.priceIds.premiumPriceId:
+                                        membership = "premium_member";
+                                        break;
+                                    default: membership = "unregistered";
+                                }
+                                res.json({
+                                    success: true,
+                                    subscription_status: subscription.status,
+                                    subscription_type: membership,
+                                    msg: "Your subscription is currently active.",
+                                });
+                            }
+                            else {
+                                res.json({
+                                    success: false,
+                                    msg: "Subscription id exists, but no valid subscription object is available.",
+                                });
+                                return false;
+                            }
+                        });
+                    }
+                    else {
+                        // User has no subscription id, not registered.
+                        res.json({
+                            success: false,
+                            subscription_status: "inactive",
+                            subscription_type: "undefined",
+                            msg: "You are not currently subscribed as a member.",
+                        });
+                    }
+                });
+                return [2 /*return*/];
+            });
+        }); });
+        return [2 /*return*/];
     });
 }); });
 module.exports = router;

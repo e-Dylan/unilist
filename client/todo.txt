@@ -2,33 +2,39 @@ todo
 
 [frontend]
 
-	- editing university data/adding university data
+	[x] editing university data/adding university data
 		- /editUniversity route, through the feedback modal
 
-		EDITING:
-			- add updating .data fields in editingUniversityState to be
-				saved to the backend and updated, weighted ratings are done
 
-		ADDING/EDITING:
-			- completion: display a form front end (clean, sleek, stripe-looking check mark popup)
+	
+	- add university data to database.
+		- research and add schools
 
-				-> LoadingModal popup after clicking save, loading for a second,
-				then display either green checkmark or red X based on response
-					res.success.
-					-> display div for res.message underneath.
-					
+
+	- responsiveness/mobile support
+		- media queries
+
 
 	- user scopes when logged in, render specific things.
 		-> user account functionality, account button top right
 		-> manage billings if user has a subscription
 
-	- campus map tab in unidata modal
-		-> design layout of the tab
+
+	- s3 buckets for images for school listing
+		- look at aws pricing
 
 
-	- FREE SERVER AND DATABASE HOSTING
-		-> aws RDS (postgres) and CN3? for linux vps, needs card
-		-> Heroku does free app hosting, psql 20 conn's, 10,000 rows? not sure how many tables.
-		-> azure 12 months trial, needs credit card
+
+
+	[later]
+
+		- campus map tab in unidata modal
+			-> design layout of the tab
+
+
+		- FREE SERVER AND DATABASE HOSTING
+			-> aws RDS (postgres) and CN3? for linux vps, needs card
+			-> Heroku does free app hosting, psql 20 conn's, 10,000 rows? not sure how many tables.
+			-> azure 12 months trial, needs credit card
 
 	

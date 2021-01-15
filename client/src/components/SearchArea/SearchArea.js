@@ -1,33 +1,48 @@
 import React, { useState, useEffect } from "react";
-import './styles/SearchArea.scss';
+import styled from 'styled-components';
+import { breakpoints } from '../../styles/breakpoints';
+import theme from '../../styles/theme';
+import '../styles/SearchArea.scss';
 
 // Redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 // Actions (setters)
-import { setUniversityListState } from '../redux/actions/setUniversityListState';
+import { setUniversityListState } from '../../redux/actions/setUniversityListState';
 
 // Components
-import SearchFilters from "./SearchArea/SearchFilters";
-import SearchResults from "./SearchArea/SearchResults";
+import SearchFilters from "./SearchFilters/SearchFilters";
+import SearchResults from "./SearchResults";
 
 // Images/Icons
+
+// Styled Components
+
+const SearchAreaContainer = styled.div`
+	width: 100%;
+	height: auto;
+	display: flex;
+	flex-direction: row;
+	background-color: ${theme.colors.brand.gray["main"]};
+
+	${breakpoints("flex-direction", "", [
+		{ 1300: "column" },
+	])}
+`;
 
 function SearchArea(props) {
 
 	return (
-		<div className="search-area-container">
-			
+		<SearchAreaContainer>
 			<SearchFilters />
-
 			<SearchResults />
 
 			<div className="sidebar-container flex-col">
 				<span>sidebar</span>
 			</div>
 
-		</div>
+		</SearchAreaContainer>
 	);
 }
 

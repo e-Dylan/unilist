@@ -35,19 +35,22 @@ router.post('/webhook', (req: Request, res: Response ) => {
 					const checkoutSession = event.data.object;
 					console.log(checkoutSession);
 					const customerId = checkoutSession.customer;
+					const subscriptionId = checkoutSession.subscription;
 					const email = checkoutSession.customer_email;
 
-					const user = await manager.findOne(User, { email: email })
-					.then(async user => {
-						if (user) {
-							// user exists in database with this email that was successfully subscribed with,
-							// insert customerId for them.
-							user.stripe_customer_id = customerId;
-							await manager.save(user)
-							.then(data => {
-								console.log(data);
-							})
-						}
+					manager.findOne(User, { email: email })
+						.then(user => {
+							if (user && customerId && subscriptionId) {
+								// user exists in database with this email that was successfully subscribed with,
+								// insert customerId for them.
+								user.stripe_customer_id = customerId;
+								user.stripe_sub_id = subscriptionId;
+								manager.save(user)
+									.then(data => {
+										console.log('[STRIPE_WEBHOOK]: Saving new member as user:\n\n', data);
+									})
+							} else {
+							}
 					})
 
 					break;

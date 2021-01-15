@@ -12,6 +12,9 @@ import './styles/JoinModal.scss';
 // Components
 import SignupForm from './form/SignupForm';
 
+// API
+import * as paymentApi from '../api/paymentApi';
+
 // Images/Icons
 // Free
 import ratingsIcon from '../resources/join-modal/free-membership/ratings-icon.svg';
@@ -25,13 +28,6 @@ import premiumIcon from '../resources/join-modal/premium-membership/premium-icon
 import additionalConnectionsIcon from '../resources/join-modal/premium-membership/additional-connections.svg';
 import mapIcon from '../resources/join-modal/premium-membership/map-icon.svg';
 import checkmarkIcon from '../resources/join-modal/premium-membership/checkmark-icon.svg';
-
-// STRIPE MEMBERSHIP PRICE ID'S
-const priceIds = {
-	freePriceId: 'price_1I5cSXBwwOafHU1RVnITRrD8',
-	activePriceId: 'price_1I5c5GBwwOafHU1RaqmF4g6d',
-	premiumPriceId: 'price_1I5c6FBwwOafHU1RrFlNcYXr',
-};
 
 export function showJoinModal(bool) {
 	const modalBg = document.getElementById('join-modal-bg');
@@ -64,12 +60,13 @@ $(document).mouseup(e => {
 	if (modalBg.is(e.target))
 		showJoinModal(false);
 
+	return;
 })
 
 function JoinModal(props) {
 
 	const [activeTab, setActiveTab] = useState('free-membership-button');
-	const [priceId, setPriceId] = useState(priceIds.freePriceId);
+	const [priceId, setPriceId] = useState(paymentApi.priceIds.freePriceId);
 
 	const setActiveMembershipTab = (buttonId) => {
 		const clicked = document.getElementById(buttonId);
@@ -86,9 +83,9 @@ function JoinModal(props) {
 		
 		// Set active price id when changing membership tabs.
 		switch(buttonId) {
-			case "free-membership-button": setPriceId(priceIds.freePriceId); break;
-			case "active-membership-button": setPriceId(priceIds.activePriceId); break;
-			case "premium-membership-button": setPriceId(priceIds.premiumPriceId); break;
+			case "free-membership-button": setPriceId(paymentApi.priceIds.freePriceId); break;
+			case "active-membership-button": setPriceId(paymentApi.priceIds.activePriceId); break;
+			case "premium-membership-button": setPriceId(paymentApi.priceIds.premiumPriceId); break;
 		}
 
 		// const joinButton = document.querySelector('.join-button');
@@ -129,7 +126,7 @@ function JoinModal(props) {
 							</div>
 						</div>
 
-						<SignupForm priceId={priceId} priceIds={priceIds} />
+						<SignupForm priceId={priceId} priceIds={paymentApi.priceIds} />
 						
 					</div>
 
@@ -148,7 +145,7 @@ function JoinModal(props) {
 										<div className="info-bar">
 											No credit card. Upgrade whenever.
 										</div>
-										<ul className="feature-list">
+										<ul className="feature-list shadow">
 											<li className="li-feature flex-row">
 												<img className="li-image" src={ratingsIcon} alt="" />
 												<span className="li-text">View school information and data ratings.</span>
@@ -177,7 +174,7 @@ function JoinModal(props) {
 											ENJOY FREEMIUM WHILE IT LASTS.
 										</div> */}
 										
-										<ul className="feature-list">
+										<ul className="feature-list shadow">
 											<li className="li-feature flex-row">
 												<img className="li-image" alt="" />
 												<span className="li-text">Customize your own profile photo, bio, and more.</span>
@@ -210,7 +207,7 @@ function JoinModal(props) {
 											ENJOY FREEMIUM WHILE IT LASTS.
 										</div> */}
 										
-										<ul className="feature-list">
+										<ul className="feature-list shadow">
 											<li className="li-feature flex-row">
 												<img className="li-image" alt="" src={featuresIcon} />
 												<span className="li-text">Premium access to all features.</span>

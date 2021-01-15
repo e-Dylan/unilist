@@ -61,6 +61,7 @@
 				align-items: center;
 				text-transform: uppercase;
 				transition: 0.6s all ease-in-out;
+				align-self: flex-end;
 
 				.user-account-username {
 					margin-right: 20px;
@@ -78,9 +79,10 @@
 			.user-account-dropdown {
 				max-height: 0px;
 				align-items: center;
+				padding: 0 35px;
 				color: white;
 				background-color: rgb(143, 40, 69);
-				width: 150%;
+				width: 100%;
 				align-self: flex-end;
 				border-bottom-left-radius: 6px;
 				border-bottom-right-radius: 6px;
@@ -90,13 +92,12 @@
 
 				.dropdown-item {
 					transition: 0.5s cubic-bezier(0, 1, 0, 1);
-					padding: 11px 0;
+					padding: 10px 0;
 					width: 100%;
 					text-align: center;
-					// list-style: none;
 					font-size: 10pt;
 					pointer-events: auto;
-					z-index: 1312;
+					z-index: 5;
 					&:hover {
 						color: rgb(0, 0, 0);
 						cursor: pointer;
@@ -107,13 +108,14 @@
 			.user-account-dropdown-open {
 				max-height: 600px !important;
 				transition: all 0.6s ease-in-out;
+				padding: 7px 35px;
 			}
 			
 			.user-account-button-open {
 				background-color: rgb(143, 40, 69);
 				transition: all 0.6s ease-in-out;
 				align-self: flex-end;
-				width: 109%;
+				width: 100%;
 			}
 		}
 
@@ -145,7 +147,6 @@
 			.main-signup {
 				width: 50%;
 				max-width: 650px;
-				min-width: 460px;
 
 				.signup-form {
 					width: 55%;
@@ -154,7 +155,8 @@
 					justify-content: center;
 					align-items: center;
 					border-radius: 15px;
-					animation: hover 2s infinite alternate ease-in-out;	
+					animation: hover 2s infinite alternate ease-in-out;
+					min-width: 260px;
 
 					.signup-container {
 						width: 80%;

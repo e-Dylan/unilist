@@ -1,6 +1,13 @@
 import { API_URL } from './userApi';
 import { DOMAIN_URL } from './userApi';
 
+// STRIPE MEMBERSHIP PRICE ID'S
+export const priceIds = {
+	freePriceId: 'price_1I5cSXBwwOafHU1RVnITRrD8',
+	activePriceId: 'price_1I5c5GBwwOafHU1RaqmF4g6d',
+	premiumPriceId: 'price_1I5c6FBwwOafHU1RrFlNcYXr',
+};
+
 export function createCheckoutSession({ priceId, customerEmail }) {
 	return fetch(`${API_URL}/createCheckoutSession`, {
 		method: "POST",

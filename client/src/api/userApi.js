@@ -168,3 +168,17 @@ export function getCustomerId() {
 		return data;
 	})
 }
+
+export function getMembership(user) {
+	return fetch(`${API_URL}/getMembership`, {
+		method: "POST",
+		credentials: 'include',
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(user),
+	})
+	.then(res => {
+		return res.json();
+	})
+}

@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
+import { getConnection, getManager } from "typeorm";
 
 const fetch = require('node-fetch');
 
-const Stripe = require('stripe');
-const stripe = Stripe('sk_test_51I5ZHZBwwOafHU1RLxwJmdLILEJczx2LBRhXDuFptzHsDj0R9pSXBNBKbbmUa1AgnqNi9BmwI1esI5MKwzuRbDZq00yLbT81aV');
+const stripe = require('stripe')('sk_test_51I5ZHZBwwOafHU1RLxwJmdLILEJczx2LBRhXDuFptzHsDj0R9pSXBNBKbbmUa1AgnqNi9BmwI1esI5MKwzuRbDZq00yLbT81aV');
 
 const express = require('express');
 const router = express.Router();
@@ -55,12 +55,6 @@ router.post('/customerPortal', async (req: Request, res: Response) => {
 	res.send({
 		url: portalsession.url,
 	});
-});
-
-router.post('/checkUserSubscription', async (req: Request, res: Response) => {
-
-	// fetch()
-
 });
 
 module.exports = router;
