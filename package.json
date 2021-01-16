@@ -1,0 +1,22 @@
+{
+  "name": "unilist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+	"client": "cd client && npm start",
+	"server": "cd server && npm start",
+	"dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+	"heroku-postbuild": "cd frontend && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/e-Dylan/unilist.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/e-Dylan/unilist/issues"
+  },
+  "homepage": "https://unilisted.vercel.app"
+}

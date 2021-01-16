@@ -10,6 +10,7 @@ var cors = require('cors');
 var volleyball = require('volleyball');
 var helmet = require('helmet');
 var fileUpload = require('express-fileupload');
+var path = require('path');
 require('dotenv').config();
 var app = express();
 var corsOptions = {
@@ -50,6 +51,12 @@ var api_router = require('./routes/api');
 app.use('/api', api_router);
 // Database connection must be made for the routes to work on app.
 // Routes defined using express in separate file
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+// AFTER defining routes: Anything that doesn't match what's above, send back index.html; (the beginning slash ('/') in the string is important!)
+app.get('*', function (req, res) {
+    res.sendFile(path.join(__dirname + '/../frontend/build/index.html'));
+});
 typeorm_1.createConnection().then(function (connection) {
     var API_PORT = process.env.REACT_APP_API_PORT || 1337;
     // insertUniData.updateUniOverallRating();

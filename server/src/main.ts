@@ -15,6 +15,7 @@ const cors = require('cors');
 const volleyball = require('volleyball');
 const helmet = require('helmet');
 const fileUpload = require('express-fileupload');
+const path = require('path');
 
 require('dotenv').config();
 
@@ -62,6 +63,15 @@ const api_router = require('./routes/api');
 app.use('/api', api_router);
 // Database connection must be made for the routes to work on app.
 // Routes defined using express in separate file
+
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, '../frontend/build')))
+
+// AFTER defining routes: Anything that doesn't match what's above, send back index.html; (the beginning slash ('/') in the string is important!)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/../frontend/build/index.html'))
+})
+
 createConnection().then(connection => {
 	const API_PORT = process.env.REACT_APP_API_PORT || 1337;
 
