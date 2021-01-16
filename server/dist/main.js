@@ -39,7 +39,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var typeorm_1 = require("typeorm");
 require('dotenv').config();
-console.log(process.env.DATABASE_URL);
 // PG connection options (typeorm config)
 var getOptions = function () { return __awaiter(void 0, void 0, void 0, function () {
     var connectionOptions;
@@ -51,7 +50,8 @@ var getOptions = function () { return __awaiter(void 0, void 0, void 0, function
             extra: {
                 ssl: true,
             },
-            entities: ['dist/entity/*.*'],
+            "entities": ["dist/entity/*.js"],
+            "migrations": ["dist/migration/*.js"],
         };
         if (process.env.DATABASE_URL) {
             Object.assign(connectionOptions, { url: process.env.DATABASE_URL });
@@ -154,8 +154,12 @@ if (process.env.NODE_ENV === "production") {
                             // insertUniData.insertUniversityDataData();
                             // Overwrites every university's ratings object with new data object structure (if ever updated). -> toronto data rn.
                             // insertUniData.insertUniversityDataRatings();
+                            // GET DOMAIN URL USING NODE_ENV CHECK AT THE TOP OF THIS FILE
+                            // REPORT HERE
+                            // FIND WHY ORMCONFIG ISN'T FINDING ANY PROPER CONFIG FILES, EVEN WHEN
+                            // OPTIONS ARE SUPPLIED IN URL.
                             app.listen(API_PORT, function () {
-                                console.log("[main.js]: Listening: http://localhost:" + API_PORT);
+                                console.log("[main.js]: Listening: http://production_url:" + API_PORT);
                             });
                         })];
                 case 2:
@@ -168,6 +172,7 @@ if (process.env.NODE_ENV === "production") {
 }
 else {
     // Development
+    console.log('running on development\n\n');
     // ORMCONFIG.JSON OVERWRITES ANY DATABASE_URL CONFIG ENV VARIABLES,
     // ORMCONFIG.JSON IN THIS DIR IS USED IN DEVELOPMENT.
     // ELSE, IN PROD, ABOVE getOptions USING HEROKU ENV VARS MAKE THE DB CONNECTION.
