@@ -48,7 +48,7 @@ var getOptions = function () { return __awaiter(void 0, void 0, void 0, function
             synchronize: false,
             logging: false,
             extra: {
-                ssl: true,
+                ssl: false,
             },
             "entities": ["dist/entity/*.js"],
             "migrations": ["dist/migration/*.js"],
@@ -132,6 +132,8 @@ app.use('/api', api_router);
 // Database connection must be made for the routes to work on app.
 // Routes defined using express in separate file
 if (process.env.NODE_ENV === "production") {
+    console.log("RUNNING IN PRODUCTION");
+    console.log(process.env.DATABASE_URL);
     // Serve static files from the React frontend app
     app.use(express.static(path.join(__dirname, '../client/build')));
     // AFTER defining routes: Anything that doesn't match what's above, send back index.html; (the beginning slash ('/') in the string is important!)
@@ -145,6 +147,7 @@ if (process.env.NODE_ENV === "production") {
                 case 0: return [4 /*yield*/, getOptions()];
                 case 1:
                     options = _a.sent();
+                    console.log(options);
                     return [4 /*yield*/, typeorm_1.createConnection(options)
                             .then(function (connection) {
                             console.log("Connected to database... running server");

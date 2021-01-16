@@ -13,17 +13,17 @@ const getOptions = async () => {
 
 	let connectionOptions: ConnectionOptions;
 	connectionOptions = {
-	  type: 'postgres',
-	  synchronize: false,
-	  logging: false,
-	  extra: {
-		ssl: true,
-	  },
-	  "entities": ["dist/entity/*.js"],
-	  "migrations": ["dist/migration/*.js"],
+		type: 'postgres',
+		synchronize: false,
+		logging: false,
+		extra: {
+			ssl: false,
+		},
+		"entities": ["dist/entity/*.js"],
+		"migrations": ["dist/migration/*.js"],
 	};
 	if (process.env.DATABASE_URL) {
-	  Object.assign(connectionOptions, { url: process.env.DATABASE_URL });
+		Object.assign(connectionOptions, { url: process.env.DATABASE_URL });
 	} else {
 	  // gets your default configuration
 	  // you could get a specific config by name getConnectionOptions('production')
@@ -112,6 +112,8 @@ app.use('/api', api_router);
 // Routes defined using express in separate file
 
 if (process.env.NODE_ENV === "production") {
+	console.log("RUNNING IN PRODUCTION");
+	console.log(process.env.DATABASE_URL);
 
 	// Serve static files from the React frontend app
 	app.use(express.static(path.join(__dirname, '../client/build')))
@@ -123,6 +125,7 @@ if (process.env.NODE_ENV === "production") {
 
 	const connectAndListen = async (): Promise<void> => {
 		const options = await getOptions();
+		console.log(options);
 		await createConnection(options)
 		.then(connection => {
 			console.log("Connected to database... running server");
