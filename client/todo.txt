@@ -16,8 +16,10 @@ todo
 
 
 	- user scopes when logged in, render specific things.
-		-> user account functionality, account button top right
-		-> manage billings if user has a subscription
+		[x] -> user account functionality, account button top right
+		[x] -> manage billings if user has a subscription
+			-> 
+			-> more stuff
 
 
 	- s3 buckets for images for school listing

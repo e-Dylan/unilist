@@ -1,7 +1,7 @@
 import './App.scss';
 
 // Components
-import Nav from './components/Nav';
+import Nav from './components/Nav/Nav';
 import HomePage from './components/HomePage';
 import SearchArea from './components/SearchArea/SearchArea';
 

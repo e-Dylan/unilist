@@ -13,7 +13,7 @@ import { setUniversityListState } from '../../redux/actions/setUniversityListSta
 
 // Components
 import SearchFilters from "./SearchFilters/SearchFilters";
-import SearchResults from "./SearchResults";
+import SearchResults from "./SearchResults/SearchResults";
 
 // Images/Icons
 

@@ -23,6 +23,9 @@ import RatingSliderHalf from "./RatingSliderHalf";
 import DataRow from './DataRow';
 import DataTable from './DataTable';
 
+// Styled Components
+import { FilterSectionContainer, FilterOptionsContainer } from '../../SearchArea/SearchFilters/SearchFilters.components';
+
 // Images/Icons
 import unilistLogo from '../../../resources/logo/unilist-logo.png';
 import loadingIcon from '../../../resources/feedback-modal/loading.svg';
@@ -292,27 +295,27 @@ function FeedbackModal(props) {
 								<div className="search-filters flex-col">
 									<button className="tags-close-button" onClick={() => showTagsMenu(false)}></button>
 									<span className="tags-title-text">Tags</span>
-									<div className="filter-section flex-col">
+									<FilterSectionContainer>
 										<span className="filter-title">Location</span>
-										<div className="filter-options flex-row">
+										<FilterOptionsContainer>
 											{ Object.keys(searchTagFilters.location_filters).map((item, index) => {
 												return (
 													<div className="filter-button feedback-tag-button location-button flex-col" key={item} id={"locationButton"+index}>{searchTagFilters.location_filters[item]}</div>
 												)
 											})}
-										</div>
-									</div>
-									<div className="filter-section flex-col">
+										</FilterOptionsContainer>
+									</FilterSectionContainer>
+									<FilterSectionContainer>
 										<span className="filter-title">Costs</span>
-										<div className="filter-options flex-row">
+										<FilterOptionsContainer>
 											<div className="filter-button feedback-tag-button location-button flex-col">Low</div>
 											<div className="filter-button feedback-tag-button location-button flex-col">Moderate</div>
 											<div className="filter-button feedback-tag-button location-button flex-col">High</div>
-										</div>
-									</div>
-									<div className="filter-section flex-col">
+										</FilterOptionsContainer>
+									</FilterSectionContainer>
+									<FilterSectionContainer>
 										<span className="filter-title">Community</span>
-										<div className="filter-options flex-row">
+										<FilterOptionsContainer>
 											{ Object.keys(searchTagFilters.community_filters).map((item, index) => {
 												return (
 													<div className="filter-button feedback-tag-button flex-col" key={item} id={"feedbackModalCommunityButton"+index} onClick={ async() => {
@@ -322,11 +325,11 @@ function FeedbackModal(props) {
 													}}>{searchTagFilters.community_filters[item]}</div>
 												)
 											})}
-										</div>
-									</div>
-									<div className="filter-section flex-col">
+										</FilterOptionsContainer>
+									</FilterSectionContainer>
+									<FilterSectionContainer>
 										<span className="filter-title">Surrounding City</span>
-										<div className="filter-options flex-row">
+										<FilterOptionsContainer>
 											{ Object.keys(searchTagFilters.area_filters).map((item, index) => {
 												return (
 													<div className="filter-button feedback-tag-button flex-col" key={item} id={"feedbackModalAreaButton"+index} onClick={ async() => {
@@ -336,11 +339,11 @@ function FeedbackModal(props) {
 													}}>{searchTagFilters.area_filters[item]}</div>
 												)
 											})}
-										</div>
-									</div>
-									<div className="filter-section flex-col">
+										</FilterOptionsContainer>
+									</FilterSectionContainer>
+									<FilterSectionContainer>
 										<span className="filter-title">Qualities of Life</span>
-										<div className="filter-options flex-row">
+										<FilterOptionsContainer>
 											{ Object.keys(searchTagFilters.qualities_filters).map((item, index) => {
 												return (
 													<div className="filter-button feedback-tag-button flex-col" key={item} id={"feedbackModalQualitiesButton"+index} onClick={ async() => {
@@ -350,8 +353,8 @@ function FeedbackModal(props) {
 													}}>{searchTagFilters.qualities_filters[item]}</div>
 												)
 											})}
-										</div>
-									</div>
+										</FilterOptionsContainer>
+									</FilterSectionContainer>
 								</div>
 							</div>
 						</div>

@@ -1,30 +1,33 @@
 import React, { useState, useEffect, useRef, createRef } from "react";
-import '../styles/SearchArea.scss';
+import '../../styles/SearchArea.scss';
 
 // Redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 // Actions (setters)
-import { setUniversityListState } from '../../redux/actions/setUniversityListState';
-import { setActiveUniversityState } from '../../redux/actions/setActiveUniversityState';
-import { setEditingUniversityState } from "../../redux/actions/setEditingUniversityState";
-import { setFeedbackTagsState } from "../../redux/actions/setFeedbackTagsState";
+import { setUniversityListState } from '../../../redux/actions/setUniversityListState';
+import { setActiveUniversityState } from '../../../redux/actions/setActiveUniversityState';
+import { setEditingUniversityState } from "../../../redux/actions/setEditingUniversityState";
+import { setFeedbackTagsState } from "../../../redux/actions/setFeedbackTagsState";
 
 // API
-import * as uniApi from '../../api/uniApi';
+import * as uniApi from '../../../api/uniApi';
 
 // Weather icons
 import ReactAnimatedWeather from 'react-animated-weather';
 
 // Components
-import UniversityDataModal from "../Modals/UniversityDataModal/UniversityDataModal";
-import { showUniversityDataModal } from '../Modals/UniversityDataModal/UniversityDataModal';
-import AddUniversityModal from './AddUniversityModal';
-import { showAddUniModal } from './AddUniversityModal';
-import { showJoinModal } from '../JoinModal';
+import UniversityDataModal from "../../Modals/UniversityDataModal/UniversityDataModal";
+import { showUniversityDataModal } from '../../Modals/UniversityDataModal/UniversityDataModal';
+import AddUniversityModal from '../AddUniversityModal';
+import { showAddUniModal } from '../AddUniversityModal';
+import { showJoinModal } from '../../JoinModal';
+
+// Styled Components
+import { SearchResultsContainer, SearchResultsItems } from './SearchResults.components';
 
 // Images/Icons
-import starIcon from '../../resources/search-area/search-results/star.png';
+import starIcon from '../../../resources/search-area/search-results/star.png';
 
 export const getTotalCost = (cost) => {
 	if (cost !== null) {
@@ -146,26 +149,16 @@ function SearchResults(props) {
 	}
 
 	return (
-		<div className="search-results-container flex-col">
+		<SearchResultsContainer>
 				<div className="search-results-nav flex-row">
-					{/* <button className="unilist-button" onClick={() => showAddUniModal(true)}>Add University</button> */}
 					<button className="unilist-button" onClick={() => {
 						showFeedbackModal(true)
-						// PREVENT THIS FROM APPENDING THE CURRENT OBJECT
-						// WITH A NEW UNIDATA OBJECT.
-						// HAS A REFERENCE TO ITSELF - CREATES "CIRCULAR".
-						// OVERWRITE STATE, DON'T ADD A LOOPING OBJECT.
-						// IDK WHY IT IS. -> stringifying works with nested objects - overwriting strings works.
-						// fix by stringifying when overwriting? takes parsing everywhere though.
-						// GET A DEEPCOPY LIBRARY?
-						
-						// props.setEditingUniversityState(uniApi.nullUniData);
 					}}
 					>Add University</button>
 				</div>
 
 				{ props.globalState.universityListState != null && props.globalState.universityListState.length > 0 &&
-					<div className="search-results-items flex-row">
+					<SearchResultsItems>
 						{ props.globalState.universityListState.map((item, index) => {
 							return (
 								<div className="search-results-item flex-col" key={item.name}
@@ -223,13 +216,13 @@ function SearchResults(props) {
 								</div>
 							);
 						}) }
-					</div>
+					</SearchResultsItems>
 				}
 
 				{/* Absolute positioned */}
 				<UniversityDataModal />
 				<AddUniversityModal />
-		</div>
+		</SearchResultsContainer>
 	);
 }
 

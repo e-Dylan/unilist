@@ -20,8 +20,8 @@ import { setEditingUniversityState } from "../../../redux/actions/setEditingUniv
 // Components
 import RatingBar from './RatingBar';
 
-import { getTotalCost } from '../../SearchArea/SearchResults';
-import { getWeatherIcon } from '../../SearchArea/SearchResults';
+import { getTotalCost } from '../../SearchArea/SearchResults/SearchResults';
+import { getWeatherIcon } from '../../SearchArea/SearchResults/SearchResults';
 import { showJoinModal } from "../../JoinModal";
 
 // Images/Icons

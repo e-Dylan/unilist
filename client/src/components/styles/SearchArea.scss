@@ -35,11 +35,6 @@
 	justify-self: flex-start;
 }
 
-.search-results-container {
-	height: 100%;
-	width: 65%;
-	align-items: center;
-	padding: 0 20px;
 	
 	.search-results-nav {
 		width: 100%;
@@ -48,88 +43,82 @@
 		justify-content: flex-start;
 	}
 
-	.search-results-items {
-		width: 100%;
-		flex-wrap: wrap;
-		justify-content: flex-start;
-		.search-results-item {
-			width: 380px;
-			height: 230px;
-			color: black;
-			margin: 10px 5px;
-			background: #222;
-			border-radius: 5px;
-			text-align: center;
-			font-size: 13pt;
-			color: #fff;
-			text-shadow: 1px 1px 0 rgba(0,0,0,0.35), 1px 1px 5px rgba(0,0,0,0.5);
-			// position: relative;
-			transition: 100ms all ease-in-out;
-			position: relative;
+	.search-results-item {
+		width: 380px;
+		height: 230px;
+		color: black;
+		margin: 10px 5px;
+		background: #222;
+		border-radius: 5px;
+		text-align: center;
+		font-size: 13pt;
+		color: #fff;
+		text-shadow: 1px 1px 0 rgba(0,0,0,0.35), 1px 1px 5px rgba(0,0,0,0.5);
+		// position: relative;
+		transition: 100ms all ease-in-out;
+		position: relative;
 
-			// background image styles.
-			flex-direction: column;
-			background-size: cover; /* for IE9+, Safari 4.1+, Chrome 3.0+, Firefox 3.6+ */
-			-webkit-background-size: cover; /* for Safari 3.0 - 4.0 , Chrome 1.0 - 3.0 */
-			-moz-background-size: cover; /* optional for Firefox 3.6 */ 
-			-o-background-size: cover; /* for Opera 9.5 */
-			overflow: hidden;
+		// background image styles.
+		flex-direction: column;
+		background-size: cover; /* for IE9+, Safari 4.1+, Chrome 3.0+, Firefox 3.6+ */
+		-webkit-background-size: cover; /* for Safari 3.0 - 4.0 , Chrome 1.0 - 3.0 */
+		-moz-background-size: cover; /* optional for Firefox 3.6 */ 
+		-o-background-size: cover; /* for Opera 9.5 */
+		overflow: hidden;
 
-			&:hover {
-				transform: scale(1.025);
-			}
+		&:hover {
+			transform: scale(1.025);
+		}
 
-			.cost-container {
-				align-items: center;
-				position: absolute;
-				bottom: 15px;
-				left: 0;
-				width: 40%;
-			}
+		.cost-container {
+			align-items: center;
+			position: absolute;
+			bottom: 15px;
+			left: 0;
+			width: 40%;
+		}
 
-			.weather-container {
-				align-items: center;
-				position: absolute;
-				top: 15px;
-				right: 0px;
-				width: 40%;
-			}
+		.weather-container {
+			align-items: center;
+			position: absolute;
+			top: 15px;
+			right: 0px;
+			width: 40%;
+		}
 
-			.location-container {
-				position: absolute;
-				align-items: center;
-				bottom: 10px;
-				right: 0px;
-				width: 40%;
-			}
-			
-			.thumbnail-data-text-large {
-				font-size: 14pt;
-				color: white;
-			}
-			.thumbnail-data-text-med {
-				font-size: 11pt;
-			}
-			.thumbnail-data-text-small {
-				font-size: 8pt;
-			}
+		.location-container {
+			position: absolute;
+			align-items: center;
+			bottom: 10px;
+			right: 0px;
+			width: 40%;
+		}
+		
+		.thumbnail-data-text-large {
+			font-size: 14pt;
+			color: white;
+		}
+		.thumbnail-data-text-med {
+			font-size: 11pt;
+		}
+		.thumbnail-data-text-small {
+			font-size: 8pt;
+		}
 
-			.university-title {
-				font-weight: bold;
-			}
+		.university-title {
+			font-weight: bold;
+		}
 
-			.overall-rating {
-				img {
-					width: 20px;
-					margin: 0 5px;
-				}
-				span {
-					margin: 0 5px;
-				}
+		.overall-rating {
+			img {
+				width: 20px;
+				margin: 0 5px;
+			}
+			span {
+				margin: 0 5px;
 			}
 		}
 	}
-}
 
 .sidebar-container {
 	height: 100%;
