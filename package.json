@@ -44,14 +44,5 @@
 	"typeorm": "^0.2.29",
 	"volleyball": "^1.5.1"
 	},
-	"devDependencies": {
-		"eslint": "^7.5.0",
-		"eslint-config-airbnb-base": "^14.2.0",
-		"eslint-plugin-import": "^2.22.0",
-		"mocha": "^8.1.1",
-		"nodemon": "^2.0.4",
-		"supertest": "^4.0.2",
-		"typescript": "^4.1.3"
-	},
   "homepage": "https://unilisted.vercel.app"
 }
