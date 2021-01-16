@@ -2,6 +2,23 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var typeorm_1 = require("typeorm");
+// Define local or production domains/db connections.
+var sessionPoolConfig = process.env.NODE_ENV === "development" ?
+    {
+        user: 'role',
+        password: 'root',
+        host: 'localhost',
+        port: 5432,
+        database: 'universities_db',
+    }
+    :
+        {
+            user: 'ddqwlvixtcdyjx',
+            password: '54287b2da081f88c55db4201c979795c80fd7aac8faf7cd4622621330b270c5c',
+            host: 'ec2-184-73-249-9.compute-1.amazonaws.com',
+            port: 5432,
+            database: 'djsjgdo6g6dis',
+        };
 var cron = require('./cronjobs/updateWeatherJob');
 var express = require('express');
 var session = require('express-session');
@@ -25,13 +42,7 @@ app.use(volleyball);
 app.use(fileUpload());
 // init pg session
 var sessionPool = require('pg').Pool;
-var sessionDBaccess = new sessionPool({
-    user: 'role',
-    password: 'root',
-    host: 'localhost',
-    port: 5432,
-    database: 'universities_db',
-});
+var sessionDBaccess = new sessionPool(sessionPoolConfig);
 app.use(session({
     store: new pgSession({
         pool: sessionDBaccess,
@@ -58,7 +69,7 @@ app.get('*', function (req, res) {
     res.sendFile(path.join(__dirname + '/../client/build/index.html'));
 });
 typeorm_1.createConnection().then(function (connection) {
-    var API_PORT = process.env.REACT_APP_API_PORT || 1337;
+    var API_PORT = process.env.API_PORT || 1337;
     // insertUniData.updateUniOverallRating();
     // insertUniData.insertCityName();
     // insertUniData.insertUniversityDataData();

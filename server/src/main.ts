@@ -6,6 +6,25 @@ import { createConnection, getConnection, getRepository } from "typeorm";
 // import './makeSessionsTable';
 import * as insertUniData from './insertUniData';
 
+// Define local or production domains/db connections.
+var sessionPoolConfig = process.env.NODE_ENV === "development" ?
+{
+	user: 'role',
+	password: 'root',
+	host: 'localhost',
+	port: 5432,
+	database: 'universities_db',
+}
+	:
+{	
+	user: 'ddqwlvixtcdyjx',
+	password: '54287b2da081f88c55db4201c979795c80fd7aac8faf7cd4622621330b270c5c',
+	host: 'ec2-184-73-249-9.compute-1.amazonaws.com',
+	port: 5432,
+	database: 'djsjgdo6g6dis',
+};
+	
+
 const cron = require('./cronjobs/updateWeatherJob');
 
 const express = require('express');
@@ -35,13 +54,7 @@ app.use(fileUpload());
 
 // init pg session
 const sessionPool = require('pg').Pool;
-const sessionDBaccess = new sessionPool({
-	user: 'role',
-	password: 'root',
-	host: 'localhost',
-	port: 5432,
-	database: 'universities_db',
-});
+const sessionDBaccess = new sessionPool(sessionPoolConfig);
 
 app.use(session({
 	store: new pgSession({
@@ -73,7 +86,7 @@ app.get('*', (req, res) => {
 })
 
 createConnection().then(connection => {
-	const API_PORT = process.env.REACT_APP_API_PORT || 1337;
+	const API_PORT = process.env.API_PORT || 1337;
 
 	// insertUniData.updateUniOverallRating();
 	// insertUniData.insertCityName();

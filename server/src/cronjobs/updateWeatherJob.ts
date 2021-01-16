@@ -14,8 +14,8 @@ console.log("Initializing [updateWeather] cronjob - running every [7 days (Sunda
  * 			   uni.university_data.ratings.average. [temp], [feels_like], [desc] <-- TO MAKE. GET DATA FROM API.
  */
 
-// cron.schedule('0 0 * * 0', () => { // 7 days, sunday
-cron.schedule('*/10 * * * *', () => {
+cron.schedule('0 0 * * 0', () => { // 7 days, sunday
+// cron.schedule('*/10 * * * *', () => {
 	console.log('RUNNING: [updateWeather] cronjob - running every [10 minutes].');
 // cron.schedule('* * * * *', () => { // 1 minute
 	// console.log('RUNNING: [updateWeather] cronjob - running every [7 days (Sundays)].');
