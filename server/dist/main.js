@@ -145,7 +145,7 @@ if (process.env.NODE_ENV === "production") {
                     return [4 /*yield*/, typeorm_1.createConnection(options)
                             .then(function (connection) {
                             console.log("Connected to database... running server");
-                            var API_PORT = process.env.API_PORT || 1337;
+                            var API_PORT = process.env.PORT || 1337;
                             // insertUniData.updateUniOverallRating();
                             // insertUniData.insertCityName();
                             // insertUniData.insertUniversityDataData();

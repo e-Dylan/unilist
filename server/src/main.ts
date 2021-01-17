@@ -120,7 +120,7 @@ if (process.env.NODE_ENV === "production") {
 		await createConnection(options)
 		.then(connection => {
 			console.log("Connected to database... running server");
-			const API_PORT = process.env.API_PORT || 1337;
+			const API_PORT = process.env.PORT || 1337;
 
 			// insertUniData.updateUniOverallRating();
 			// insertUniData.insertCityName();
