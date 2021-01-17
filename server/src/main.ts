@@ -3,7 +3,7 @@ import { connect } from "http2";
 import "reflect-metadata";
 import { Request, Response, Next } from "express";
 import { createConnection, getConnection, getRepository, ConnectionOptions, getConnectionOptions, AdvancedConsoleLogger } from "typeorm";
-import './makeSessionsTable';
+// import './makeSessionsTable';
 import * as insertUniData from './insertUniData';
 
 require('dotenv').config();
@@ -42,8 +42,8 @@ const getOptions = async () => {
 		extra: {
 			ssl: false,
 		},
-		"entities": ["dist/entity/*.js"],
-		"migrations": ["dist/migration/*.js"],
+		"entities": ["server/dist/entity/*.js"],
+		"migrations": ["server/dist/migration/*.js"],
 	};
 	if (process.env.DATABASE_URL) {
 		Object.assign(connectionOptions, { url: process.env.DATABASE_URL });
@@ -60,7 +60,7 @@ const getOptions = async () => {
 };
 
 // Define local or production domains/db connections.
-var sessionPoolConfig = process.env.NODE_ENV !== "development" ?
+var sessionPoolConfig = process.env.NODE_ENV === "development" ?
 {
 	user: 'role',
 	password: 'root',
@@ -70,12 +70,11 @@ var sessionPoolConfig = process.env.NODE_ENV !== "development" ?
 }
 	:
 {	
-	// AWS RDS PSQL DATABASE CONFIG -> PUT IN ENV VARIABLES ON UBUNTU SERVER.
-	user: 'postgres',
-	password: 'sakdj2321jodks2ajdkjo21j42kl',
-	host: 'unilist-db-aws.cldikagnm4ob.us-east-1.rds.amazonaws.com',
+	user: 'ddqwlvixtcdyjx',
+	password: '54287b2da081f88c55db4201c979795c80fd7aac8faf7cd4622621330b270c5c',
+	host: 'ec2-184-73-249-9.compute-1.amazonaws.com',
 	port: 5432,
-	database: 'unilist_db_aws',
+	database: 'djsjgdo6g6dis',
 };
 
 // init pg session
