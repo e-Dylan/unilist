@@ -1,12 +1,21 @@
 const fs = require('fs');
 const path = require('path');
 
-const options = {
-	host: 'localhost',
-	port: 5432,
+const options = process.env.NODE_ENV === "development" ?
+{
 	user: 'role',
 	password: 'root',
+	host: 'localhost',
+	port: 5432,
 	database: 'universities_db',
+}
+	:
+{	
+	user: 'postgres',
+	password: 'sakdj2321jodks2ajdkjo21j42kl',
+	host: 'unilist-db-aws.cldikagnm4ob.us-east-1.rds.amazonaws.com',
+	port: 5432,
+	database: 'unilist_db_aws',
 };
 
 const knex = require('knex')({

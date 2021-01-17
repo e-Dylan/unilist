@@ -63,25 +63,53 @@ app.use(fileUpload());
 var getOptions = function () { return __awaiter(void 0, void 0, void 0, function () {
     var connectionOptions;
     return __generator(this, function (_a) {
-        connectionOptions = {
-            type: 'postgres',
-            synchronize: false,
-            logging: false,
-            extra: {
-                ssl: false,
-            },
-            "entities": ["server/dist/entity/*.js"],
-            "migrations": ["server/dist/migration/*.js"],
-        };
-        if (process.env.DATABASE_URL) {
-            Object.assign(connectionOptions, { url: process.env.DATABASE_URL });
+        if (process.env.NODE_ENV === "production") {
+            console.log("RUNNING IN PRODUCTION");
+            connectionOptions = {
+                type: 'postgres',
+                username: "postgres",
+                password: "sakdj2321jodks2ajdkjo21j42kl",
+                host: "unilist-db-aws.cldikagnm4ob.us-east-1.rds.amazonaws.com",
+                port: 5432,
+                database: "unilist_db_aws",
+                synchronize: false,
+                logging: false,
+                extra: {
+                    ssl: false,
+                },
+                "entities": ["dist/entity/*.js"],
+                "migrations": ["dist/migration/*.js"],
+            };
+            // if (process.env.DATABASE_URL_PROD) {
+            // 	Object.assign(connectionOptions, { url: process.env.DATABASE_URL_PROD });
+            // } else {
+            // 	console.log("ERROR: No database url provided in database connection options. Check NODE_ENV.");
+            // 	return;
+            // }
         }
-        else {
-            // gets your default configuration
-            // you could get a specific config by name getConnectionOptions('production')
-            // or getConnectionOptions(process.env.NODE_ENV)
-            // there must be a DATABASE_URL on production - otherwise configure default
-            // prod database creds to fallback to -> Heroku env vars.
+        else if (process.env.NODE_ENV === "development") {
+            console.log("RUNNING IN DEV");
+            connectionOptions = {
+                type: 'postgres',
+                host: "localhost",
+                port: 5432,
+                username: "role",
+                password: "root",
+                database: "universities_db",
+                synchronize: false,
+                logging: false,
+                extra: {
+                    ssl: false,
+                },
+                "entities": ["dist/entity/*.js"],
+                "migrations": ["dist/migration/*.js"],
+            };
+            // if (process.env.DATABASE_URL_DEV) {
+            // 	Object.assign(connectionOptions, { url: process.env.DATABASE_URL_DEV });
+            // } else {
+            // 	console.log("ERROR: No database url provided in database connection options. Check NODE_ENV.");
+            // 	return;
+            // }
         }
         return [2 /*return*/, connectionOptions];
     });
@@ -97,15 +125,16 @@ var sessionPoolConfig = process.env.NODE_ENV === "development" ?
     }
     :
         {
-            user: 'ddqwlvixtcdyjx',
-            password: '54287b2da081f88c55db4201c979795c80fd7aac8faf7cd4622621330b270c5c',
-            host: 'ec2-184-73-249-9.compute-1.amazonaws.com',
+            user: 'postgres',
+            password: 'sakdj2321jodks2ajdkjo21j42kl',
+            host: 'unilist-db-aws.cldikagnm4ob.us-east-1.rds.amazonaws.com',
             port: 5432,
-            database: 'djsjgdo6g6dis',
+            database: 'unilist_db_aws',
         };
 // init pg session
 var sessionPool = require('pg').Pool;
 var sessionDBaccess = new sessionPool(sessionPoolConfig);
+console.log("SESSION POOL CONFIG:", sessionPoolConfig);
 app.use(session({
     store: new pgSession({
         pool: sessionDBaccess,
@@ -123,61 +152,34 @@ app.use(session({
 }));
 var api_router = require('./routes/api');
 app.use('/api', api_router);
-// Database connection must be made for the routes to work on app.
-// Routes defined using express in separate file
-if (process.env.NODE_ENV === "production") {
-    console.log("RUNNING IN PRODUCTION");
-    console.log(process.env.DATABASE_URL);
-    // Serve static files from the React frontend app
-    app.use(express.static(path.join(__dirname, '../../client/build')));
-    // AFTER defining routes: Anything that doesn't match what's above, send back index.html; (the beginning slash ('/') in the string is important!)
-    app.get('*', function (req, res) {
-        res.sendFile(path.join(__dirname + '/../../client/build/index.html'));
+var connectAndListen = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var options;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, getOptions()];
+            case 1:
+                options = _a.sent();
+                console.log("DATABASE CONNECTION CONFIG:", options);
+                typeorm_1.createConnection(options)
+                    .then(function (connection) {
+                    console.log("Connected to database... running server");
+                    var API_PORT = process.env.PORT || 1337;
+                    // insertUniData.updateUniOverallRating();
+                    // insertUniData.insertCityName();
+                    // insertUniData.insertUniversityDataData();
+                    // Overwrites every university's ratings object with new data object structure (if ever updated). -> toronto data rn.
+                    // insertUniData.insertUniversityDataRatings();
+                    // GET DOMAIN URL USING NODE_ENV CHECK AT THE TOP OF THIS FILE
+                    // REPORT HERE
+                    // FIND WHY ORMCONFIG ISN'T FINDING ANY PROPER CONFIG FILES, EVEN WHEN
+                    // OPTIONS ARE SUPPLIED IN URL.
+                    app.listen(API_PORT, function () {
+                        console.log("[main.js]: Listening: http://domain_url:" + API_PORT);
+                    });
+                });
+                return [2 /*return*/];
+        }
     });
-    var connectAndListen = function () { return __awaiter(void 0, void 0, void 0, function () {
-        var options;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, getOptions()];
-                case 1:
-                    options = _a.sent();
-                    console.log(options);
-                    return [4 /*yield*/, typeorm_1.createConnection(options)
-                            .then(function (connection) {
-                            console.log("Connected to database... running server");
-                            var API_PORT = process.env.PORT || 1337;
-                            // insertUniData.updateUniOverallRating();
-                            // insertUniData.insertCityName();
-                            // insertUniData.insertUniversityDataData();
-                            // Overwrites every university's ratings object with new data object structure (if ever updated). -> toronto data rn.
-                            // insertUniData.insertUniversityDataRatings();
-                            // GET DOMAIN URL USING NODE_ENV CHECK AT THE TOP OF THIS FILE
-                            // REPORT HERE
-                            // FIND WHY ORMCONFIG ISN'T FINDING ANY PROPER CONFIG FILES, EVEN WHEN
-                            // OPTIONS ARE SUPPLIED IN URL.
-                            app.listen(API_PORT, function () {
-                                console.log("[main.js]: Listening: http://production_url:" + API_PORT);
-                            });
-                        })];
-                case 2:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
-        });
-    }); };
-    connectAndListen();
-}
-else {
-    // Development
-    console.log('running on development\n\n');
-    // ORMCONFIG.JSON OVERWRITES ANY DATABASE_URL CONFIG ENV VARIABLES,
-    // ORMCONFIG.JSON IN THIS DIR IS USED IN DEVELOPMENT.
-    // ELSE, IN PROD, ABOVE getOptions USING HEROKU ENV VARS MAKE THE DB CONNECTION.
-    typeorm_1.createConnection().then(function (connection) {
-        var API_PORT = process.env.API_PORT || 1337;
-        app.listen(API_PORT, function () {
-            console.log("[main.js]: Listening: http://localhost:" + API_PORT);
-        });
-    });
-}
+}); };
+connectAndListen();
 //# sourceMappingURL=main.js.map
