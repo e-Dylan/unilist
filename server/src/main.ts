@@ -7,62 +7,7 @@ import { createConnection, getConnection, getRepository, ConnectionOptions, getC
 import * as insertUniData from './insertUniData';
 
 require('dotenv').config();
-
-// PG connection options (typeorm config)
-const getOptions = async () => {
-
-	let connectionOptions: ConnectionOptions;
-	connectionOptions = {
-		type: 'postgres',
-		synchronize: false,
-		logging: false,
-		extra: {
-			ssl: false,
-		},
-		"entities": ["dist/entity/*.js"],
-		"migrations": ["dist/migration/*.js"],
-	};
-	if (process.env.DATABASE_URL) {
-		Object.assign(connectionOptions, { url: process.env.DATABASE_URL });
-	} else {
-	  // gets your default configuration
-	  // you could get a specific config by name getConnectionOptions('production')
-	  // or getConnectionOptions(process.env.NODE_ENV)
-	  connectionOptions = {
-		"type": "postgres",
-		"host": "localhost",
-		"port": 5432,
-		"username": "role",
-		"password": "root",
-		"database": "universities_db",
-	  }
-	}
-  
-	return connectionOptions;
-};
-
-// Define local or production domains/db connections.
-var sessionPoolConfig = process.env.NODE_ENV === "development" ?
-{
-	user: 'role',
-	password: 'root',
-	host: 'localhost',
-	port: 5432,
-	database: 'universities_db',
-}
-	:
-{	
-	user: 'ddqwlvixtcdyjx',
-	password: '54287b2da081f88c55db4201c979795c80fd7aac8faf7cd4622621330b270c5c',
-	host: 'ec2-184-73-249-9.compute-1.amazonaws.com',
-	port: 5432,
-	database: 'djsjgdo6g6dis',
-};
-	
-
 const cron = require('./cronjobs/updateWeatherJob');
-
-
 const express = require('express');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
@@ -85,6 +30,52 @@ app.use(cors(corsOptions));
 app.use(helmet());
 app.use(volleyball);
 app.use(fileUpload());
+
+// PG connection options (typeorm config)
+const getOptions = async () => {
+
+	let connectionOptions: ConnectionOptions;
+	connectionOptions = {
+		type: 'postgres',
+		synchronize: false,
+		logging: false,
+		extra: {
+			ssl: false,
+		},
+		"entities": ["server/dist/entity/*.js"],
+		"migrations": ["server/dist/migration/*.js"],
+	};
+	if (process.env.DATABASE_URL) {
+		Object.assign(connectionOptions, { url: process.env.DATABASE_URL });
+	} else {
+	  // gets your default configuration
+	  // you could get a specific config by name getConnectionOptions('production')
+	  // or getConnectionOptions(process.env.NODE_ENV)
+
+	// there must be a DATABASE_URL on production - otherwise configure default
+	// prod database creds to fallback to -> Heroku env vars.
+	}
+  
+	return connectionOptions;
+};
+
+// Define local or production domains/db connections.
+var sessionPoolConfig = process.env.NODE_ENV === "development" ?
+{
+	user: 'role',
+	password: 'root',
+	host: 'localhost',
+	port: 5432,
+	database: 'universities_db',
+}
+	:
+{	
+	user: 'ddqwlvixtcdyjx',
+	password: '54287b2da081f88c55db4201c979795c80fd7aac8faf7cd4622621330b270c5c',
+	host: 'ec2-184-73-249-9.compute-1.amazonaws.com',
+	port: 5432,
+	database: 'djsjgdo6g6dis',
+};
 
 // init pg session
 const sessionPool = require('pg').Pool;

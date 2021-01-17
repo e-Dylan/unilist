@@ -39,6 +39,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var typeorm_1 = require("typeorm");
 require('dotenv').config();
+var cron = require('./cronjobs/updateWeatherJob');
+var express = require('express');
+var session = require('express-session');
+var pgSession = require('connect-pg-simple')(session);
+var cors = require('cors');
+var volleyball = require('volleyball');
+var helmet = require('helmet');
+var fileUpload = require('express-fileupload');
+var path = require('path');
+var app = express();
+var corsOptions = {
+    origin: true,
+    credentials: true,
+};
+// Express middlewares
+app.use(express.json());
+app.use(cors(corsOptions));
+app.use(helmet());
+app.use(volleyball);
+app.use(fileUpload());
 // PG connection options (typeorm config)
 var getOptions = function () { return __awaiter(void 0, void 0, void 0, function () {
     var connectionOptions;
@@ -50,8 +70,8 @@ var getOptions = function () { return __awaiter(void 0, void 0, void 0, function
             extra: {
                 ssl: false,
             },
-            "entities": ["dist/entity/*.js"],
-            "migrations": ["dist/migration/*.js"],
+            "entities": ["server/dist/entity/*.js"],
+            "migrations": ["server/dist/migration/*.js"],
         };
         if (process.env.DATABASE_URL) {
             Object.assign(connectionOptions, { url: process.env.DATABASE_URL });
@@ -60,14 +80,8 @@ var getOptions = function () { return __awaiter(void 0, void 0, void 0, function
             // gets your default configuration
             // you could get a specific config by name getConnectionOptions('production')
             // or getConnectionOptions(process.env.NODE_ENV)
-            connectionOptions = {
-                "type": "postgres",
-                "host": "localhost",
-                "port": 5432,
-                "username": "role",
-                "password": "root",
-                "database": "universities_db",
-            };
+            // there must be a DATABASE_URL on production - otherwise configure default
+            // prod database creds to fallback to -> Heroku env vars.
         }
         return [2 /*return*/, connectionOptions];
     });
@@ -89,26 +103,6 @@ var sessionPoolConfig = process.env.NODE_ENV === "development" ?
             port: 5432,
             database: 'djsjgdo6g6dis',
         };
-var cron = require('./cronjobs/updateWeatherJob');
-var express = require('express');
-var session = require('express-session');
-var pgSession = require('connect-pg-simple')(session);
-var cors = require('cors');
-var volleyball = require('volleyball');
-var helmet = require('helmet');
-var fileUpload = require('express-fileupload');
-var path = require('path');
-var app = express();
-var corsOptions = {
-    origin: true,
-    credentials: true,
-};
-// Express middlewares
-app.use(express.json());
-app.use(cors(corsOptions));
-app.use(helmet());
-app.use(volleyball);
-app.use(fileUpload());
 // init pg session
 var sessionPool = require('pg').Pool;
 var sessionDBaccess = new sessionPool(sessionPoolConfig);
