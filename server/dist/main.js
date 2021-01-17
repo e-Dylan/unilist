@@ -129,10 +129,10 @@ if (process.env.NODE_ENV === "production") {
     console.log("RUNNING IN PRODUCTION");
     console.log(process.env.DATABASE_URL);
     // Serve static files from the React frontend app
-    app.use(express.static(path.join(__dirname, '../client/build')));
+    app.use(express.static(path.join(__dirname, '../../client/build')));
     // AFTER defining routes: Anything that doesn't match what's above, send back index.html; (the beginning slash ('/') in the string is important!)
     app.get('*', function (req, res) {
-        res.sendFile(path.join(__dirname + '/../client/build/index.html'));
+        res.sendFile(path.join(__dirname + '/../../client/build/index.html'));
     });
     var connectAndListen = function () { return __awaiter(void 0, void 0, void 0, function () {
         var options;
