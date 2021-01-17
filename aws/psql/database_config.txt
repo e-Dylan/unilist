@@ -1,0 +1,4 @@
+HOST/SERVER: unilist-db-aws.cldikagnm4ob.us-east-1.rds.amazonaws.com
+username: postgres
+password: sakdj2321jodks2ajdkjo21j42kl
+port: 5432

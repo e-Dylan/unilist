@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var typeorm_1 = require("typeorm");
+require("./makeSessionsTable");
 require('dotenv').config();
 var cron = require('./cronjobs/updateWeatherJob');
 var express = require('express');
@@ -70,8 +71,8 @@ var getOptions = function () { return __awaiter(void 0, void 0, void 0, function
             extra: {
                 ssl: false,
             },
-            "entities": ["server/dist/entity/*.js"],
-            "migrations": ["server/dist/migration/*.js"],
+            "entities": ["dist/entity/*.js"],
+            "migrations": ["dist/migration/*.js"],
         };
         if (process.env.DATABASE_URL) {
             Object.assign(connectionOptions, { url: process.env.DATABASE_URL });
@@ -87,7 +88,7 @@ var getOptions = function () { return __awaiter(void 0, void 0, void 0, function
     });
 }); };
 // Define local or production domains/db connections.
-var sessionPoolConfig = process.env.NODE_ENV === "development" ?
+var sessionPoolConfig = process.env.NODE_ENV !== "development" ?
     {
         user: 'role',
         password: 'root',
@@ -97,11 +98,12 @@ var sessionPoolConfig = process.env.NODE_ENV === "development" ?
     }
     :
         {
-            user: 'ddqwlvixtcdyjx',
-            password: '54287b2da081f88c55db4201c979795c80fd7aac8faf7cd4622621330b270c5c',
-            host: 'ec2-184-73-249-9.compute-1.amazonaws.com',
+            // AWS RDS PSQL DATABASE CONFIG -> PUT IN ENV VARIABLES ON UBUNTU SERVER.
+            user: 'postgres',
+            password: 'sakdj2321jodks2ajdkjo21j42kl',
+            host: 'unilist-db-aws.cldikagnm4ob.us-east-1.rds.amazonaws.com',
             port: 5432,
-            database: 'djsjgdo6g6dis',
+            database: 'unilist_db_aws',
         };
 // init pg session
 var sessionPool = require('pg').Pool;
