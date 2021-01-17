@@ -4,6 +4,8 @@ export const API_URL = process.env.NODE_ENV === "development" ?
 
 export const DOMAIN_URL = process.env.NODE_ENV === "development" ?
 	process.env.REACT_APP_DEVELOPMENT_DOMAIN_URL : process.env.REACT_APP_PRODUCTION_DOMAIN_URL
+
+// CHANGE process.env.NODE_ENV to process.env.VERCEL_ENV for vercel dev local env vars.
 	
 console.log("NODE_ENV: ", process.env.NODE_ENV);	
 console.log('API_URL: ', API_URL);
