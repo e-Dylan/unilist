@@ -21,7 +21,7 @@ import UniversityDataModal from "../../Modals/UniversityDataModal/UniversityData
 import { showUniversityDataModal } from '../../Modals/UniversityDataModal/UniversityDataModal';
 import AddUniversityModal from '../AddUniversityModal';
 import { showAddUniModal } from '../AddUniversityModal';
-import { showJoinModal } from '../../JoinModal';
+import { showJoinModal } from '../../Modals/JoinModal/JoinModal';
 
 // Styled Components
 import { SearchResultsContainer, SearchResultsItems } from './SearchResults.components';

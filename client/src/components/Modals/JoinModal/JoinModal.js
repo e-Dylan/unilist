@@ -1,33 +1,37 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import $ from "jquery";
+import theme from '../../../styles/theme';
 
 // Redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setUserState } from '../redux/actions/setUserState';
+import { setUserState } from '../../../redux/actions/setUserState';
 
-import './styles/JoinModal.scss';
+import '../../styles/JoinModal.scss';
 
 // Components
-import SignupForm from './form/SignupForm';
+import SignupForm from '../../form/SignupForm';
+
+// Styled Components
+import { JoinModalContainer, ModalBodyContainer, ModalColumn, HeaderBar, FooterBar } from './JoinModal.components';
 
 // API
-import * as paymentApi from '../api/paymentApi';
+import * as paymentApi from '../../../api/paymentApi';
 
 // Images/Icons
 // Free
-import ratingsIcon from '../resources/join-modal/free-membership/ratings-icon.svg';
-import readPostsIcon from '../resources/join-modal/free-membership/read-posts-icon.svg';
-import addDataIcon from '../resources/join-modal/free-membership/add-data.svg';
+import ratingsIcon from '../../../resources/join-modal/free-membership/ratings-icon.svg';
+import readPostsIcon from '../../../resources/join-modal/free-membership/read-posts-icon.svg';
+import addDataIcon from '../../../resources/join-modal/free-membership/add-data.svg';
 // Active
-import makePostsIcon from '../resources/join-modal/active-membership/make-posts-icon.svg';
+import makePostsIcon from '../../../resources/join-modal/active-membership/make-posts-icon.svg';
 // Premium
-import featuresIcon from '../resources/join-modal/premium-membership/features-icon.svg';
-import premiumIcon from '../resources/join-modal/premium-membership/premium-icon.svg';
-import additionalConnectionsIcon from '../resources/join-modal/premium-membership/additional-connections.svg';
-import mapIcon from '../resources/join-modal/premium-membership/map-icon.svg';
-import checkmarkIcon from '../resources/join-modal/premium-membership/checkmark-icon.svg';
+import featuresIcon from '../../../resources/join-modal/premium-membership/features-icon.svg';
+import premiumIcon from '../../../resources/join-modal/premium-membership/premium-icon.svg';
+import additionalConnectionsIcon from '../../../resources/join-modal/premium-membership/additional-connections.svg';
+import mapIcon from '../../../resources/join-modal/premium-membership/map-icon.svg';
+import checkmarkIcon from '../../../resources/join-modal/premium-membership/checkmark-icon.svg';
 
 export function showJoinModal(bool) {
 	const modalBg = document.getElementById('join-modal-bg');
@@ -100,12 +104,12 @@ function JoinModal(props) {
 
 	return (
 		<div className="modal-bg" id="join-modal-bg">
-			<div className="join-modal modal flex-row" id="join-modal">
+			<JoinModalContainer className="modal" id="join-modal">
 	
-				<div className="header-bar" />
+				<HeaderBar />
 
-				<div className="body-container flex-row">
-					<div className="signup-form-col">
+				<ModalBodyContainer>
+					<ModalColumn>
 						<div className="title-text-container flex-col">
 							<span className="title-text">JOIN UNILIST</span>
 							<div className="underline" />
@@ -128,11 +132,11 @@ function JoinModal(props) {
 
 						<SignupForm priceId={priceId} priceIds={paymentApi.priceIds} />
 						
-					</div>
+					</ModalColumn>
 
 					<div className="divider-center" />
 
-					<div className="membership-col flex-col">
+					<ModalColumn bg={theme.colors.brand.gray["light"]}>
 						<div className="membership-container">
 							<div className="membership-tab-content flex-col">
 
@@ -240,14 +244,11 @@ function JoinModal(props) {
 								</div> */}
 							</div>
 						</div>
-						
-					</div>
-				</div>
+					</ModalColumn>
+				</ModalBodyContainer>
 
-
-				<div className="footer-bar" />
-
-			</div>
+				<FooterBar />
+			</JoinModalContainer>
 		</div>
 	);
 }

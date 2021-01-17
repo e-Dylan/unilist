@@ -22,7 +22,7 @@ import RatingBar from './RatingBar';
 
 import { getTotalCost } from '../../SearchArea/SearchResults/SearchResults';
 import { getWeatherIcon } from '../../SearchArea/SearchResults/SearchResults';
-import { showJoinModal } from "../../JoinModal";
+import { showJoinModal } from "../../Modals/JoinModal/JoinModal";
 
 // Images/Icons
 import unilistLogo from '../../../resources/logo/unilist-logo.png';

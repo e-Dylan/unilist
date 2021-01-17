@@ -25,6 +25,7 @@ import DataTable from './DataTable';
 
 // Styled Components
 import { FilterSectionContainer, FilterOptionsContainer } from '../../SearchArea/SearchFilters/SearchFilters.components';
+import { FeedbackModalContainer } from './FeedbackModal.components';
 
 // Images/Icons
 import unilistLogo from '../../../resources/logo/unilist-logo.png';

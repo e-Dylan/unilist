@@ -14,7 +14,7 @@ import * as userApi from '../../../api/userApi';
 
 // Components
 
-import { showJoinModal } from '../../JoinModal';
+import { showJoinModal } from '../JoinModal/JoinModal';
 
 // Images/Icons
 

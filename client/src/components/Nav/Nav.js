@@ -1,7 +1,7 @@
 import React from "react";
 import styled from 'styled-components';
 
-import { showJoinModal } from "../JoinModal";
+import { showJoinModal } from "../Modals/JoinModal/JoinModal";
 
 // Css
 import '../styles/Nav.scss';

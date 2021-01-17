@@ -12,7 +12,7 @@ import * as THREE from 'three'
 import BIRDS from 'vanta/dist/vanta.birds.min'
 
 // Components
-import JoinModal, { showJoinModal } from "./JoinModal";
+import JoinModal, { showJoinModal } from "./Modals/JoinModal/JoinModal";
 import LoginModal, { showLoginModal } from "./Modals/LoginModal/LoginModal";
 import FeedbackModal from './Modals/FeedbackModal/FeedbackModal';
 

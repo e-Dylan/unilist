@@ -7,7 +7,7 @@ const theme = {
 			blend2: "#eb456e",
 			gray: {
 				main: "#1e1e1e",
-				light: "#282828",
+				light: "#2d2d2d",
 			}
 		}
 	}
