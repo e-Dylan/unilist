@@ -21,6 +21,7 @@ import { loadStripe } from '@stripe/stripe-js';
 // Components
 import ValidationInput from './ValidationInput';
 import Checkbox from './Checkbox';
+import { showJoinModal } from "../Modals/JoinModal/JoinModal";
 
 // Images/Icons
 
@@ -59,6 +60,8 @@ function SignupForm(props) {
 				// Register user
 				alert(`[/api/register]: RESPONSE: ${res.msg}`);
 				if (res && res.success) {
+					showJoinModal(false);
+					clearSignupForm();
 					userApi.loginUser(userData)
 						.then(userState => {
 							// Automatically login when registerd
@@ -66,7 +69,6 @@ function SignupForm(props) {
 							console.log(userState);
 							resolve();
 						});
-					clearSignupForm();
 					// window.location.reload();
 				} else if (res && !res.success) {
 					console.log('failed to register');
@@ -90,6 +92,7 @@ function SignupForm(props) {
 			try {
 				// Check if user is signing up for free -> register them without stripe session
 				if (props.priceId === props.priceIds.freePriceId ) {
+					
 					handleRegister(userData);
 				} else {
 					// User signing up with paid price id, make stripe session.

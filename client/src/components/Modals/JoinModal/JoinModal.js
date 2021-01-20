@@ -75,7 +75,7 @@ function JoinModal(props) {
 	const setActiveMembershipTab = (buttonId) => {
 		const clicked = document.getElementById(buttonId);
 		
-		const tabItems = document.querySelectorAll('.membership-button');
+		const tabItems = document.querySelectorAll('.signup-membership-button');
 		tabItems.forEach(btn => {
 			if (btn.classList.contains('button-active')) btn.classList.remove('button-active');
 		});
@@ -110,23 +110,23 @@ function JoinModal(props) {
 
 				<ModalBodyContainer>
 					<ModalColumn>
-						<div className="title-text-container flex-col">
-							<span className="title-text">JOIN UNILIST</span>
-							<div className="underline" />
-							<span className="desc-text">CONNECT INTERNATIONALLY</span>
+						<div className="signup-title-text-container flex-col">
+							<span className="signup-title-text">JOIN UNILIST</span>
+							<div className="signup-underline" />
+							<span className="signup-desc-text">CONNECT INTERNATIONALLY</span>
 						</div>
-						<div className="membership-types">
-							<div className="membership-button button-active flex-col" id="free-membership-button" onClick={() => {setActiveMembershipTab("free-membership-button")}}>
-								<span className="title-text">Free User: $0/month (free)</span>
-								<span className="desc-text">Use limited features</span>
+						<div className="signup-membership-types">
+							<div className="signup-membership-button button-active flex-col" id="free-membership-button" onClick={() => {setActiveMembershipTab("free-membership-button")}}>
+								<span className="signup-title-text">Free User: $0/month (free)</span>
+								<span className="signup-desc-text">Use limited features</span>
 							</div>
-							<div className="membership-button flex-col" id="active-membership-button" onClick={() => {setActiveMembershipTab("active-membership-button")}}>
-								<span className="title-text">Active User: $7/month</span>
-								<span className="desc-text">Many features, cancel at any time.</span>
+							<div className="signup-membership-button flex-col" id="active-membership-button" onClick={() => {setActiveMembershipTab("active-membership-button")}}>
+								<span className="signup-title-text">Active User: $7/month</span>
+								<span className="signup-desc-text">Many features, cancel at any time.</span>
 							</div>
-							<div className="membership-button flex-col" id="premium-membership-button" onClick={() => {setActiveMembershipTab("premium-membership-button")}}>
-								<span className="title-text">Premium User: $15/month</span>
-								<span className="desc-text">Full-access and support capabilities.</span>
+							<div className="signup-membership-button flex-col" id="premium-membership-button" onClick={() => {setActiveMembershipTab("premium-membership-button")}}>
+								<span className="signup-title-text">Premium User: $15/month</span>
+								<span className="signup-desc-text">Full-access and support capabilities.</span>
 							</div>
 						</div>
 

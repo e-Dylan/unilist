@@ -201,7 +201,7 @@ export const fetchAllUniversities = async() => {
 	})
 	.then(res => res.json())
 	.then(result => {
-		// console.log(result);
+		console.log(result);
 		return result;
 	})
 }

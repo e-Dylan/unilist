@@ -25,7 +25,7 @@ import DataTable from './DataTable';
 
 // Styled Components
 import { FilterSectionContainer, FilterOptionsContainer } from '../../SearchArea/SearchFilters/SearchFilters.components';
-import { FeedbackModalContainer } from './FeedbackModal.components';
+import { FeedbackCards, FeedbackColumn, FeedbackDataColumn, FeedbackModalContainer, InfoCard, RatingSlidersWrapper, RatingSliderContainer } from './FeedbackModal.components';
 
 // Images/Icons
 import unilistLogo from '../../../resources/logo/unilist-logo.png';
@@ -158,7 +158,7 @@ function FeedbackModal(props) {
 
 	const showModalContent = (bool) => {
 		const feedbackCol = document.querySelector('.feedback-col');
-		const dataCol = document.querySelector('.data-modal');
+		const dataCol = document.querySelector('.data-column');
 
 		if (bool) {
 			feedbackCol.classList.remove('hidden');
@@ -224,8 +224,7 @@ function FeedbackModal(props) {
 
 	return (
 		<div className="modal-bg" id="feedback-modal-bg">
-			<div className="modal feedback-modal flex-row" id="uni-feedback-modal">
-
+			<FeedbackModalContainer className="modal" id="uni-feedback-modal">
 				<div className="loading-box hidden">
 					<img src={loadingIcon} />
 
@@ -240,20 +239,27 @@ function FeedbackModal(props) {
 					</div>
 				</div>
 
-				<div className="feedback-col flex-col">
+				<FeedbackColumn className="flex-col">
 					<div className="title-text">Update the Data</div>
-					<p className="desc-text">
-						This app works by crowdsourcing information from the people who know it best: <span style={{color: 'rgba(235, 69, 110, 1)'}}>students.</span>
-					</p>
-					<p className="desc-text">
-						Know a missing school? <span style={{color: 'rgba(235, 69, 110, 1)'}}>Add it to our list.</span>
-					</p>
-					<p className="desc-text">
-						Know anything more accurate about an existing school? <span style={{color: 'rgba(235, 69, 110, 1)'}}>Update it.</span>
-					</p>
-
-				</div>
-				<div className="data-modal flex-col">
+					<FeedbackCards>
+						<InfoCard>
+							<p className="info-desc-text">
+								This app works by crowdsourcing information from the people who know it best: <span style={{color: 'rgba(235, 69, 110, 1)'}}>students.</span>
+							</p>
+						</InfoCard>
+						<InfoCard>
+							<p className="info-desc-text">
+								Know a missing school? <span style={{color: 'rgba(235, 69, 110, 1)'}}>Add it to our list.</span>
+							</p>
+						</InfoCard>
+						<InfoCard>
+							<p className="info-desc-text">
+								Know anything more accurate about an existing school? <span style={{color: 'rgba(235, 69, 110, 1)'}}>Update it.</span>
+							</p>
+						</InfoCard>
+					</FeedbackCards>
+				</FeedbackColumn>
+				<FeedbackDataColumn className="flex-col">
 					<div className="data-col">
 						<div className="header-content">
 							<div className="tab-bar flex-row">
@@ -270,7 +276,7 @@ function FeedbackModal(props) {
 
 							<div className="header-message-container flex-row">
 								<img src={unilistLogo} />
-								<span>Update any fields and submit them to keep them up to date.</span>
+								<span>Update any fields to keep them up to date.</span>
 							</div>
 
 							<div className="uni-info flex-row">
@@ -363,18 +369,18 @@ function FeedbackModal(props) {
 						{/* Show each tab container depending on which is active */}
 
 						{/* RATINGS TAB */}
-						<div className="tab-container feedback-modal-tab flex-row tab-active" id="feedback-modal-ratings-tab-container">
+						<RatingSlidersWrapper className="tab-container feedback-modal-tab tab-active" id="feedback-modal-ratings-tab-container">
 							<RatingSlider stateVal={"overall_rating"} labelTitle="Overall Rating" />
 							<RatingSlider stateVal={"cost_value"} labelTitle="Cost/Value" />
 							<RatingSlider stateVal={"education"} labelTitle="Education" />
 							<RatingSlider stateVal={"fun"} labelTitle="Fun" />
-							<div className="rating-container flex-row">
+							<RatingSliderContainer>
 								<span className="rating-title">COVID-19</span>
 								<div className="rating-bar">
 									<RatingSliderHalf stateVal={"covid19"} labelTitle="Cases" />
 									<RatingSliderHalf stateVal={"covid19"} labelTitle="QoL" />
 								</div>
-							</div>
+							</RatingSliderContainer>
 							<RatingSlider stateVal={"campus"} labelTitle="Campus" />
 							<RatingSlider stateVal={"the_city"} labelTitle="The City" />
 							<RatingSlider stateVal={"people_community"} labelTitle="People/Community" />
@@ -388,25 +394,25 @@ function FeedbackModal(props) {
 							<RatingSlider stateVal={"academic_services"} labelTitle="Academic Services" />
 							<RatingSlider stateVal={"academic_resources"} labelTitle="Academic Resources" />
 							<RatingSlider stateVal={"fitness_gym"} labelTitle="Fitness/Gym" />
-							<div className="rating-container flex-row">
+							<RatingSliderContainer>
 								<span className="rating-title">Parties</span>
 								<div className="rating-bar">
 									<RatingSliderHalf stateVal={"parties"} labelTitle="Frequency" />
 									<RatingSliderHalf stateVal={"parties"} labelTitle="Quality" />
 								</div>
-							</div>
-							<div className="rating-container flex-row">
+							</RatingSliderContainer>
+							<RatingSliderContainer>
 								<span className="rating-title">Weather</span>
 								<div className="rating-bar">
 									<RatingSliderHalf stateVal={"weather"} labelTitle="Now" />
 									<RatingSliderHalf stateVal={"weather"} labelTitle="Average" />
 								</div>
-							</div>
+							</RatingSliderContainer>
 							<RatingSlider stateVal={"online_resources"} labelTitle="Online Resources" />
 							<RatingSlider stateVal={"facilities"} labelTitle="Facilities" />
 							<RatingSlider stateVal={"professor_interaction"} labelTitle="Prof. Interaction" />
 							<RatingSlider stateVal={"research"} labelTitle="Research" />
-						</div>
+						</RatingSlidersWrapper>
 						
 						{/* DATA TAB */}
 						<div className="tab-container feedback-modal-tab flex-row" id="feedback-modal-data-tab-container">
@@ -501,8 +507,8 @@ function FeedbackModal(props) {
 							}}>Save</button>
 						</div>
 					</div>
-				</div>
-			</div>
+				</FeedbackDataColumn>
+			</FeedbackModalContainer>
 		</div>
 	);
 }

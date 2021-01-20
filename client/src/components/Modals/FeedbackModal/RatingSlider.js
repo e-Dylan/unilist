@@ -8,6 +8,9 @@ import { connect } from 'react-redux';
 // Actions
 import { setEditingUniversityState } from "../../../redux/actions/setEditingUniversityState";
 
+// Styled Components
+import { RatingSliderContainer } from './FeedbackModal.components';
+
 // Images/Icons
 
 const RatingSlider = (props) => {
@@ -19,7 +22,7 @@ const RatingSlider = (props) => {
 	// OVERALL RATING SLIDER VALUE DIRECTLY.
 
 	return (
-		<div className="rating-container flex-row">
+		<RatingSliderContainer className="flex-row">
 			<span className="rating-title">{props.labelTitle}</span>
 			<input className="rating-slider" ref={inputEl} type="range" id="feedback-rating-slider" min="0" max="100" onChange={() => {
 				labelEl.current.innerHTML = inputEl.current.value;
@@ -29,7 +32,7 @@ const RatingSlider = (props) => {
 				props.setEditingUniversityState(props.globalState.editingUniversityState);
 			}} />
 			<label id="overall-rating-label" className="rating-slider-label" ref={labelEl}>0</label>
-		</div>
+		</RatingSliderContainer>
 	);
 }
 

@@ -1,27 +1,6 @@
 
-
-	
-		.title-text-container {
-			align-items: center;
-			color: rgb(220, 220, 220);
-			margin: 15px;
-
-			.title-text {
-				margin-bottom: 10px;
-				font-size: 15pt;
-			}
-			.desc-text {
-				margin-top: 10px;
-				font-size: 9pt;
-				color: white;
-				padding: 0px 2px;
-				// background: linear-gradient(-5deg, #BA3E3F, rgba(235, 69, 110, 1));
-				border-radius: 6px;
-			}
-		}
-
-		.membership-types {
-			.membership-button {
+		.signup-membership-types {
+			.signup-membership-button {
 				padding: 5px;
 				align-items: center;
 				width: 70%;
@@ -29,11 +8,11 @@
 				border-radius: 0px;
 				transition: 70ms all ease-in-out;
 
-				.title-text {
+				.signup-title-text {
 					color: rgb(211, 211, 211);
 					font-size: 11pt;
 				}
-				.desc-text {
+				.signup-desc-text {
 					color: rgb(146, 146, 146);
 					font-size: 9pt;
 				}
@@ -254,6 +233,28 @@
 					}
 				}
 			}
+
+
+			
+	
+		.signup-title-text-container {
+			align-items: center;
+			color: rgb(220, 220, 220);
+			margin: 15px;
+
+			.signup-title-text {
+				margin-bottom: 10px;
+				font-size: 15pt;
+			}
+			.signup-desc-text {
+				margin-top: 10px;
+				font-size: 9pt;
+				color: white;
+				padding: 0px 2px;
+				// background: linear-gradient(-5deg, #BA3E3F, rgba(235, 69, 110, 1));
+				border-radius: 6px;
+			}
+		}
 		
 	
 

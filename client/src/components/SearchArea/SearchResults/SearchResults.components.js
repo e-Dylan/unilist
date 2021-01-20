@@ -6,13 +6,17 @@ export const SearchResultsContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	align-self: center;
 	height: 100%;
 	width: 65%;
 	align-items: center;
 	padding: 0 20px;
 
 	${breakpoints("width", "%", [
-		{ 1300: "100" }
+		{ 768: "98" }
+	])}
+	${breakpoints("padding", "px", [
+		{ 768: "0" }
 	])}
 `;
 
