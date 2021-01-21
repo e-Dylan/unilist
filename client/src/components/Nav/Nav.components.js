@@ -33,30 +33,25 @@ export const NavLeft = styled.div`
 	${breakpoints("width", "%", [
 		{900: "100"}
 	])}
-	${breakpoints("width", "%", [
-		{900: "100"}
-	])}
 `;
 
 export const NavLeftUl = styled.div`
-	width: 80%;
 	display: flex;
 	flex-direction: row;
-	${breakpoints("justify-content", "", [
-		{900: "center"}
-	])}
-
+	align-items: center;
 	${breakpoints("width", "%", [
-		{900: "100"}
+		{ 4000: "80" },
+		{ 900: "100" }
 	])}
-
+	${breakpoints("justify-content", "", [
+		{900: "space-around"}
+	])}
 	${breakpoints("padding", "px", [
 		{900: "10px 0"}
 	])}
 `;
 
 export const NavRight = styled.div`
-
 	${breakpoints("padding-bottom", "px", [
 		{900: "20"}
 	])}

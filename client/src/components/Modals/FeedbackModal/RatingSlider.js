@@ -22,7 +22,7 @@ const RatingSlider = (props) => {
 	// OVERALL RATING SLIDER VALUE DIRECTLY.
 
 	return (
-		<RatingSliderContainer className="flex-row">
+		<RatingSliderContainer>
 			<span className="rating-title">{props.labelTitle}</span>
 			<input className="rating-slider" ref={inputEl} type="range" id="feedback-rating-slider" min="0" max="100" onChange={() => {
 				labelEl.current.innerHTML = inputEl.current.value;

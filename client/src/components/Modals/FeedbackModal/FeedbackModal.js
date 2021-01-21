@@ -241,6 +241,9 @@ function FeedbackModal(props) {
 
 				<FeedbackColumn className="flex-col">
 					<div className="title-text">Update the Data</div>
+					{/* <CloseButton>
+						<img src={closeButton} />
+					</CloseButton> GET A CLOSE BUTTON ICON BUTTON CHAKRA? */}
 					<FeedbackCards>
 						<InfoCard>
 							<p className="info-desc-text">
@@ -301,7 +304,6 @@ function FeedbackModal(props) {
 							<div className="tags-menu flex-col">
 								<div className="search-filters flex-col">
 									<button className="tags-close-button" onClick={() => showTagsMenu(false)}></button>
-									<span className="tags-title-text">Tags</span>
 									<FilterSectionContainer>
 										<span className="filter-title">Location</span>
 										<FilterOptionsContainer>

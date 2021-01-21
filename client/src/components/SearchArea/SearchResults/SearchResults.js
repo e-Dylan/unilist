@@ -24,7 +24,7 @@ import { showAddUniModal } from '../AddUniversityModal';
 import { showJoinModal } from '../../Modals/JoinModal/JoinModal';
 
 // Styled Components
-import { SearchResultsContainer, SearchResultsItems } from './SearchResults.components';
+import { SearchResultsContainer, SearchResultsNav, SearchResultsItems } from './SearchResults.components';
 
 // Images/Icons
 import starIcon from '../../../resources/search-area/search-results/star.png';
@@ -150,12 +150,12 @@ function SearchResults(props) {
 
 	return (
 		<SearchResultsContainer>
-				<div className="search-results-nav flex-row">
+				<SearchResultsNav className="flex-row">
 					<button className="unilist-button" onClick={() => {
 						showFeedbackModal(true)
 					}}
 					>Add University</button>
-				</div>
+				</SearchResultsNav>
 
 				{ props.globalState.universityListState != null && props.globalState.universityListState.length > 0 &&
 					<SearchResultsItems>

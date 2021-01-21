@@ -34,12 +34,15 @@ export const FeedbackColumn = styled.div`
 	justify-content: flex-start;
 	align-items: center;
 	transition: 120ms opacity ease-in-out;
-
+	${breakpoints("height", "", [
+		{ 4000: "100%" },
+		{ 1000: "50px" },
+	])};
 	${breakpoints("width", "%", [
 		{ 1000: "100" },
 	])};
 	${breakpoints("padding", "px", [
-		{ 1000: "0" },
+		{ 1000: "10 0" },
 	])};
 `;
 
@@ -85,6 +88,14 @@ export const InfoCard = styled.div`
 
 // Ratings Data Column
 
+export const TabContainer = styled.div`
+	opacity: 0;
+	display: none;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	justify-content: center;
+`;
+
 export const FeedbackDataColumn = styled.div`
 	max-width: none;
 	max-height: none;
@@ -103,6 +114,7 @@ export const RatingSlidersWrapper = styled.div`
 	flex-direction: row;
 	justify-content: center;
 	width: 100%;
+	align-items: center;
 
 	${'' /* Switch to column mobile */}
 	${breakpoints("flex-direction", "", [
@@ -111,6 +123,9 @@ export const RatingSlidersWrapper = styled.div`
 `;
 
 export const RatingSliderContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 	justify-content: space-between;
 	width: 44%;
 	align-items: center;
@@ -122,9 +137,9 @@ export const RatingSliderContainer = styled.div`
 	color: white;
 
 	${breakpoints("width", "%", [
-		{ 1100: "90" },
+		{ 1100: "95" },
 	])};
 	${breakpoints("padding", "px", [
-		{ 1100: "0" },
+		{ 1100: "25px" },
 	])};
 `;
