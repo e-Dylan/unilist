@@ -48,6 +48,9 @@ var volleyball = require('volleyball');
 var helmet = require('helmet');
 var fileUpload = require('express-fileupload');
 var path = require('path');
+var fs = require('fs');
+var http = require('http');
+var https = require('https');
 var app = express();
 var corsOptions = {
     origin: true,
@@ -163,7 +166,25 @@ var connectAndListen = function () { return __awaiter(void 0, void 0, void 0, fu
                 typeorm_1.createConnection(options)
                     .then(function (connection) {
                     console.log("Connected to database... running server");
-                    var API_PORT = process.env.PORT || 1337;
+                    if (process.env.NODE_ENV === "development") {
+                        var API_PORT_1 = process.env.API_PORT || 1337;
+                        app.listen(API_PORT_1, function () {
+                            console.log("[main.js]: Listening: http://localhost:" + API_PORT_1);
+                        });
+                    }
+                    else if (process.env.NODE_ENV === "production") {
+                        // SSL Cert
+                        var credentials = {
+                            key: fs.readFileSync(process.env.KEY_SSL_PATH),
+                            cert: fs.readFileSync(process.env.CERT_SSL_PATH),
+                            ca: fs.readFileSync(process.env.CA_SSL_PATH),
+                        };
+                        https.createServer(credentials, app)
+                            .listen(process.env.API_PORT, function () {
+                            console.log("[main.ts]: (HTTPS) Server is listening at: " + process.env.PRODUCTION_API_URL);
+                        });
+                    }
+                    // const API_PORT = process.env.PORT || 1337;
                     // insertUniData.updateUniOverallRating();
                     // insertUniData.insertCityName();
                     // insertUniData.insertUniversityDataData();
@@ -173,9 +194,9 @@ var connectAndListen = function () { return __awaiter(void 0, void 0, void 0, fu
                     // REPORT HERE
                     // FIND WHY ORMCONFIG ISN'T FINDING ANY PROPER CONFIG FILES, EVEN WHEN
                     // OPTIONS ARE SUPPLIED IN URL.
-                    app.listen(API_PORT, function () {
-                        console.log("[main.js]: Listening: http://domain_url:" + API_PORT);
-                    });
+                    // app.listen(API_PORT, () => {
+                    // 	console.log(`[main.js]: Listening: http://localhost:${API_PORT}`);
+                    // })
                 });
                 return [2 /*return*/];
         }

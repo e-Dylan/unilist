@@ -17,6 +17,10 @@ const helmet = require('helmet');
 const fileUpload = require('express-fileupload');
 const path = require('path');
 
+const fs = require('fs');
+const http = require('http');
+const https = require('https');
+
 const app = express();
 
 const corsOptions = {
@@ -133,7 +137,25 @@ const connectAndListen = async (): Promise<void> => {
 	createConnection(options)
 	.then(connection => {
 		console.log("Connected to database... running server");
-		const API_PORT = process.env.PORT || 1337;
+		
+		if (process.env.NODE_ENV === "development") {
+			const API_PORT = process.env.API_PORT || 1337;
+			app.listen(API_PORT, () => {
+				console.log(`[main.js]: Listening: http://localhost:${API_PORT}`);
+			})
+		} else if (process.env.NODE_ENV === "production") {
+			// SSL Cert
+			const credentials = {
+				key: fs.readFileSync(process.env.KEY_SSL_PATH),
+				cert: fs.readFileSync(process.env.CERT_SSL_PATH),
+				ca: fs.readFileSync(process.env.CA_SSL_PATH),
+			}
+			https.createServer(credentials, app)
+			.listen(process.env.API_PORT, () => {
+				console.log(`[main.ts]: (HTTPS) Server is listening at: ${process.env.PRODUCTION_API_URL}`);
+			})
+		}
+		// const API_PORT = process.env.PORT || 1337;
 
 		// insertUniData.updateUniOverallRating();
 		// insertUniData.insertCityName();
@@ -148,9 +170,9 @@ const connectAndListen = async (): Promise<void> => {
 		// FIND WHY ORMCONFIG ISN'T FINDING ANY PROPER CONFIG FILES, EVEN WHEN
 		// OPTIONS ARE SUPPLIED IN URL.
 
-		app.listen(API_PORT, () => {
-			console.log(`[main.js]: Listening: http://domain_url:${API_PORT}`);
-		})
+		// app.listen(API_PORT, () => {
+		// 	console.log(`[main.js]: Listening: http://localhost:${API_PORT}`);
+		// })
 	})
 }
 
