@@ -7,16 +7,16 @@ export const DOMAIN_URL = process.env.NODE_ENV === "development" ?
 
 // CHANGE process.env.NODE_ENV to process.env.VERCEL_ENV for vercel dev local env vars.	
 	
-console.log("NODE_ENV: ", process.env.NODE_ENV);	
-console.log('API_URL: ', API_URL);
-console.log('DOMAIN_URL: ', DOMAIN_URL);
+// console.log("NODE_ENV: ", process.env.NODE_ENV);	
+// console.log('API_URL: ', API_URL);
+// console.log('DOMAIN_URL: ', DOMAIN_URL);
 
 // USER AUTH API CALLS
 export function registerUser(userData) {
 
 	// FORM WAS INVALID -> SHOULDN'T BE ABLE TO HAPPEN
 	if (!userData || !userData.username || !userData.email || !userData.password) {			// User signed up free membership, no stripe session, had invalid registration info.
-		console.log('nulled, none');
+		// console.log('nulled, none');
 		alert('Registration information was invalid. Contact support at unilistmail@gmail.com if needed.');
 		return;
 	}
@@ -76,17 +76,17 @@ export function loginUser(userData) {
 					loading: false,
 				};
 			}
-			console.log(userState);
+			// console.log(userState);
 			return userState;
 		})	
 	} catch (e) {
-		console.log(e);
+		// console.log(e);
 		return;
 	}
 }
 
 export function logoutUser() {
-	console.log('logging');
+	// console.log('logging');
 	try {
 		var userState;
 		return fetch(`${API_URL}/logout`, {
