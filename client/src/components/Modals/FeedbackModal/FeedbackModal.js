@@ -278,7 +278,9 @@ function FeedbackModal(props) {
 							</div>
 
 							<div className="header-message-container flex-row">
-								<img src={unilistLogo} />
+								<div className="uni-data-header-image">
+									<img src={unilistLogo} />
+								</div>
 								<span>Update any fields to keep them up to date.</span>
 							</div>
 

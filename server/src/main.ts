@@ -144,6 +144,8 @@ const connectAndListen = async (): Promise<void> => {
 				console.log(`[main.js]: Listening: http://localhost:${API_PORT}`);
 			})
 		} else if (process.env.NODE_ENV === "production") {
+			// Port Config
+			const API_PORT = process.env.API_PORT || 443; // CHANGE To 1337 WHEN NGINX REVERSE-PROXY FROM 443
 			// SSL Cert
 			const credentials = {
 				key: fs.readFileSync(process.env.KEY_SSL_PATH),
@@ -151,7 +153,7 @@ const connectAndListen = async (): Promise<void> => {
 				ca: fs.readFileSync(process.env.CA_SSL_PATH),
 			}
 			https.createServer(credentials, app)
-			.listen(process.env.API_PORT, () => {
+			.listen(API_PORT, () => {
 				console.log(`[main.ts]: (HTTPS) Server is listening at: ${process.env.PRODUCTION_API_URL}`);
 			})
 		}

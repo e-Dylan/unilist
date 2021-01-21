@@ -5,7 +5,6 @@
 	height: 95%;
 	max-width: 1300px;
 	max-height: 1000px;
-	min-width: 652px;
 }
 
 .main-image {
@@ -105,11 +104,13 @@
 		align-items: center;
 		margin: 6px 0;
 
-		img {
-			width: 40px;
-			margin: 0 10px;
+		.uni-data-header-image {
+			img {
+				width: 40px;
+				margin: 0 10px;
+			}
 		}
-		a {
+		.uni-data-header-edit {
 			color: rgb(151, 55, 71);
 
 			font-weight: bolder;
@@ -130,36 +131,27 @@
 		justify-content: center;
 
 		// FIRST TAB: RATINGS
-		.rating-container {
-			justify-content: space-between;
-			// background-color: rgb(68, 68, 68);
-			width: 44%;
-			align-items: center;
-			height: auto;
-			// margin: 10px;
-			padding: 0.69% 2%;
-			border-top: 2px solid rgba(109, 109, 109, 0.2);
-
+		
 			.rating-title {
 				font-size: 11pt;
 				color: white;
 			}
 
-			.rating-bar {
-				position: relative;
-				.rating-bar-row {
-					display: flex;
-					flex-direction: row;
-					justify-content: space-between;
-					align-items: center;
-					height: 20px;
-					.bar-label {
-						font-size: 10pt;
-						color: white;
-						margin-right: 10px;
-					}
+			// Inside HalfRatingBar
+			.rating-bar-row {
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+				height: 20px;
+				.bar-label {
+					font-size: 10pt;
+					color: white;
+					margin-right: 10px;
 				}
 			}
+			
 
 			.rating-bar-fill {
 				background-color: green;
@@ -181,18 +173,10 @@
 			.small-label {
 				font-size: 12pt;
 			}
-
-			.rating-bar-container {
-				width: 160px;
-				height: 25px;
-				background-color: rgb(196, 196, 196);
-				border-radius: 4px;
-				margin: 5px 0;
-			}
 			.half-bar {
 				height: 15px !important;
 			}
-		}
+		
 
 		// SECOND TAB: DATA
 		.rows-container {
@@ -246,6 +230,7 @@
 		position: relative;
 	}
 }
+
 
 .tab-button-active {
 	// background: linear-gradient(90deg, #BA3E3F, rgba(235, 69, 110, 1));

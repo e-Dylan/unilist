@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import '../../styles/SearchArea.scss';
 
+import { RatingContainer, RatingBarContainer } from './UniversityDataModal.components';
+
 // Images/Icons
 
 export default function RatingBar(props) {
 
 	return (
-		<div className="rating-container flex-row">
+		<RatingContainer>
 			<span className="rating-title">{props.title}</span>
-			<div className="rating-bar-container">
+			<RatingBarContainer>
 				<div className="rating-bar-fill" style={{width: props.rating + "%"}}></div>
-			</div>
-		</div>
+			</RatingBarContainer>
+		</RatingContainer>
 	);
 }

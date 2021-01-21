@@ -173,6 +173,8 @@ var connectAndListen = function () { return __awaiter(void 0, void 0, void 0, fu
                         });
                     }
                     else if (process.env.NODE_ENV === "production") {
+                        // Port Config
+                        var API_PORT = process.env.API_PORT || 443; // CHANGE To 1337 WHEN NGINX REVERSE-PROXY FROM 443
                         // SSL Cert
                         var credentials = {
                             key: fs.readFileSync(process.env.KEY_SSL_PATH),
@@ -180,7 +182,7 @@ var connectAndListen = function () { return __awaiter(void 0, void 0, void 0, fu
                             ca: fs.readFileSync(process.env.CA_SSL_PATH),
                         };
                         https.createServer(credentials, app)
-                            .listen(process.env.API_PORT, function () {
+                            .listen(API_PORT, function () {
                             console.log("[main.ts]: (HTTPS) Server is listening at: " + process.env.PRODUCTION_API_URL);
                         });
                     }
