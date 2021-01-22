@@ -173,12 +173,7 @@
 		
 
 		// SECOND TAB: DATA
-		.rows-container {
-			width: 32%;
-			height: 100%;
-			color: white;
-			align-items: center;
-			justify-content: flex-start;
+			// INSIDE TableColumn styled div.
 			.data-col {
 				.col-title {
 					padding: 0 0 10px 7px;
@@ -187,7 +182,7 @@
 				}
 				justify-content: flex-start;
 				width: 93%;
-				// height: 100%;
+				height: auto;
 				padding: 3px;
 				border: 1px solid white;
 				border-radius: 4px;
@@ -212,8 +207,6 @@
 					}
 				}
 			}
-			
-		}
 		
 	}
 	.map-container {

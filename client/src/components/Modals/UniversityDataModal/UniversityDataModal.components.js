@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import theme from '../../../styles/theme';
 import { breakpoints } from '../../../styles/breakpoints';
 
@@ -108,11 +108,14 @@ export const HeaderMessageContainer = styled.div`
 	width: 100%;
 
 	@media screen and (max-width: 643px) {
-		justify-content: space-between;
-
-		span {
-			display: none;
-		}
+		${p => p.disappear && css`
+		
+			justify-content: space-between;
+			span {
+				display: none;
+			}
+		`}
+		
 	}
 	
 `;
@@ -179,3 +182,18 @@ export const FeedbackNavBurger = styled.div`
 		cursor: pointer;
 	}
 `;
+
+// DATA TAB -> USED BOTH: DATAMODAL, FEEDBACKMODAL
+export const TableColumn = styled.div`
+	display: flex;
+	flex-direction: column;
+	${breakpoints("width", "", [
+		{ 4000: "31%" },
+		{ 1700: "45%" },
+		{ 700: "94%" }
+	])};
+	${'' /* height: 100%; */}
+	color: white;
+	align-items: center;
+	justify-content: flex-start;
+`; 

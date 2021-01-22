@@ -107,8 +107,7 @@ $check-color: $brand-success;
 			flex-wrap: wrap;
 			justify-content: flex-start;
 			justify-content: center;
-
-			.rows-container {
+			
 				.data-col {
 					.data-row {
 						.datatab-data-input {
@@ -124,7 +123,6 @@ $check-color: $brand-success;
 						}
 					}
 				}
-			}
 
 			.tags-menu {
 				background-color: var(--main_light_gray);

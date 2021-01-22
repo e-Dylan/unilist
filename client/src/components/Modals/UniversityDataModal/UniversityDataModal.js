@@ -21,7 +21,7 @@ import { setEditingUniversityState } from "../../../redux/actions/setEditingUniv
 import { 
 	FlexRow, UniversityDataModalContainer, RatingsContainer, FeedbackHeader,
 	RatingContainer, RatingBarContainer, HalfRatingBar, HeaderMessageContainer,
-	EditButton, MakeChangeText, TabButtonBar, NavButtons, FeedbackNavBurger,
+	EditButton, MakeChangeText, TabButtonBar, NavButtons, FeedbackNavBurger, TableColumn,
 } from './UniversityDataModal.components';
 import RatingBar from './RatingBar';
 
@@ -299,7 +299,7 @@ function UniversityDataModal(props) {
 							</NavButtons>
 						</TabButtonBar>
 
-						<HeaderMessageContainer>	
+						<HeaderMessageContainer disappear={true}>	
 							<FlexRow>
 								<FeedbackNavBurger onClick={() => {
 										toggleNav();
@@ -423,7 +423,7 @@ function UniversityDataModal(props) {
 					{ data &&
 
 						<div className="tab-container data-modal-tab flex-row" id="data-modal-data-tab-container">
-							<div className="rows-container flex-col">
+							<TableColumn>
 
 								{/* Costs */}
 								<div className="data-col flex-col">
@@ -489,8 +489,8 @@ function UniversityDataModal(props) {
 										<div className="datatab-data-value">{data.class_types.classes}</div>
 									</div>
 								</div> 
-							</div>
-							<div className="rows-container flex-col">
+							</TableColumn>
+							<TableColumn>
 								{/* Culture */}
 								<div className="data-col flex-col">
 									<span className="col-title">Culture</span>
@@ -547,8 +547,8 @@ function UniversityDataModal(props) {
 										<div className="datatab-data-value">{data.jobs_coop.average_salary}</div>
 									</div>
 								</div> 
-							</div>
-							<div className="rows-container flex-col">
+							</TableColumn>
+							<TableColumn>
 								{/* The City */}
 								<div className="data-col flex-col">
 									<span className="col-title">The City</span>
@@ -601,7 +601,7 @@ function UniversityDataModal(props) {
 										<div className="datatab-data-value">{data.environment.water_quality}</div>
 									</div>
 								</div> 
-							</div>
+							</TableColumn>
 						</div>
 
 					}

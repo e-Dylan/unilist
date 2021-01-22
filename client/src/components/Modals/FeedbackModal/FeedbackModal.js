@@ -25,8 +25,11 @@ import DataTable from './DataTable';
 
 // Styled Components
 import { FilterSectionContainer, FilterOptionsContainer } from '../../SearchArea/SearchFilters/SearchFilters.components';
-import { TitleSection, FeedbackCards, FeedbackColumn, FeedbackDataColumn, FeedbackModalContainer, InfoCard, UniversityInfoNav, RatingSlidersWrapper, RatingSliderContainer } from './FeedbackModal.components';
-import { HeaderMessageContainer } from '../UniversityDataModal/UniversityDataModal.components';
+import { TitleSection, FeedbackCards, FeedbackColumn, FeedbackDataColumn,
+	 	 FeedbackModalContainer, InfoCard, UniversityInfoNav, RatingSlidersWrapper, 
+	 	 RatingSliderContainer 
+} from './FeedbackModal.components';
+import { HeaderMessageContainer, TableColumn } from '../UniversityDataModal/UniversityDataModal.components';
 
 // Images/Icons
 import unilistLogo from '../../../resources/logo/unilist-logo.png';
@@ -421,7 +424,7 @@ function FeedbackModal(props) {
 						
 						{/* DATA TAB */}
 						<div className="tab-container feedback-modal-tab flex-row" id="feedback-modal-data-tab-container">
-							<div className="rows-container flex-col">
+							<TableColumn>
 								<DataTable title="Costs ($/year)" table="costs" rows={[
 									["Tuition", "tuition"], 
 									["Residence", "residence"],
@@ -441,8 +444,8 @@ function FeedbackModal(props) {
 									["Classrooms", "classrooms"],
 									["Classes", "classes"],
 								]} />
-							</div>
-							<div className="rows-container flex-col">
+							</TableColumn>
+							<TableColumn>
 								<DataTable title="Culture" table="culture" rows={[
 									["Diversity", "diversity"],
 									["Majority", "majority"],
@@ -460,8 +463,8 @@ function FeedbackModal(props) {
 									["Reputation", "reputation"],
 									["Average Salary", "average_salary"],
 								]} />
-							</div>
-							<div className="rows-container flex-col">
+							</TableColumn>
+							<TableColumn>
 								<DataTable title="The City" table="the_city" rows={[
 									["City Type", "city_type"], 
 									["Population", "popultion"], 
@@ -478,7 +481,7 @@ function FeedbackModal(props) {
 									["Pollution", "pollution"],
 									["Water Quality", "water_quality"],
 								]} />
-							</div>
+							</TableColumn>
 						</div>
 
 						<div className="tab-container feedback-modal-tab flex-row" id="feedback-modal-cost-tab-container">
