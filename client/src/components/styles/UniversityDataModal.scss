@@ -80,37 +80,44 @@
 	flex-direction: column;
 
 	.tab-bar {
-		height: 40px;
-		align-items: center;
-		// background-color: white;
-		border-bottom: 2px gray solid;
-		width: 100%;
+		height: 41px;
+
 		.data-modal-tab-button {
+			z-index: 2;
 			font-weight: normal;
 			padding: 10px;
 			color: gray;
 			width: calc(100% / 5);
 			text-align: center;
 			cursor: pointer;
+			border: none;
+			background-color: transparent;
 			&:hover {
 				border-bottom: 2px solid rgb(151, 55, 71);
 				color: rgb(151, 55, 71);
 			}
-		}
-	}
-	.header-message-container {
-		color: white;
-		font-size: 12pt;
-		align-items: center;
-		margin: 6px 0;
-
-		.uni-data-header-image {
-			img {
-				width: 40px;
-				margin: 0 10px;
+			&:focus {
+				outline: none;
 			}
 		}
 	}
+
+	.nav-active {
+		max-height: 400px;
+		
+		.data-modal-tab-button {
+			
+		}
+	}
+
+
+	.uni-data-header-image {
+		img {
+			width: 40px;
+			margin: 0 10px;
+		}
+	}
+	
 
 	.tab-container {
 		opacity: 0;

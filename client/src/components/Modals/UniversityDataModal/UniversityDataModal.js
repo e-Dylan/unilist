@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import $ from "jquery";
 import mapboxgl from 'mapbox-gl';
@@ -18,7 +18,11 @@ import { setActiveUniversityState } from "../../../redux/actions/setActiveUniver
 import { setEditingUniversityState } from "../../../redux/actions/setEditingUniversityState";
 
 // Components
-import { UniversityDataModalContainer, RatingsContainer, RatingContainer, RatingBarContainer, HalfRatingBar, EditButton, MakeChangeText } from './UniversityDataModal.components';
+import { 
+	UniversityDataModalContainer, RatingsContainer, FeedbackHeader,
+	RatingContainer, RatingBarContainer, HalfRatingBar, HeaderMessageContainer,
+	EditButton, MakeChangeText, NavButtons, FeedbackNavBurger,
+} from './UniversityDataModal.components';
 import RatingBar from './RatingBar';
 
 import { getTotalCost } from '../../SearchArea/SearchResults/SearchResults';
@@ -35,11 +39,11 @@ const MAPBOX_KEY = 'pk.eyJ1Ijoic2VsZmRyaXZpbmdkcml2ZXIiLCJhIjoiY2tqYm1iazVqNXF3a
 
 export const showUniversityDataModal = async (bool, data, props) => {
 	// Authorize user scopes.
-	if (props.globalState.userState.isLoggedIn === false) {
-		// show user join modal, prevent access to data.
-		showJoinModal(true);
-		return false;
-	}
+	// if (props.globalState.userState.isLoggedIn === false) {
+	// 	// show user join modal, prevent access to data.
+	// 	showJoinModal(true);
+	// 	return false;
+	// }
 
 	const uniDataModal = document.getElementById('uni-data-modal');
 	const modalBg = document.getElementById('data-modal-bg');
@@ -62,6 +66,8 @@ export const showUniversityDataModal = async (bool, data, props) => {
 }
 
 function UniversityDataModal(props) {
+
+	const navDropdownRef = useRef(null);
 
 	// const [activeTabVar, setActiveTabVar] = useState("data-modal-ratings-tab-button");
 
@@ -187,6 +193,18 @@ function UniversityDataModal(props) {
 		props.setEditingUniversityState(copy);
 	}
 
+	const toggleNav = (bool) => {
+		if (bool === undefined) {
+			navDropdownRef.current.classList.toggle('nav-active');
+			return;
+		}
+		if (bool)
+			navDropdownRef.current.classList.add('nav-active');
+		else if (!bool) {
+			navDropdownRef.current.classList.remove('nav-active');
+		}
+	}
+
 	useEffect(() => {
 		mapboxgl.accessToken = MAPBOX_KEY;
 		var map = new mapboxgl.Map({
@@ -245,47 +263,73 @@ function UniversityDataModal(props) {
 					</div>
 				}
 				<div className="data-col">
-					<div className="tab-bar flex-row">
-						<div className="data-modal-tab-button tab-button-active" id="data-modal-ratings-tab-button" onClick={() => setActiveTab("data-modal-ratings-tab-button")}>
-							Ratings
+					<FeedbackHeader>
+						<div className="tab-bar flex-row">
+							<NavButtons ref={navDropdownRef}>
+								<div className="data-modal-tab-button tab-button-active" id="data-modal-ratings-tab-button" onClick={() => {
+									setActiveTab("data-modal-ratings-tab-button")
+									toggleNav(false);	
+								}}>
+									Ratings
+								</div>
+								<div className="data-modal-tab-button" id="data-modal-data-tab-button" onClick={() => {
+									setActiveTab("data-modal-data-tab-button");
+									toggleNav(false);
+								}}>
+									Data
+								</div>
+								<div className="data-modal-tab-button" id="data-modal-cost-tab-button" onClick={() => {
+									setActiveTab("data-modal-cost-tab-button")
+									toggleNav(false);
+								}}>
+									Cost of Living
+								</div>
+								<div className="data-modal-tab-button" id="data-modal-map-tab-button" onClick={() => {
+									setActiveTab("data-modal-map-tab-button")
+									toggleNav(false);
+								}}>
+									Campus Map
+								</div>
+								<div className="data-modal-tab-button" id="data-modal-talk-tab-button" onClick={() => {
+									setActiveTab("data-modal-talk-tab-button")
+									toggleNav(false);
+								}}>
+									Talk
+								</div>
+							</NavButtons>
+							<FeedbackNavBurger onClick={() => {
+								toggleNav();
+							}}>
+								<div className="burger-line" />
+								<div className="burger-line" />
+								<div className="burger-line" />
+							</FeedbackNavBurger>
 						</div>
-						<div className="data-modal-tab-button" id="data-modal-data-tab-button" onClick={() => setActiveTab("data-modal-data-tab-button")}>
-							Data
-						</div>
-						<div className="data-modal-tab-button" id="data-modal-cost-tab-button" onClick={() => setActiveTab("data-modal-cost-tab-button")}>
-							Cost of Living
-						</div>
-						<div className="data-modal-tab-button" id="data-modal-map-tab-button" onClick={() => setActiveTab("data-modal-map-tab-button")}>
-							Campus Map
-						</div>
-						<div className="data-modal-tab-button" id="data-modal-talk-tab-button" onClick={() => setActiveTab("data-modal-talk-tab-button")}>
-							Talk
-						</div>
-					</div>
 
-					<div className="header-message-container flex-row">
-						<div className="uni-data-header-image">
-							<img className="uni-data-header-image" src={unilistLogo} />
-						</div>
-						<span> See anything you think needs updating? </span>
-						<MakeChangeText onClick={() => {
-							showFeedbackModal(true);
-							showUniversityDataModal(false, null, props);
-
-							fillFeedbackDataWithActiveData();
-						}}>
-							Make a change.
-						 </MakeChangeText>
-						 <EditButton>
-							<button className="unilist-button" onClick={() => {
+						<HeaderMessageContainer>
+							<div className="uni-data-header-image">
+								<img className="uni-data-header-image" src={unilistLogo} />
+							</div>
+							<span> See anything you think needs updating? </span>
+							<MakeChangeText onClick={() => {
 								showFeedbackModal(true);
 								showUniversityDataModal(false, null, props);
 
 								fillFeedbackDataWithActiveData();
-							}}>Edit</button>
-						 </EditButton>
-						 
-					</div>
+							}}>
+								Make a change.
+							</MakeChangeText>
+							<EditButton>
+								<button className="unilist-button" onClick={() => {
+									showFeedbackModal(true);
+									showUniversityDataModal(false, null, props);
+
+									fillFeedbackDataWithActiveData();
+								}}>Edit</button>
+							</EditButton>
+							
+						</HeaderMessageContainer>
+					</FeedbackHeader>
 
 					{/* Show each tab container depending on which is active */}
 
