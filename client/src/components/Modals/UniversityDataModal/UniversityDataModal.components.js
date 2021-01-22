@@ -2,6 +2,13 @@ import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import { breakpoints } from '../../../styles/breakpoints';
 
+export const FlexRow = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: ${p => p.justify || "center"};
+	align-items: center;
+`;
+
 export const UniversityDataModalContainer = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -82,7 +89,7 @@ export const FeedbackHeader = styled.div`
 	justify-content: center;
 
 	@media screen and (max-width: 643px) {
-		flex-direction: row;
+		flex-direction: column-reverse;
 		justify-content: space-between;
 		padding: 0 16px;
 		background-color: rgb(20, 20, 20);
@@ -98,16 +105,32 @@ export const HeaderMessageContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
+	width: 100%;
 
-	span {
-		${breakpoints("display", "", [
-			{ 643: "none" },
-		])}
+	@media screen and (max-width: 643px) {
+		justify-content: space-between;
+
+		span {
+			display: none;
+		}
 	}
+	
 `;
 
 export const EditButton = styled.div`
 	margin-left: 6px;
+`;
+
+export const TabButtonBar = styled.div`
+	height: 41px;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+
+	@media screen and (max-width: 643px) {
+		height: 0;
+	}
 `;
 
 export const NavButtons = styled.div`
@@ -126,7 +149,6 @@ export const NavButtons = styled.div`
 		width: 100vw;
 		height: 300px;
 		left: 0;
-		top: 255px;
 		max-height: 0px;
 		overflow-y: hidden;
 		border: none;

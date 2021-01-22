@@ -19,9 +19,9 @@ import { setEditingUniversityState } from "../../../redux/actions/setEditingUniv
 
 // Components
 import { 
-	UniversityDataModalContainer, RatingsContainer, FeedbackHeader,
+	FlexRow, UniversityDataModalContainer, RatingsContainer, FeedbackHeader,
 	RatingContainer, RatingBarContainer, HalfRatingBar, HeaderMessageContainer,
-	EditButton, MakeChangeText, NavButtons, FeedbackNavBurger,
+	EditButton, MakeChangeText, TabButtonBar, NavButtons, FeedbackNavBurger,
 } from './UniversityDataModal.components';
 import RatingBar from './RatingBar';
 
@@ -264,7 +264,7 @@ function UniversityDataModal(props) {
 				}
 				<div className="data-col">
 					<FeedbackHeader>
-						<div className="tab-bar flex-row">
+						<TabButtonBar>
 							<NavButtons ref={navDropdownRef}>
 								<div className="data-modal-tab-button tab-button-active" id="data-modal-ratings-tab-button" onClick={() => {
 									setActiveTab("data-modal-ratings-tab-button")
@@ -297,36 +297,40 @@ function UniversityDataModal(props) {
 									Talk
 								</div>
 							</NavButtons>
-							<FeedbackNavBurger onClick={() => {
-								toggleNav();
-							}}>
-								<div className="burger-line" />
-								<div className="burger-line" />
-								<div className="burger-line" />
-							</FeedbackNavBurger>
-						</div>
+						</TabButtonBar>
 
-						<HeaderMessageContainer>
-							<div className="uni-data-header-image">
-								<img className="uni-data-header-image" src={unilistLogo} />
-							</div>
-							<span> See anything you think needs updating? </span>
-							<MakeChangeText onClick={() => {
-								showFeedbackModal(true);
-								showUniversityDataModal(false, null, props);
-
-								fillFeedbackDataWithActiveData();
-							}}>
-								Make a change.
-							</MakeChangeText>
-							<EditButton>
-								<button className="unilist-button" onClick={() => {
+						<HeaderMessageContainer>	
+							<FlexRow>
+								<FeedbackNavBurger onClick={() => {
+										toggleNav();
+									}}>
+										<div className="burger-line" />
+										<div className="burger-line" />
+										<div className="burger-line" />
+								</FeedbackNavBurger>
+							</FlexRow>
+							<FlexRow>
+								<div className="uni-data-header-image">
+									<img className="uni-data-header-image" src={unilistLogo} />
+								</div>
+								<span> See anything you think needs updating? </span>
+								<MakeChangeText onClick={() => {
 									showFeedbackModal(true);
 									showUniversityDataModal(false, null, props);
 
 									fillFeedbackDataWithActiveData();
-								}}>Edit</button>
-							</EditButton>
+								}}>
+									Make a change.
+								</MakeChangeText>
+								<EditButton>
+									<button className="unilist-button" onClick={() => {
+										showFeedbackModal(true);
+										showUniversityDataModal(false, null, props);
+
+										fillFeedbackDataWithActiveData();
+									}}>Edit</button>
+								</EditButton>
+							</FlexRow>
 							
 						</HeaderMessageContainer>
 					</FeedbackHeader>

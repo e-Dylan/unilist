@@ -126,11 +126,11 @@ function SearchResults(props) {
 
 	const showFeedbackModal = (bool) => {
 		// Authorize user scopes.
-		if (props.globalState.userState.isLoggedIn === false) {
-			// show user join modal, prevent access to data.
-			showJoinModal(true);
-			return false;
-		}
+		// if (props.globalState.userState.isLoggedIn === false) {
+		// 	// show user join modal, prevent access to data.
+		// 	showJoinModal(true);
+		// 	return false;
+		// }
 
 		const feedbackModal = document.getElementById('uni-feedback-modal');
 		const modalBg = document.getElementById('feedback-modal-bg');
