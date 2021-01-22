@@ -25,7 +25,7 @@ import DataTable from './DataTable';
 
 // Styled Components
 import { FilterSectionContainer, FilterOptionsContainer } from '../../SearchArea/SearchFilters/SearchFilters.components';
-import { FeedbackCards, FeedbackColumn, FeedbackDataColumn, FeedbackModalContainer, InfoCard, RatingSlidersWrapper, RatingSliderContainer } from './FeedbackModal.components';
+import { TitleSection, FeedbackCards, FeedbackColumn, FeedbackDataColumn, FeedbackModalContainer, InfoCard, UniversityInfoNav, RatingSlidersWrapper, RatingSliderContainer } from './FeedbackModal.components';
 
 // Images/Icons
 import unilistLogo from '../../../resources/logo/unilist-logo.png';
@@ -240,7 +240,7 @@ function FeedbackModal(props) {
 				</div>
 
 				<FeedbackColumn className="flex-col">
-					<div className="title-text">Update the Data</div>
+					<TitleSection>Update the Data</TitleSection>
 					{/* <CloseButton>
 						<img src={closeButton} />
 					</CloseButton> GET A CLOSE BUTTON ICON BUTTON CHAKRA? */}
@@ -284,7 +284,7 @@ function FeedbackModal(props) {
 								<span>Update any fields to keep them up to date.</span>
 							</div>
 
-							<div className="uni-info flex-row">
+							<UniversityInfoNav>
 								<div className="data-row flex-row">
 									<span className="uni-label">University</span>
 									<input className="feedback-input" id="university-name-input" placeholder="University name" onChange={e => {
@@ -294,11 +294,11 @@ function FeedbackModal(props) {
 								</div>
 								<div className="data-row flex-row">
 									{/* <span className="uni-label">Tags</span> */}
-									<button className="unilist-button" onClick={() => {
+									<button className="unilist-button tags-tab-button" onClick={() => {
 										showTagsMenu(true);
 									}}>Add Tags</button>
 								</div>
-							</div>
+							</UniversityInfoNav>
 						</div>
 
 						{/* TAGS DROP MENU */}

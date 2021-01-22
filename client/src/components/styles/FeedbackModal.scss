@@ -36,12 +36,7 @@ $check-color: $brand-success;
 
 .modal-bg {
 
-	.title-text {
-		color: rgb(160, 10, 68);
-		font-weight: bolder;
-		font-size: 13pt;
-		margin: 8px 0;
-	}
+
 }
 
 	.data-col {
@@ -69,36 +64,34 @@ $check-color: $brand-success;
 				width: 100%;
 			}
 
-			.uni-info {
-				justify-content: center;
-				.data-row {
-					margin: 10px 0 20px 0;
-					align-items: center;
-					.uni-label {
-						color: white;
-						margin-right: 30px;
-					}
-					.feedback-input {
-						padding: 8px 16px;
-						font-size: 12pt;
-						border-radius: 4px;
+			.data-row {
+				margin: 10px 0 20px 0;
+				align-items: center;
+				.uni-label {
+					color: white;
+					margin-right: 30px;
+				}
+				.feedback-input {
+					padding: 8px 16px;
+					font-size: 12pt;
+					border-radius: 4px;
+					outline: none;
+					border: none;
+					&:focus {
 						outline: none;
-						border: none;
-						&:focus {
-							outline: none;
-						}
-					}
-					.unilist-button {
-						height: 100%;
-						width: 100%;
-						padding: 0 5px;
-						margin-left: 10px;
 					}
 				}
-				// border: 1px solid rgb(200, 200, 200);
-				// border-radius: 4px;
-				margin: 0 10px 10px 10px;
+				.unilist-button {
+					height: 100%;
+					width: 100%;
+					padding: 0 5px;
+					margin-left: 10px;
+				}
 			}
+		}
+
+		.tags-tab-button {
+			padding: 10px 30px !important;
 		}
 
 		.tag-container {

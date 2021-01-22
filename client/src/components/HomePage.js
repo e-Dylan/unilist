@@ -23,6 +23,7 @@ import * as paymentApi from '../api/paymentApi';
 import unilistLogo from '../resources/logo/unilist-logo.png';
 import cityIcon from '../resources/homepage/city-icon.png';
 import networkIcon from '../resources/homepage/network-icon.svg';
+import floatingUniversity from '../resources/homepage/university-svgs/floating-university.png';
 // account
 import profileIcon from '../resources/homepage/account/empty-profile-photo.png';
 
@@ -93,8 +94,9 @@ function HomePage(props) {
 		<JoinModal />
 		<LoginModal />
 		<FeedbackModal />
-		<div className="homepage-image-container flex-col" ref={vantaRef}>
-			<a className="homepage-logo" href="/" >
+		<div className="vanta-bg" ref={vantaRef}></div>
+		<div className="homepage-image-container flex-col">
+			<a className="homepage-logo" href="/" >	
 				<img src={unilistLogo} alt="Logo" />
 			</a>
 			{ !props.globalState.userState.isLoggedIn ?
@@ -147,6 +149,9 @@ function HomePage(props) {
 					</div>
 				</div>
 			}
+			<div className="floating-background">
+				<img src={floatingUniversity} />
+			</div>
 			<div className="main-content-container container-center flex-row">
 				<div className="main-text flex-col">
 					<span className="title-text">

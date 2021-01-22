@@ -17,17 +17,20 @@ export const FeedbackModalContainer = styled.div`
 		{ 1000: "column" },
 	])};
 	${breakpoints("height", "%", [
-		{ 1000: "100" },
+		{ 1000: "95" },
 	])};
 	${breakpoints("width", "%", [
-		{ 1000: "100" },
+		{ 1000: "95" },
 	])};
 `;
 
 export const FeedbackColumn = styled.div`
 	background: rgb(41, 41, 41);
 	width: 500px;
-	padding: 20px;
+	${breakpoints("padding", "", [
+		{ 4000: "20px" },
+		{ 1000: "10px 0" },
+	])};
 	border-top-left-radius: 5px;
 	border-bottom-left-radius: 5px;
 	width: 25%;
@@ -41,9 +44,7 @@ export const FeedbackColumn = styled.div`
 	${breakpoints("width", "%", [
 		{ 1000: "100" },
 	])};
-	${breakpoints("padding", "px", [
-		{ 1000: "10 0" },
-	])};
+
 `;
 
 export const FeedbackCards = styled.div`
@@ -87,6 +88,31 @@ export const InfoCard = styled.div`
 `;
 
 // Ratings Data Column
+
+export const TitleSection = styled.div`
+	color: rgb(160, 10, 68);
+	font-weight: bolder;
+	font-size: 13pt;
+	margin: 8px 0;
+	background-color: rgb(41,41,41);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+`;
+
+export const UniversityInfoNav = styled.div`
+	display: flex;
+	${breakpoints("flex-direction", "", [
+	 	{ 4000: "row" },
+		{ 1000: "column" }
+	])};
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin: 10px 0;
+`;
 
 export const TabContainer = styled.div`
 	opacity: 0;
