@@ -141,11 +141,6 @@ export const RatingSlidersWrapper = styled.div`
 	justify-content: center;
 	width: 100%;
 	align-items: center;
-
-	${'' /* Switch to column mobile */}
-	${breakpoints("flex-direction", "", [
-		{ 1100: "column" },
-	])};
 `;
 
 export const RatingSliderContainer = styled.div`

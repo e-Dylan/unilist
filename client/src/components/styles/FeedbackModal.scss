@@ -47,6 +47,7 @@ $check-color: $brand-success;
 			.tab-bar {
 				.feedback-modal-tab-button {
 					font-weight: normal;
+					border-bottom: 2px rgb(80, 80, 80) solid;
 					padding: 10px;
 					color: gray;
 					width: calc(100% / 5);

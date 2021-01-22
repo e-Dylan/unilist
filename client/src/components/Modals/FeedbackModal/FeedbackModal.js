@@ -26,6 +26,7 @@ import DataTable from './DataTable';
 // Styled Components
 import { FilterSectionContainer, FilterOptionsContainer } from '../../SearchArea/SearchFilters/SearchFilters.components';
 import { TitleSection, FeedbackCards, FeedbackColumn, FeedbackDataColumn, FeedbackModalContainer, InfoCard, UniversityInfoNav, RatingSlidersWrapper, RatingSliderContainer } from './FeedbackModal.components';
+import { HeaderMessageContainer } from '../UniversityDataModal/UniversityDataModal.components';
 
 // Images/Icons
 import unilistLogo from '../../../resources/logo/unilist-logo.png';
@@ -277,12 +278,12 @@ function FeedbackModal(props) {
 								</div>
 							</div>
 
-							<div className="header-message-container flex-row">
+							<HeaderMessageContainer>
 								<div className="uni-data-header-image">
 									<img src={unilistLogo} />
 								</div>
 								<span>Update any fields to keep them up to date.</span>
-							</div>
+							</HeaderMessageContainer>
 
 							<UniversityInfoNav>
 								<div className="data-row flex-row">

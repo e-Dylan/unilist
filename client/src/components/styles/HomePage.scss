@@ -145,7 +145,7 @@
 			img {
 				width: 400px;
 			}
-			animation: expand 240s infinite alternate linear;
+			animation: float 3.5s infinite alternate ease-in-out;
 		}
 
 		.main-content-container {
@@ -285,10 +285,10 @@
 	}
 }
 
-@keyframes expand {
+@keyframes float {
 	from {
-		transform: scale(0.2)  translate(-50%, -50%);
+		transform: translate(-50%, -48%);
 	} to {
-		transform: scale(5)  translate(-50%, -50%);;
+		transform: translate(-50%, -52%);
 	}
 }

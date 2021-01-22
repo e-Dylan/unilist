@@ -135,7 +135,7 @@ export const TabButtonBar = styled.div`
 
 export const NavButtons = styled.div`
 	align-items: center;
-	border-bottom: 2px gray solid;
+	border-bottom: 2px rgb(80, 80, 80) solid;
 	width: 100%;
 	display: flex;
 	flex-direction: row;
