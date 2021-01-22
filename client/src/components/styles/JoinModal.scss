@@ -205,6 +205,34 @@
 						align-self: center;
 					}
 
+					.not-available-card {
+						background-color: rgb(240, 240, 240);
+						text-align: center;
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+						font-size: 13pt;
+						padding: 10px;	
+
+						span {
+							color: rgba(235, 69, 110, 1);
+							font-weight: bold;
+						}
+
+						.top-text {
+							color: black;
+							font-weight: bold;
+							font-size: 17pt;
+						}
+						.disclaimer-text {
+							color: black;
+							margin: 6px 0;
+						}
+						.bold {
+							font-weight: bold;
+						}
+					}
+
 					.feature-list {
 						border: 1px solid rgb(0, 0, 0);
 						margin: 10px 0;
@@ -233,28 +261,6 @@
 					}
 				}
 			}
-
-
-			
-	
-		.signup-title-text-container {
-			align-items: center;
-			color: rgb(220, 220, 220);
-			margin: 15px;
-
-			.signup-title-text {
-				margin-bottom: 10px;
-				font-size: 15pt;
-			}
-			.signup-desc-text {
-				margin-top: 10px;
-				font-size: 9pt;
-				color: white;
-				padding: 0px 2px;
-				// background: linear-gradient(-5deg, #BA3E3F, rgba(235, 69, 110, 1));
-				border-radius: 6px;
-			}
-		}
 		
 	
 

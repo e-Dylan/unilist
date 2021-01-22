@@ -281,7 +281,7 @@ function FeedbackModal(props) {
 								</div>
 							</div>
 
-							<HeaderMessageContainer>
+							<HeaderMessageContainer disappear={false}>
 								<div className="uni-data-header-image">
 									<img src={unilistLogo} />
 								</div>

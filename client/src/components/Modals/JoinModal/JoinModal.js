@@ -14,7 +14,7 @@ import '../../styles/JoinModal.scss';
 import SignupForm from '../../form/SignupForm';
 
 // Styled Components
-import { JoinModalContainer, ModalBodyContainer, ModalColumn, HeaderBar, FooterBar } from './JoinModal.components';
+import { JoinModalContainer, ModalBodyContainer, SignupTitleContainer, ModalColumn, HeaderBar, FooterBar, DisclaimerCard } from './JoinModal.components';
 
 // API
 import * as paymentApi from '../../../api/paymentApi';
@@ -110,11 +110,11 @@ function JoinModal(props) {
 
 				<ModalBodyContainer>
 					<ModalColumn>
-						<div className="signup-title-text-container flex-col">
+						<SignupTitleContainer>
 							<span className="signup-title-text">JOIN UNILIST</span>
 							<div className="signup-underline" />
 							<span className="signup-desc-text">CONNECT INTERNATIONALLY</span>
-						</div>
+						</SignupTitleContainer>
 						<div className="signup-membership-types">
 							<div className="signup-membership-button button-active flex-col" id="free-membership-button" onClick={() => {setActiveMembershipTab("free-membership-button")}}>
 								<span className="signup-title-text">Free User: $0/month (free)</span>
@@ -172,6 +172,8 @@ function JoinModal(props) {
 											Talk and share in a community of the like-minded.
 										</div>
 
+										<DisclaimerCard />
+
 										{/* <div className="not-available-bar">
 											NOT CURRENTLY AVAILABLE.<br /><br />
 											APP IS FREE WHILE I DEVELOP USER INTERACTION, SOCIAL ABILITIES, AND ADDITIONAL FEATURES.<br /><br />
@@ -210,6 +212,8 @@ function JoinModal(props) {
 											APP IS FREE WHILE I DEVELOP USER INTERACTION, SOCIAL ABILITIES, AND ADDITIONAL FEATURES.<br /><br />
 											ENJOY FREEMIUM WHILE IT LASTS.
 										</div> */}
+
+										<DisclaimerCard />
 										
 										<ul className="feature-list shadow">
 											<li className="li-feature flex-row">
@@ -246,7 +250,6 @@ function JoinModal(props) {
 						</div>
 					</ModalColumn>
 				</ModalBodyContainer>
-
 				<FooterBar />
 			</JoinModalContainer>
 		</div>
