@@ -91,7 +91,7 @@ export const FeedbackHeader = styled.div`
 	@media screen and (max-width: 643px) {
 		flex-direction: column-reverse;
 		justify-content: space-between;
-		padding: 0 16px;
+		padding: 10px 16px;
 		background-color: rgb(20, 20, 20);
 		align-items: center;
 	}
