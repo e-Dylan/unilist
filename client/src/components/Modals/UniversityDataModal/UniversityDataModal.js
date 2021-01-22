@@ -18,7 +18,7 @@ import { setActiveUniversityState } from "../../../redux/actions/setActiveUniver
 import { setEditingUniversityState } from "../../../redux/actions/setEditingUniversityState";
 
 // Components
-import { UniversityDataModalContainer, RatingsContainer, RatingContainer, RatingBarContainer, HalfRatingBar } from './UniversityDataModal.components';
+import { UniversityDataModalContainer, RatingsContainer, RatingContainer, RatingBarContainer, HalfRatingBar, EditButton, MakeChangeText } from './UniversityDataModal.components';
 import RatingBar from './RatingBar';
 
 import { getTotalCost } from '../../SearchArea/SearchResults/SearchResults';
@@ -268,15 +268,23 @@ function UniversityDataModal(props) {
 							<img className="uni-data-header-image" src={unilistLogo} />
 						</div>
 						<span> See anything you think needs updating? </span>
-						<a className="uni-data-header-edit" onClick={() => {
+						<MakeChangeText onClick={() => {
 							showFeedbackModal(true);
 							showUniversityDataModal(false, null, props);
 
 							fillFeedbackDataWithActiveData();
 						}}>
 							Make a change.
-						 	<button className="unilist-button">Edit</button>
-						 </a>
+						 </MakeChangeText>
+						 <EditButton>
+							<button className="unilist-button" onClick={() => {
+								showFeedbackModal(true);
+								showUniversityDataModal(false, null, props);
+
+								fillFeedbackDataWithActiveData();
+							}}>Edit</button>
+						 </EditButton>
+						 
 					</div>
 
 					{/* Show each tab container depending on which is active */}

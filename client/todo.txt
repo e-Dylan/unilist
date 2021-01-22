@@ -2,11 +2,33 @@ todo
 
 [frontend]
 
-	[x] editing university data/adding university data
-		- /editUniversity route, through the feedback modal
+
+	- TO LAUNCH:
+
+		- feedback modal responsiveness
+			-> nav bar drop to burger menu, dropdown
+			-> mobile flex row/col issue
+		
+		- signup form
+			-> WARNING TEXT: memberships are support, don't give anything yet. future features:
+			-> icons
+
+		- ALL MODALS:
+			- close buttons (get icons)
+
+		- front page:
+			- fix floating uni animation overlap on mobile
+
+		- add uni data to prod database.
+
+		- make uni data more immediate and viewable live connected to db?
+
+		
+
+		USER TESTING FOR ALL SCENARIOS GET APP LIVE
 
 
-	
+
 	- add university data to database.
 		- research and add schools
 

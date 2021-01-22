@@ -61,3 +61,21 @@ export const HalfRatingBar = styled.div`
 		{ 1400: "100" },
 	])}
 `;
+
+export const MakeChangeText = styled.div`
+	color: rgb(151, 55, 71);
+	font-weight: bolder;
+	margin: 0 10px;
+	text-decoration: underline;
+	&:hover {
+		cursor: pointer;
+	}
+
+	${breakpoints("display", "", [
+		{ 1490: "none" }
+	])};
+`
+
+export const EditButton = styled.div`
+	margin-left: 6px;
+`;
