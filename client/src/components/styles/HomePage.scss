@@ -6,7 +6,7 @@
 		width: 100%;
 		height: 100%;
 		position: absolute;
-		z-index: 2;
+		z-index: 1;
 		pointer-events: none;
 	}
 
@@ -48,6 +48,7 @@
 			width: auto;
 			font-size: 11pt;
 			background: transparent;
+			z-index: 2;
 
 			&:hover {
 				background: linear-gradient(-5deg, #BA3E3F, rgba(235, 69, 110, 1));
@@ -60,6 +61,7 @@
 			top: 20px;
 			right: 40px;
 			align-items: center;
+			z-index: 2;
 
 			.user-account-button {
 				background-color: transparent;
@@ -151,6 +153,7 @@
 		.main-content-container {
 			margin-bottom: 100px;
 			width: calc(100% - 100px);
+			z-index: 15;
 
 			.main-text {
 				width: 50%;

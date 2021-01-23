@@ -13,6 +13,8 @@ export const FeedbackModalContainer = styled.div`
 	max-width: 1300px;
 	max-height: 1000px;
 
+	z-index: 15;
+
 	${breakpoints("flex-direction", "", [
 		{ 1000: "column" },
 	])};
