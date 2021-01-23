@@ -11,15 +11,20 @@ export async function getAllUniversities(req: Request, res: Response, next: Next
 	res.json(universities);
 }
 
-export function searchUniversities(req: Request, res: Response, next: Next) {
-	console.log(req.body);
+export function searchUniversities(req: Request, res: Response) {
+	// console.log(req.body);
 	// res.json(req.body);
+	var tags = "";
+	for (var i = 0; i < req.body.tags.length; i++) {
+		tags += req.body.tags[i]+', ';
+	}
+	console.log(tags);
 	getConnection().transaction(async connection => {
 		const data = await connection
 		.createQueryBuilder(University, "c")
 		.select()
 		.where("document_with_weights @@ plainto_tsquery(:query)", {
-			query: req.body.tags
+			query: tags
 		})
 		.orderBy(
 			"ts_rank(document_with_weights, plainto_tsquery(:query))",

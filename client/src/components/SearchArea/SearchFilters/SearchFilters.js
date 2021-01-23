@@ -99,6 +99,7 @@ function SearchFilters(props) {
 
 	const addTag = async(tag) => {
 		await tags.push(tag.toLowerCase());
+		console.log(tags);
 		uniApi.fetchUniversities(tags)
 			.then(universities => {
 				for (var i = 0; i < universities.length; i++) {

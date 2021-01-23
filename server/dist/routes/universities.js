@@ -57,10 +57,15 @@ function getAllUniversities(req, res, next) {
     });
 }
 exports.getAllUniversities = getAllUniversities;
-function searchUniversities(req, res, next) {
+function searchUniversities(req, res) {
     var _this = this;
-    console.log(req.body);
+    // console.log(req.body);
     // res.json(req.body);
+    var tags = "";
+    for (var i = 0; i < req.body.tags.length; i++) {
+        tags += req.body.tags[i] + ', ';
+    }
+    console.log(tags);
     typeorm_1.getConnection().transaction(function (connection) { return __awaiter(_this, void 0, void 0, function () {
         var data;
         return __generator(this, function (_a) {
@@ -69,7 +74,7 @@ function searchUniversities(req, res, next) {
                         .createQueryBuilder(University_1.University, "c")
                         .select()
                         .where("document_with_weights @@ plainto_tsquery(:query)", {
-                        query: req.body.tags
+                        query: tags
                     })
                         .orderBy("ts_rank(document_with_weights, plainto_tsquery(:query))", "DESC")
                         .getMany()];
