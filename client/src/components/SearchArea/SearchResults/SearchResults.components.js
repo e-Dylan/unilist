@@ -13,7 +13,7 @@ export const SearchResultsContainer = styled.div`
 		{ 1300: "center" }, // Applies as a column -> center column.
 	])};
 	${breakpoints("width", "%", [
-		{ 4000: "65" },
+		{ 4000: "85" },
 		{ 768: "98" },
 	])}
 	${breakpoints("padding", "px", [

@@ -518,8 +518,8 @@ function FeedbackModal(props) {
 								// Enter loading state
 								setLoadState(true);
 
-								uniApi.editUniversity(props.globalState.editingUniversityState)
-								// uniApi.addUniversityToDb(props.globalState.editingUniversityState)
+								// uniApi.editUniversity(props.globalState.editingUniversityState)
+								uniApi.addUniversityToDb(props.globalState.editingUniversityState)
 									.then(res => {
 										if (res && res.success) {
 											setLoadSuccess(true);

@@ -38,9 +38,9 @@ function SearchArea(props) {
 			<SearchFilters />
 			<SearchResults />
 
-			<div className="sidebar-container flex-col">
+			{/* <div className="sidebar-container flex-col">
 				<span>sidebar</span>
-			</div>
+			</div> */}
 
 		</SearchAreaContainer>
 	);
