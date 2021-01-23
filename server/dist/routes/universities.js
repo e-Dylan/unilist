@@ -36,7 +36,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.editUniversity = exports.addUniversity = exports.searchUniversities = exports.getAllUniversities = void 0;
 var typeorm_1 = require("typeorm");
 var University_1 = require("../entity/University");
 var AddedUniversity_1 = require("../entity/AddedUniversity");

@@ -36,7 +36,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertCityName = exports.insertUniversityDataData = exports.insertUniversityDataRatings = exports.updateUniOverallRating = void 0;
 var typeorm_1 = require("typeorm");
 var University_1 = require("./entity/University");
 var torData = {
