@@ -24,3 +24,14 @@
 		color: rgb(161, 34, 98);
 	}
 }
+
+.highlight {
+	color: rgb(161, 34, 98);
+}
+
+.disabled {
+	color: rgb(70, 70, 70);
+	&:hover {
+		color:rgb(70, 70, 70) !important;
+	};
+}

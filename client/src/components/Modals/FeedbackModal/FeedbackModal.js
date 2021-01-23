@@ -298,7 +298,7 @@ function FeedbackModal(props) {
 									Data
 								</div>
 								<div className="feedback-modal-tab-button" id="feedback-modal-cost-tab-button" onClick={() => setActiveTab("feedback-modal-cost-tab-button")}>
-									Cost of Living
+									Costs
 								</div>
 							</div>
 

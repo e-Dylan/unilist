@@ -132,6 +132,8 @@ $check-color: $brand-success;
 				align-items: center;
 				height: 70%;
 				z-index: 25;
+				height: auto;
+				padding: 6px 0;
 
 				.tags-title-text {
 					position: absolute;

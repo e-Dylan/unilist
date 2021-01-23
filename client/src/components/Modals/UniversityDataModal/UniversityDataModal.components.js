@@ -138,7 +138,11 @@ export const HeaderMessageContainer = styled.div`
 `;
 
 export const EditButton = styled.div`
-	margin-left: 6px;
+	margin: 0 10px 0 20px;
+	${breakpoints("margin", "px", [
+		{ 4000: "0 10px 0 20px" },
+		{ 768: "0 0px 0 5px" }
+	])}
 `;
 
 export const TabButtonBar = styled.div`

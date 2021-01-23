@@ -38,6 +38,7 @@ import unilistLogo from '../../../resources/logo/unilist-logo.png';
 import scoresTabIcon from '../../../resources/search-area/uni-data-modal/tab-icons/scores-icon.png';
 import schoolDataIcon from '../../../resources/search-area/uni-data-modal/tab-icons/uni-data-icon.png';
 import starIcon from '../../../resources/search-area/search-results/star.png';
+import { UnilistButton } from "../../../App.components";
 
 const MAPBOX_KEY = 'pk.eyJ1Ijoic2VsZmRyaXZpbmdkcml2ZXIiLCJhIjoiY2tqYm1iazVqNXF3aDJ1cnh0Z240d3BsMSJ9.f5GWrDlAMUeKDf3m5mfEgw';
 
@@ -224,13 +225,13 @@ function UniversityDataModal(props) {
         } 
 	}
 
-	// useEffect(() => {
-	// 	document.getElementById('uni-data-modal').addEventListener('scroll', handleScroll);
+	useEffect(() => {
+		document.getElementById('uni-data-modal').addEventListener('scroll', handleScroll);
 	
-	// 	return () => {
-	// 		document.getElementById('uni-data-modal').removeEventListener('scroll', () => handleScroll);
-	// 	};
-	//   }, []);
+		return () => {
+			document.getElementById('uni-data-modal').removeEventListener('scroll', () => handleScroll);
+		};
+	  }, []);
 
 	useEffect(() => {
 		mapboxgl.accessToken = MAPBOX_KEY;
@@ -350,15 +351,15 @@ function UniversityDataModal(props) {
 									Make a change.
 								</MakeChangeText>
 								<EditButton>
-									<button className="unilist-button" onClick={() => {
+									<UnilistButton onClick={() => {
 										showFeedbackModal(true);
 										showUniversityDataModal(false, null, props);
 
 										fillFeedbackDataWithActiveData();
-									}}>Edit</button>
+									}}>Edit</UnilistButton>
 								</EditButton>
 								<CloseButtonContainer>
-									<Button fontWeight="bold" className="unilist-button" px="30px" border="1px solid rgb(222, 83, 83)" color="black" bg="rgb(222, 83, 83)" _hover={{color: "white"}} onClick={() => {
+									<Button fontWeight="bold" className="unilist-button" mx="6px" px="20px" border="1px solid rgb(222, 83, 83)" color="black" bg="rgb(222, 83, 83)" _hover={{color: "white"}} onClick={() => {
 										showUniversityDataModal(false);
 									}}>Close</Button>
 								</CloseButtonContainer>
