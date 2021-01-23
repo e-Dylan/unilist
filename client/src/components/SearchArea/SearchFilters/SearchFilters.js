@@ -24,6 +24,11 @@ export const searchTagFilters = {
 		country: "Country",
 		province_state: "Prov./State",
 	},
+	cost_filters: {
+		low: "Affordable",
+		medium: "Medium",
+		high: "Expensive",
+	},
 	where_filters: {
 		north_america: "North America",
 		europe: "Europe",
@@ -94,6 +99,7 @@ function SearchFilters(props) {
 
 	const addTag = async(tag) => {
 		await tags.push(tag.toLowerCase());
+		console.log(tags);
 		uniApi.fetchUniversities(tags)
 			.then(universities => {
 				for (var i = 0; i < universities.length; i++) {
@@ -165,9 +171,14 @@ function SearchFilters(props) {
 			<FilterSectionContainer>
 				<span className="filter-title">Costs</span>
 				<FilterOptionsContainer>
-					<div className="filter-button location-button flex-col">Low</div>
-					<div className="filter-button location-button flex-col">Moderate</div>
-					<div className="filter-button location-button flex-col">High</div>
+					{Object.keys(searchTagFilters.cost_filters).map((item, index) => {
+						return (
+							<div className="filter-button flex-col" key={item} id={"costButton"+index} onClick={ () => {
+								toggleButton("costButton"+index, searchTagFilters.cost_filters[item]);
+								// addTag(location_filters[item]);
+							}}>{searchTagFilters.cost_filters[item]}</div>
+						)
+					})}
 				</FilterOptionsContainer>
 			</FilterSectionContainer>
 

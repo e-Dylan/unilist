@@ -44,11 +44,11 @@ const MAPBOX_KEY = 'pk.eyJ1Ijoic2VsZmRyaXZpbmdkcml2ZXIiLCJhIjoiY2tqYm1iazVqNXF3a
 
 export const showUniversityDataModal = async (bool, data, props) => {
 	// Authorize user scopes.
-	// if (props.globalState.userState.isLoggedIn === false) {
-	// 	// show user join modal, prevent access to data.
-	// 	showJoinModal(true);
-	// 	return false;
-	// }
+	if (props.globalState.userState.isLoggedIn === false) {
+		// show user join modal, prevent access to data.
+		showJoinModal(true);
+		return false;
+	}
 
 	const uniDataModal = document.getElementById('uni-data-modal');
 	const modalBg = document.getElementById('data-modal-bg');

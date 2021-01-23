@@ -20,6 +20,7 @@ export const UniversityDataModalContainer = styled.div`
 		{ 1000: "95" },
 	])};
 	max-height: 1000px;
+	z-index: 25;
 `;
 
 export const WeatherContainer = styled.div`

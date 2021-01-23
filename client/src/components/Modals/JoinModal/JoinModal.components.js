@@ -7,6 +7,7 @@ export const JoinModalContainer = styled.div`
 	flex-direction: row;
 	justify-content: center;
 	width: 60%;
+	z-index: 20;
 	${'' /* ${breakpoints("height", "%", [
 		{ 4000: "88" },
 		{ 1580: "83" },
