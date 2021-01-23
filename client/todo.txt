@@ -6,31 +6,25 @@ todo
 	- TO LAUNCH:
 
 		[x] feedback modal responsiveness
-			-> nav bar drop to burger menu, dropdown
-			-> mobile flex row/col issue
+			[x] nav bar drop to burger menu, dropdown
+			[x] mobile flex row/col issue
 		
-		- signup form
+		[x] signup form
 			[x] WARNING TEXT: memberships are support, don't give anything yet. future features:
-			-> icons
+			[x] icons
 
-		- ALL MODALS:
-			- close buttons (get icons)
+		[x] ALL MODALS:
+			[x] close buttons (get icons)
 
-		- front page:
+		[x] front page: -> removed, find better anim
 			- fix floating uni animation overlap on mobile
 
 		- add uni data to prod database.
-
-		- make uni data more immediate and viewable live connected to db?
-
 
 
 		USER TESTING FOR ALL SCENARIOS GET APP LIVE
 
 
-
-	- add university data to database.
-		- research and add schools
 
 
 	[x] responsiveness/mobile support
@@ -56,9 +50,16 @@ todo
 			-> design layout of the tab
 
 
-		- FREE SERVER AND DATABASE HOSTING
-			-> aws RDS (postgres) and CN3? for linux vps, needs card
-			-> Heroku does free app hosting, psql 20 conn's, 10,000 rows? not sure how many tables.
-			-> azure 12 months trial, needs credit card
+			- make uni data more immediate and viewable live connected to db? -> TEST EDITING INLINE DATA.
+			- make colors for data rating bars (and reverse colors)
+		
+
+			AUTOMATION:
+				-> AQI
+				-> Pollution levels
+				-> water quality 
+				-> city populations
+				look at https://www.numbeo.com/pollution/in/Ottawa for API
+				
 
 	

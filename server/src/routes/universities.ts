@@ -32,16 +32,16 @@ export function searchUniversities(req: Request, res: Response, next: Next) {
 	})
 }
 
-export function addUniversity(req: Request, res: Response, next: Next) {
+export function addUniversity(req: Request, res: Response) {	
 	getConnection().transaction(async connection => {
 		// Data for columns of universities table
 		const data_insert = { 
 			name: req.body.name, 
 			tags: req.body.tags, 
-			university_data: req.body.data,
+			university_data: req.body.university_data,
 			image_path: req.body.image_path,
 		};
-		console.log(data_insert);
+		console.log('INSERTING', data_insert);
 		getConnection()
 		.createQueryBuilder()
 		.insert()
@@ -51,7 +51,19 @@ export function addUniversity(req: Request, res: Response, next: Next) {
 		])
 		.execute();
 		console.log("[/api/addUniversity]: Inserted new university object into 'universities' table:\n\n", data_insert);
-	});
+
+		res.json({
+			success: true,
+			msg: "Successfully saved university.",
+		});
+		console.log('responded');
+	}).catch(error => {
+		console.log(error);
+		res.json({
+			success: false,
+			msg: "Error saving university."
+		});
+	})
 }
 
 export function editUniversity(req: Request, res: Response) {
@@ -157,7 +169,7 @@ router.post('/searchUniversities', async (req: Request, res: Response, next: Nex
 });
 
 router.post('/addUniversity', async (req: Request, res: Response, next: Next) => {
-	addUniversity(req, res, next);
+	addUniversity(req, res);
 });
 
 router.post('/editUniversity', async (req: Request, res: Response) => {

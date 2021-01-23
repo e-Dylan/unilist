@@ -117,6 +117,7 @@ export const nullUniData = {
 				known_for: "",
 				campus_size: "",
 				campus_type: "",
+				student_population: "",
 				equipment: "",
 				community: "",
 			},
@@ -207,18 +208,19 @@ export const fetchAllUniversities = async() => {
 }
 
 export function addUniversityToDb(uniData) {
-	fetch(`${API_URL}/addUniversity`, {
+	return fetch(`${API_URL}/addUniversity`, {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json',
 			},
-			body: uniData
+			body: JSON.stringify(uniData),
 		})
 		.then(res => res.json())
 		.then(result => {
-			// console.log(result);
+			console.log(result);
+			return result;
 		})
 }
 

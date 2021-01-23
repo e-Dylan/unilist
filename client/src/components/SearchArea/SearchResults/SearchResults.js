@@ -188,30 +188,30 @@ function SearchResults(props) {
 
 									<div className="cost-container flex-row">
 										<div className="thumbnail-data-text-med flex-col" onClick={() => console.log(item.university_data)}> 
-											<span className="cost">${getTotalCost(item.university_data.data.costs)}/year</span>
+											<span className="cost">${ item.university_data !== null ? getTotalCost(item.university_data.data.costs) : 0}/year</span>
 										</div>	
 									</div>
 
 									<div className="weather-container flex-row">
 										<div className="thumbnail-data-text-large flex-col"> 
-											<span className="temp">{item.university_data.ratings.weather.now.temp.toFixed(0)} &#176;C</span>
-											<span className="thumbnail-data-text-small">Feels {item.university_data.ratings.weather.now.feels_like.toFixed(0)} &#176;C</span>
+											<span className="temp">{item.university_data !== null ? item.university_data.ratings.weather.now.temp.toFixed(0) : 0} &#176;C</span>
+											<span className="thumbnail-data-text-small">Feels { item.university_data !== null ? item.university_data.ratings.weather.now.feels_like.toFixed(0) : 0} &#176;C</span>
 										</div>
 										<ReactAnimatedWeather
-											icon={getWeatherIcon(item.university_data.ratings.weather.now.desc)} color="white" size={40} animate={true}
+											icon={item.university_data !== null ? getWeatherIcon(item.university_data.ratings.weather.now.desc) : "CLEAR_DAY"} color="white" size={40} animate={true}
 										/>	
 									</div>
 
 									<div className="location-container flex-row">
 										<div className="thumbnail-data-text-med flex-col" onClick={() => console.log(item.university_data)}> 
-											<span className="temp">{item.university_data.data.the_city.location}</span>
+											<span className="temp">{item.university_data !== null ? item.university_data.data.the_city.location : 0}</span>
 										</div>	
 									</div>
 
 									<div className="university-title">{item.name}</div>
 									<div className="overall-rating flex-row">
 										<img src={starIcon} />
-										<a>{item.university_data.ratings.overall_rating.rating}</a>
+										<a>{item.university_data !== null ? item.university_data.ratings.overall_rating.rating : 0}</a>
 									</div>
 								</div>
 							);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import $ from "jquery";
 
 import '../../styles/AddUniversityModal.scss';
@@ -42,6 +42,9 @@ import loadingIcon from '../../../resources/feedback-modal/loading.svg';
 import { searchTagFilters } from '../../SearchArea/SearchFilters/SearchFilters';
 
 function FeedbackModal(props) {
+
+	const feedbackColRef = useRef(null)
+	const dataColRef = useRef(null);
 
 	const editingRatings = props.globalState.editingUniversityState.university_data.ratings;
 	const tags = props.globalState.feedbackTagsState;
@@ -139,13 +142,20 @@ function FeedbackModal(props) {
 	
 	const addTag = async(tag) => {
 		await tags.push(tag.toLowerCase());
-		console.log(tags);
+		var editingState = {...props.globalState.editingUniversityState};
+		editingState.tags = tags;
+		props.setEditingUniversityState(editingState);
+		console.log(props.globalState.editingUniversityState);
 	}
 
 	const removeTag = (tag) => {
 		const i = tags.indexOf(tag.toLowerCase());
 		if (i > -1) 
 			tags.splice(i, 1);
+
+		var editingState = {...props.globalState.editingUniversityState};
+		editingState.tags = tags;
+		props.setEditingUniversityState(editingState);
 		console.log(tags);
 	}
 
@@ -165,8 +175,8 @@ function FeedbackModal(props) {
 	}
 
 	const showModalContent = (bool) => {
-		const feedbackCol = document.querySelector('.feedback-col');
-		const dataCol = document.querySelector('.data-column');
+		const feedbackCol = feedbackColRef.current;
+		const dataCol = dataColRef.current;
 
 		if (bool) {
 			feedbackCol.classList.remove('hidden');
@@ -178,7 +188,7 @@ function FeedbackModal(props) {
 	}
 
 	const setLoadState = (bool) => {
-		const feedbackModal = document.querySelector('.feedback-modal')
+		const feedbackModal = document.getElementById('uni-feedback-modal')
 		const loadingBox = document.querySelector('.loading-box');
 		if (bool) {
 			showModalContent(false);
@@ -205,6 +215,7 @@ function FeedbackModal(props) {
 	}
 
 	const setLoadSuccess = (bool) => {
+		console.log("SUCCES");
 		if (bool) {
 			setTimeout(() => {
 				$('.result-text').text("Successfully saved.");
@@ -253,7 +264,7 @@ function FeedbackModal(props) {
 					}} />
 				</CloseButtonContainer>
 
-				<FeedbackColumn className="flex-col">
+				<FeedbackColumn className="flex-col" ref={feedbackColRef}>
 					<TitleSection>Update the Data</TitleSection>
 					{/* <CloseButton>
 						<img src={closeButton} />
@@ -276,7 +287,7 @@ function FeedbackModal(props) {
 						</InfoCard>
 					</FeedbackCards>
 				</FeedbackColumn>
-				<FeedbackDataColumn className="flex-col">
+				<FeedbackDataColumn className="flex-col" ref={dataColRef}>
 					<div className="data-col">
 						<div className="header-content">
 							<div className="tab-bar flex-row">
@@ -346,7 +357,7 @@ function FeedbackModal(props) {
 													<div className="filter-button feedback-tag-button flex-col" key={item} id={"feedbackModalCommunityButton"+index} onClick={ async() => {
 														// var tempTags = tags;
 														toggleButton("feedbackModalCommunityButton"+index, searchTagFilters.community_filters[item]);
-														// addTag(location_filters[item]);
+														// addTag(searchTagFilters.location_filters[item]);
 													}}>{searchTagFilters.community_filters[item]}</div>
 												)
 											})}
@@ -360,7 +371,7 @@ function FeedbackModal(props) {
 													<div className="filter-button feedback-tag-button flex-col" key={item} id={"feedbackModalAreaButton"+index} onClick={ async() => {
 														// var tempTags = tags;
 														toggleButton("feedbackModalAreaButton"+index, searchTagFilters.area_filters[item]);
-														// addTag(location_filters[item]);
+														// addTag(searchTagFilters.location_filters[item]);
 													}}>{searchTagFilters.area_filters[item]}</div>
 												)
 											})}
@@ -374,7 +385,7 @@ function FeedbackModal(props) {
 													<div className="filter-button feedback-tag-button flex-col" key={item} id={"feedbackModalQualitiesButton"+index} onClick={ async() => {
 														// var tempTags = tags;
 														toggleButton("feedbackModalQualitiesButton"+index, searchTagFilters.qualities_filters[item]);
-														// addTag(location_filters[item]);
+														// addTag(searchTagFilters.location_filters[item]);
 													}}>{searchTagFilters.qualities_filters[item]}</div>
 												)
 											})}
@@ -446,6 +457,7 @@ function FeedbackModal(props) {
 									["Known For", "known_for"],
 									["Campus Size", "campus_size"],
 									["Campus Type", "campus_type"],
+									["Students", "students"],
 									["Equipment", "equipment"],
 									["Community", "community"],
 								]} />
@@ -468,7 +480,7 @@ function FeedbackModal(props) {
 									["Applied/Auto", "applied_auto"],
 									["Entrance/During", "entrance_during"],
 								]} />
-								<DataTable title="Jobs/Co-op" rows={[
+								<DataTable title="Jobs/Co-op" table="jobs_coop" rows={[
 									["Co-op Service", "coop_service"], 
 									["Reputation", "reputation"],
 									["Average Salary", "average_salary"],
@@ -507,6 +519,7 @@ function FeedbackModal(props) {
 								setLoadState(true);
 
 								uniApi.editUniversity(props.globalState.editingUniversityState)
+								// uniApi.addUniversityToDb(props.globalState.editingUniversityState)
 									.then(res => {
 										if (res && res.success) {
 											setLoadSuccess(true);

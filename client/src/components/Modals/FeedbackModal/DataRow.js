@@ -16,7 +16,8 @@ function DataRow(props) {
 			<div className="data-key">{props.title}</div>
 			<input className="datatab-data-input" placeholder="No data" onChange={e => {
 				if (e.target.value[0] === "$") e.target.value = e.target.value.slice(1, e.target.value.length);
-				console.log(e.target.value);
+				// console.log(e.target.value);
+				// console.log(props.globalState.editingUniversityState.university_data.data);
 				props.globalState.editingUniversityState.university_data.data[props.table][props.value] = e.target.value;
 				props.setEditingUniversityState(props.globalState.editingUniversityState);
 			}}>{}</input>

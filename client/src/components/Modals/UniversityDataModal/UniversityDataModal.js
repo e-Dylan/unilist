@@ -224,13 +224,13 @@ function UniversityDataModal(props) {
         } 
 	}
 
-	useEffect(() => {
-		document.getElementById('uni-data-modal').addEventListener('scroll', handleScroll);
+	// useEffect(() => {
+	// 	document.getElementById('uni-data-modal').addEventListener('scroll', handleScroll);
 	
-		return () => {
-			document.getElementById('uni-data-modal').removeEventListener('scroll', () => handleScroll);
-		};
-	  }, []);
+	// 	return () => {
+	// 		document.getElementById('uni-data-modal').removeEventListener('scroll', () => handleScroll);
+	// 	};
+	//   }, []);
 
 	useEffect(() => {
 		mapboxgl.accessToken = MAPBOX_KEY;
@@ -261,14 +261,14 @@ function UniversityDataModal(props) {
 						<div className="thumbnail-data-container flex-col">
 							<div className="cost-container flex-row">
 								<div className="thumbnail-data-text-med flex-col" onClick={() => console.log(activeUni.university_data)}> 
-									<span className="cost">${getTotalCost(activeUni.university_data.data.costs)}/year</span>
+									<span className="cost">${activeUni.university_data !== null ? getTotalCost(activeUni.university_data.data.costs) : 0}/year</span>
 								</div>	
 							</div>
 
 							<WeatherContainer>
 								<div className="thumbnail-data-text-large weather-text-container flex-col"> 
-									<span className="temp">{activeUni.university_data.ratings.weather.now.temp.toFixed(0)} &#176;C</span>
-									<span className="thumbnail-data-text-small">Feels {activeUni.university_data.ratings.weather.now.feels_like.toFixed(0)} &#176;C</span>
+									<span className="temp">{activeUni.university_data !== null ? activeUni.university_data.ratings.weather.now.temp.toFixed(0) : 0} &#176;C</span>
+									<span className="thumbnail-data-text-small">Feels {activeUni.university_data !== null ? activeUni.university_data.ratings.weather.now.feels_like.toFixed(0) : 0} &#176;C</span>
 								</div>
 								<ReactAnimatedWeather
 									icon={getWeatherIcon(activeUni.university_data.ratings.weather.now.desc)} color="white" size={40} animate={true}
@@ -432,7 +432,7 @@ function UniversityDataModal(props) {
 											<span className="bar-label">Now</span>
 											<RatingBarContainer className="half-bar">
 												<div className="rating-bar-fill" style={{width: ratings.weather.now.rating + "%"}} />
-												<label className="rating-bar-label small-label">{ratings.weather.now.temp.toFixed(1)} &#176;C</label>
+												<label className="rating-bar-label small-label">{ratings.weather !== null ? ratings.weather.now.temp.toFixed(1) : 0} &#176;C</label>
 											</RatingBarContainer>
 										</div>
 										<div className="rating-bar-row">
@@ -495,6 +495,10 @@ function UniversityDataModal(props) {
 									<div className="data-row flex-row">
 										<div className="data-key">Campus Type</div>
 										<div className="datatab-data-value">{data.the_school.campus_type}</div>
+									</div>
+									<div className="data-row flex-row">
+										<div className="data-key">Students</div>
+										<div className="datatab-data-value">{data.the_school.students}</div>
 									</div>
 									<div className="data-row flex-row">
 										<div className="data-key">Equipment</div>

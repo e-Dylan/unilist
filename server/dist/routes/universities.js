@@ -83,7 +83,7 @@ function searchUniversities(req, res, next) {
     }); });
 }
 exports.searchUniversities = searchUniversities;
-function addUniversity(req, res, next) {
+function addUniversity(req, res) {
     var _this = this;
     typeorm_1.getConnection().transaction(function (connection) { return __awaiter(_this, void 0, void 0, function () {
         var data_insert;
@@ -91,10 +91,10 @@ function addUniversity(req, res, next) {
             data_insert = {
                 name: req.body.name,
                 tags: req.body.tags,
-                university_data: req.body.data,
+                university_data: req.body.university_data,
                 image_path: req.body.image_path,
             };
-            console.log(data_insert);
+            console.log('INSERTING', data_insert);
             typeorm_1.getConnection()
                 .createQueryBuilder()
                 .insert()
@@ -104,9 +104,20 @@ function addUniversity(req, res, next) {
             ])
                 .execute();
             console.log("[/api/addUniversity]: Inserted new university object into 'universities' table:\n\n", data_insert);
+            res.json({
+                success: true,
+                msg: "Successfully saved university.",
+            });
+            console.log('responded');
             return [2 /*return*/];
         });
-    }); });
+    }); }).catch(function (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            msg: "Error saving university."
+        });
+    });
 }
 exports.addUniversity = addUniversity;
 function editUniversity(req, res) {
@@ -209,7 +220,7 @@ router.post('/searchUniversities', function (req, res, next) { return __awaiter(
 }); });
 router.post('/addUniversity', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        addUniversity(req, res, next);
+        addUniversity(req, res);
         return [2 /*return*/];
     });
 }); });

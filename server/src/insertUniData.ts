@@ -116,6 +116,7 @@ const torData = {
 			known_for: "Biotech & AI",
 			campus_size: "Very large",
 			campus_type: "Big city",
+			students: "87083",
 			equipment: "High tech",
 			community: "Large, diverse",
 		},
