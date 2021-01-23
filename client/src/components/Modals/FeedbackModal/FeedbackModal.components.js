@@ -28,7 +28,7 @@ export const FeedbackColumn = styled.div`
 	background: rgb(41, 41, 41);
 	width: 500px;
 	${breakpoints("padding", "", [
-		{ 4000: "20px" },
+		{ 4000: "10px" },
 		{ 1000: "10px 0" },
 	])};
 	border-top-left-radius: 5px;
@@ -48,7 +48,7 @@ export const FeedbackColumn = styled.div`
 `;
 
 export const FeedbackCards = styled.div`
-	width: auto;
+	width: 85%;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
@@ -71,18 +71,19 @@ export const FeedbackCards = styled.div`
 
 export const InfoCard = styled.div`
 	background-color: rgb(65, 65, 65);
-	padding: 10px;
+	padding: 15px;
 	margin: 10px 0;
 	text-align: center;
 	font-size: 11pt;
 	color: rgb(196, 196, 196);
-	max-width: 200px;
+	${'' /* max-width: 200px; */}
 	width: 100%;
 	margin: 6px;
 
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	justify-content: center;
 	height: 80%;
 	max-height: 100px;
 `;

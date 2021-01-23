@@ -135,3 +135,16 @@ html {
 	-webkit-box-shadow: 5px 5px 5px rgb(0, 0, 0);
 	box-shadow: 5px 5px 5px rgb(0, 0, 0);
 }
+.shadow-light {
+	-moz-box-shadow: 5px 5px 5px rgb(20, 20, 20);
+	-webkit-box-shadow: 5px 5px 5px rgb(20, 20, 20);
+	box-shadow: 5px 5px 5px rgb(20, 20, 20);
+}
+
+.sticky {
+	z-index: 10;
+	background-color: rgb(20,20,20);
+	padding: 10px 30px;
+	// background-color:#ddd;
+    position: fixed;
+}

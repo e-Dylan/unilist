@@ -71,6 +71,11 @@ export const SignupTitleContainer = styled.div`
 		margin-bottom: 10px;
 		font-size: 15pt;
 	}
+	.signup-underline {
+		height: 1px;
+		width: 75%;
+		background-color: rgb(220, 220, 220);	
+	}
 	.signup-desc-text {
 		margin-top: 10px;
 		font-size: 9pt;
@@ -80,6 +85,14 @@ export const SignupTitleContainer = styled.div`
 		border-radius: 6px;
 	}
 `;
+
+export const CloseButtonContainer = styled.div`
+	@media screen and (min-width: 1000px) {
+		opacity: 0;
+		pointer-events: none;
+		display: none;
+	}
+`
 
 export const HeaderBar = styled.div`
 	background: linear-gradient(-5deg, #BA3E3F, rgba(235, 69, 110, 1));

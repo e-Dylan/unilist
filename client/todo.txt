@@ -5,12 +5,12 @@ todo
 
 	- TO LAUNCH:
 
-		- feedback modal responsiveness
+		[x] feedback modal responsiveness
 			-> nav bar drop to burger menu, dropdown
 			-> mobile flex row/col issue
 		
 		- signup form
-			-> WARNING TEXT: memberships are support, don't give anything yet. future features:
+			[x] WARNING TEXT: memberships are support, don't give anything yet. future features:
 			-> icons
 
 		- ALL MODALS:
@@ -23,7 +23,7 @@ todo
 
 		- make uni data more immediate and viewable live connected to db?
 
-		
+
 
 		USER TESTING FOR ALL SCENARIOS GET APP LIVE
 
@@ -33,8 +33,8 @@ todo
 		- research and add schools
 
 
-	- responsiveness/mobile support
-		- media queries
+	[x] responsiveness/mobile support
+		[x] media queries
 
 
 	- user scopes when logged in, render specific things.

@@ -23,6 +23,9 @@ import RatingSliderHalf from "./RatingSliderHalf";
 import DataRow from './DataRow';
 import DataTable from './DataTable';
 
+import IconButton from '../../Button/IconButton';
+import { AiOutlineCloseCircle } from "react-icons/ai";
+
 // Styled Components
 import { FilterSectionContainer, FilterOptionsContainer } from '../../SearchArea/SearchFilters/SearchFilters.components';
 import { TitleSection, FeedbackCards, FeedbackColumn, FeedbackDataColumn,
@@ -30,6 +33,7 @@ import { TitleSection, FeedbackCards, FeedbackColumn, FeedbackDataColumn,
 	 	 RatingSliderContainer 
 } from './FeedbackModal.components';
 import { HeaderMessageContainer, TableColumn } from '../UniversityDataModal/UniversityDataModal.components';
+import { CloseButtonContainer } from '../JoinModal/JoinModal.components';
 
 // Images/Icons
 import unilistLogo from '../../../resources/logo/unilist-logo.png';
@@ -243,25 +247,31 @@ function FeedbackModal(props) {
 					</div>
 				</div>
 
+				<CloseButtonContainer>
+					<IconButton pos="absolute" right="30px" top="10px" icon={AiOutlineCloseCircle} size="40px" color="#a83256" onClick={() => {
+						showFeedbackModal(false);
+					}} />
+				</CloseButtonContainer>
+
 				<FeedbackColumn className="flex-col">
 					<TitleSection>Update the Data</TitleSection>
 					{/* <CloseButton>
 						<img src={closeButton} />
 					</CloseButton> GET A CLOSE BUTTON ICON BUTTON CHAKRA? */}
 					<FeedbackCards>
-						<InfoCard>
+						<InfoCard className="shadow-light">
 							<p className="info-desc-text">
-								This app works by crowdsourcing information from the people who know it best: <span style={{color: 'rgba(235, 69, 110, 1)'}}>students.</span>
+								This app works by crowdsourcing information from the people who know it best: <span style={{color: 'rgba(235, 69, 110, 1)'}}><br/>students.</span>
 							</p>
 						</InfoCard>
-						<InfoCard>
+						<InfoCard className="shadow-light">
 							<p className="info-desc-text">
-								Know a missing school? <span style={{color: 'rgba(235, 69, 110, 1)'}}>Add it to our list.</span>
+								Know a missing school? <span style={{color: 'rgba(235, 69, 110, 1)'}}><br/>Add it to our list.</span>
 							</p>
 						</InfoCard>
-						<InfoCard>
+						<InfoCard className="shadow-light">
 							<p className="info-desc-text">
-								Know anything more accurate about an existing school? <span style={{color: 'rgba(235, 69, 110, 1)'}}>Update it.</span>
+								Know anything more accurate about an existing school? <span style={{color: 'rgba(235, 69, 110, 1)'}}><br/>Update it.</span>
 							</p>
 						</InfoCard>
 					</FeedbackCards>

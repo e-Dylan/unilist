@@ -21,9 +21,13 @@ import { setEditingUniversityState } from "../../../redux/actions/setEditingUniv
 import { 
 	FlexRow, UniversityDataModalContainer, RatingsContainer, FeedbackHeader,
 	RatingContainer, RatingBarContainer, HalfRatingBar, HeaderMessageContainer,
-	EditButton, MakeChangeText, TabButtonBar, NavButtons, FeedbackNavBurger, TableColumn,
+	EditButton, MakeChangeText, TabButtonBar, NavButtons, FeedbackNavBurger, TableColumn, WeatherContainer,
 } from './UniversityDataModal.components';
+import { Button } from '@chakra-ui/react';
 import RatingBar from './RatingBar';
+import IconButton from '../../Button/IconButton';
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import { CloseButtonContainer } from "../JoinModal/JoinModal.components";
 
 import { getTotalCost } from '../../SearchArea/SearchResults/SearchResults';
 import { getWeatherIcon } from '../../SearchArea/SearchResults/SearchResults';
@@ -68,6 +72,7 @@ export const showUniversityDataModal = async (bool, data, props) => {
 function UniversityDataModal(props) {
 
 	const navDropdownRef = useRef(null);
+	const navRef = useRef(null);
 
 	// const [activeTabVar, setActiveTabVar] = useState("data-modal-ratings-tab-button");
 
@@ -205,6 +210,28 @@ function UniversityDataModal(props) {
 		}
 	}
 
+	const handleScroll = () => {
+		const modalTop = $('#uni-data-modal').scrollTop();
+		var startPosition = 200;
+		var y = modalTop;
+		var nav = $('#navref');
+
+        if (y > startPosition) {
+			nav.addClass('sticky');
+			nav.css('top', modalTop-10);
+        } else {
+            nav.removeClass('sticky');
+        } 
+	}
+
+	useEffect(() => {
+		document.getElementById('uni-data-modal').addEventListener('scroll', handleScroll);
+	
+		return () => {
+			document.getElementById('uni-data-modal').removeEventListener('scroll', () => handleScroll);
+		};
+	  }, []);
+
 	useEffect(() => {
 		mapboxgl.accessToken = MAPBOX_KEY;
 		var map = new mapboxgl.Map({
@@ -238,7 +265,7 @@ function UniversityDataModal(props) {
 								</div>	
 							</div>
 
-							<div className="weather-container flex-row">
+							<WeatherContainer>
 								<div className="thumbnail-data-text-large weather-text-container flex-col"> 
 									<span className="temp">{activeUni.university_data.ratings.weather.now.temp.toFixed(0)} &#176;C</span>
 									<span className="thumbnail-data-text-small">Feels {activeUni.university_data.ratings.weather.now.feels_like.toFixed(0)} &#176;C</span>
@@ -246,7 +273,7 @@ function UniversityDataModal(props) {
 								<ReactAnimatedWeather
 									icon={getWeatherIcon(activeUni.university_data.ratings.weather.now.desc)} color="white" size={40} animate={true}
 								/>	
-							</div>
+							</WeatherContainer>
 
 							<div className="location-container flex-row">
 								<div className="thumbnail-data-text-med flex-col" onClick={() => console.log(activeUni.university_data)}> 
@@ -299,7 +326,7 @@ function UniversityDataModal(props) {
 							</NavButtons>
 						</TabButtonBar>
 
-						<HeaderMessageContainer disappear={true}>	
+						<HeaderMessageContainer ref={navRef} id="navref" disappear={true}>	
 							<FlexRow>
 								<FeedbackNavBurger onClick={() => {
 										toggleNav();
@@ -330,6 +357,11 @@ function UniversityDataModal(props) {
 										fillFeedbackDataWithActiveData();
 									}}>Edit</button>
 								</EditButton>
+								<CloseButtonContainer>
+									<Button fontWeight="bold" className="unilist-button" px="30px" border="1px solid rgb(222, 83, 83)" color="black" bg="rgb(222, 83, 83)" _hover={{color: "white"}} onClick={() => {
+										showUniversityDataModal(false);
+									}}>Close</Button>
+								</CloseButtonContainer>
 							</FlexRow>
 							
 						</HeaderMessageContainer>
@@ -606,6 +638,7 @@ function UniversityDataModal(props) {
 
 					}
 					
+					{/* hiding for now */}
 					{ false === "data-modal-map-tab-button" ?
 							<div className="map-container" id="map"></div>
 					:

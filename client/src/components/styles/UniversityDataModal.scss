@@ -42,7 +42,7 @@
 			text-align: center;
 		}
 
-		.weather-container, .location-container, .cost-container, .city-container {
+		.location-container, .cost-container, .city-container {
 			position: absolute;
 		}
 
@@ -52,23 +52,16 @@
 				height: 22px;
 			}
 		}
-		.weather-container {
-			top: 15px;
-			right: 0px;
-			width: 25%;
-			.weather-text-container {
-				margin-right: 10px;
-			}
-		}
+		
 		.cost-container {
 			bottom: 15px;
 			left: 0px;
-			width: 25%;
+			width: 180px;
 		}
 		.location-container {
 			bottom: 15px;
 			right: 0px;
-			width: 25%;
+			width: 180px;
 		}
 
 	}

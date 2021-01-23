@@ -22,6 +22,20 @@ export const UniversityDataModalContainer = styled.div`
 	max-height: 1000px;
 `;
 
+export const WeatherContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	position: absolute;
+	top: 15px;
+	right: 0px;
+	width: 180px;
+	
+	.weather-text-container {
+		margin-right: 10px;
+	}
+`;
+
 export const RatingsContainer = styled.div`
 	display: flex;
 	${breakpoints("flex-direction", "", [
@@ -115,6 +129,9 @@ export const HeaderMessageContainer = styled.div`
 				display: none;
 			}
 		`}
+
+		${'' /* position: absolute;
+		top: 0px; */}
 		
 	}
 	

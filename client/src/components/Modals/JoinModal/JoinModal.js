@@ -13,8 +13,15 @@ import '../../styles/JoinModal.scss';
 // Components
 import SignupForm from '../../form/SignupForm';
 
+import IconButton from '../../Button/IconButton';
+import { Icon } from '@chakra-ui/react';
+import { AiOutlineCloseCircle } from "react-icons/ai";
+
 // Styled Components
-import { JoinModalContainer, ModalBodyContainer, SignupTitleContainer, ModalColumn, HeaderBar, FooterBar, DisclaimerCard } from './JoinModal.components';
+import { JoinModalContainer, ModalBodyContainer, SignupTitleContainer, 
+		 ModalColumn, HeaderBar, CloseButtonContainer, 
+		 FooterBar, DisclaimerCard 
+} from './JoinModal.components';
 
 // API
 import * as paymentApi from '../../../api/paymentApi';
@@ -26,6 +33,8 @@ import readPostsIcon from '../../../resources/join-modal/free-membership/read-po
 import addDataIcon from '../../../resources/join-modal/free-membership/add-data.svg';
 // Active
 import makePostsIcon from '../../../resources/join-modal/active-membership/make-posts-icon.svg';
+import liveInformationIcon from '../../../resources/join-modal/active-membership/live-data.svg';
+import profileIcon from '../../../resources/join-modal/active-membership/profile-icon.svg';
 // Premium
 import featuresIcon from '../../../resources/join-modal/premium-membership/features-icon.svg';
 import premiumIcon from '../../../resources/join-modal/premium-membership/premium-icon.svg';
@@ -112,8 +121,14 @@ function JoinModal(props) {
 					<ModalColumn>
 						<SignupTitleContainer>
 							<span className="signup-title-text">JOIN UNILIST</span>
+							<CloseButtonContainer>
+								<IconButton pos="absolute" right="30px" top="20px" icon={AiOutlineCloseCircle} size="40px" color="#a83256" onClick={() => {
+									showJoinModal(false);
+								}} />
+							</CloseButtonContainer>
 							<div className="signup-underline" />
 							<span className="signup-desc-text">CONNECT INTERNATIONALLY</span>
+							
 						</SignupTitleContainer>
 						<div className="signup-membership-types">
 							<div className="signup-membership-button button-active flex-col" id="free-membership-button" onClick={() => {setActiveMembershipTab("free-membership-button")}}>
@@ -182,11 +197,11 @@ function JoinModal(props) {
 										
 										<ul className="feature-list shadow">
 											<li className="li-feature flex-row">
-												<img className="li-image" alt="" />
+												<img className="li-image" src={profileIcon} alt="" />
 												<span className="li-text">Customize your own profile photo, bio, and more.</span>
 											</li>
 											<li className="li-feature flex-row">
-												<img className="li-image" alt="" />
+												<img className="li-image" src={liveInformationIcon} alt="" />
 												<span className="li-text">Instant access to live information.</span>
 											</li>
 											<li className="li-feature flex-row">
@@ -232,10 +247,10 @@ function JoinModal(props) {
 												<img className="li-image" alt="" src={premiumIcon} />
 												<span className="li-text">Premium badge on forum posts and comments.</span>
 											</li>
-											<li className="li-feature flex-row">
+											{/* <li className="li-feature flex-row">
 												<img className="li-image" alt="" src={checkmarkIcon} />
 												<span className="li-text">All features of active member.</span>
-											</li>
+											</li> */}
 										</ul>
 									</div>
 								
