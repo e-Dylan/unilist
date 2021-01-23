@@ -37,8 +37,9 @@ app.use(fileUpload());
 
 // PG connection options (typeorm config)
 const getOptions = async () => {
+	console.log(process.env.NODE_ENV);
 	let connectionOptions: ConnectionOptions;
-	if (process.env.NODE_ENV === "production") {
+	if (process.env.NODE_ENV !== "production") {
 		console.log("RUNNING IN PRODUCTION");
 		connectionOptions = {
 			type: 'postgres',
@@ -84,6 +85,9 @@ const getOptions = async () => {
 		// 	console.log("ERROR: No database url provided in database connection options. Check NODE_ENV.");
 		// 	return;
 		// }
+	} else {
+		console.log("NONE");
+		return;
 	}
 	
 	return connectionOptions;
@@ -133,6 +137,7 @@ app.use('/api', api_router);
 
 const connectAndListen = async (): Promise<void> => {
 	const options = await getOptions();
+	console.log(process.env.NODE_ENV);
 	console.log("DATABASE CONNECTION CONFIG:", options);
 	createConnection(options)
 	.then(connection => {
@@ -143,7 +148,7 @@ const connectAndListen = async (): Promise<void> => {
 			app.listen(API_PORT, () => {
 				console.log(`[main.js]: Listening: http://localhost:${API_PORT}`);
 			})
-		} else if (process.env.NODE_ENV === "production") {
+		} else if (process.env.NODE_ENV !== "production") {
 			// Port Config
 			const API_PORT = process.env.API_PORT || 443; // CHANGE To 1337 WHEN NGINX REVERSE-PROXY FROM 443
 			// SSL Cert

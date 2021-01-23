@@ -66,7 +66,8 @@ app.use(fileUpload());
 var getOptions = function () { return __awaiter(void 0, void 0, void 0, function () {
     var connectionOptions;
     return __generator(this, function (_a) {
-        if (process.env.NODE_ENV === "production") {
+        console.log(process.env.NODE_ENV);
+        if (process.env.NODE_ENV !== "production") {
             console.log("RUNNING IN PRODUCTION");
             connectionOptions = {
                 type: 'postgres',
@@ -113,6 +114,10 @@ var getOptions = function () { return __awaiter(void 0, void 0, void 0, function
             // 	console.log("ERROR: No database url provided in database connection options. Check NODE_ENV.");
             // 	return;
             // }
+        }
+        else {
+            console.log("NONE");
+            return [2 /*return*/];
         }
         return [2 /*return*/, connectionOptions];
     });
@@ -162,6 +167,7 @@ var connectAndListen = function () { return __awaiter(void 0, void 0, void 0, fu
             case 0: return [4 /*yield*/, getOptions()];
             case 1:
                 options = _a.sent();
+                console.log(process.env.NODE_ENV);
                 console.log("DATABASE CONNECTION CONFIG:", options);
                 typeorm_1.createConnection(options)
                     .then(function (connection) {
@@ -172,7 +178,7 @@ var connectAndListen = function () { return __awaiter(void 0, void 0, void 0, fu
                             console.log("[main.js]: Listening: http://localhost:" + API_PORT_1);
                         });
                     }
-                    else if (process.env.NODE_ENV === "production") {
+                    else if (process.env.NODE_ENV !== "production") {
                         // Port Config
                         var API_PORT = process.env.API_PORT || 443; // CHANGE To 1337 WHEN NGINX REVERSE-PROXY FROM 443
                         // SSL Cert
