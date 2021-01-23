@@ -64,7 +64,7 @@ export function loginUser(userData) {
 			})
 		.then(res => res.json())
 		.then(result => {
-			alert(result.msg);
+			// alert(result.msg);
 			if (result && result.success === true) {
 				userState = {
 					isLoggedIn: true,

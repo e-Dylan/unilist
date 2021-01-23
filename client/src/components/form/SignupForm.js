@@ -58,7 +58,7 @@ function SignupForm(props) {
 			userApi.registerUser(userData)
 			.then(res => {
 				// Register user
-				alert(`[/api/register]: RESPONSE: ${res.msg}`);
+				// alert(`[/api/register]: RESPONSE: ${res.msg}`);
 				if (res && res.success) {
 					showJoinModal(false);
 					clearSignupForm();

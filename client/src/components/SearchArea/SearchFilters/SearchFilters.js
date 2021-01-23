@@ -134,17 +134,13 @@ function SearchFilters(props) {
 		const filterButton = document.getElementById(buttonId);
 		if (filterButton.classList.contains('button-active')) {
 			// disable button
-
 			filterButton.classList.remove('button-active');
-			// console.log(filterButton.classList)
 			// remove its tag value from the tags array
 			removeTag(filterTag);
 		} else {
 			// enable this button.
 			filterButton.classList.add('button-active');
 			addTag(filterTag);
-			// console.log('added class');
-			// console.log(filterButton.classList)
 		}
 		console.log(tags);
 		

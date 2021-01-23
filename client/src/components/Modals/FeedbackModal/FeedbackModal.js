@@ -344,9 +344,14 @@ function FeedbackModal(props) {
 									<FilterSectionContainer>
 										<span className="filter-title">Costs</span>
 										<FilterOptionsContainer>
-											<div className="filter-button feedback-tag-button location-button flex-col">Low</div>
-											<div className="filter-button feedback-tag-button location-button flex-col">Moderate</div>
-											<div className="filter-button feedback-tag-button location-button flex-col">High</div>
+											{Object.keys(searchTagFilters.cost_filters).map((item, index) => {
+												return (
+													<div className="filter-button flex-col" key={item} id={"costButton"+index} onClick={() => {
+														toggleButton("costButton"+index, searchTagFilters.cost_filters[item]);
+														// addTag(location_filters[item]);
+													}}>{searchTagFilters.cost_filters[item]}</div>
+												)
+											})}
 										</FilterOptionsContainer>
 									</FilterSectionContainer>
 									<FilterSectionContainer>
