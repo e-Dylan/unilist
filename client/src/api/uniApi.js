@@ -117,7 +117,7 @@ export const nullUniData = {
 				known_for: "",
 				campus_size: "",
 				campus_type: "",
-				student_population: "",
+				students: "",
 				equipment: "",
 				community: "",
 			},
